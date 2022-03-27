@@ -32,11 +32,7 @@ km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump()<CR>'
 km("i", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
 km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back()<CR>', { silent = true})
 local M = {
-    setup = function(cbs)
-        for _, cb in ipairs(cbs) do
-            cb()
-        end
-    end
+    map = km
 }
 
 return M

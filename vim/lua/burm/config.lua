@@ -265,3 +265,5 @@ require('neorg').setup {
         }
     }
 }
+
+require('burm.dap')

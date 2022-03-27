@@ -3,8 +3,8 @@ require('burm.funcs')
 require('burm.options')
 require('burm.colorscheme')
 require('burm.config')
-require('burm.keymaps')
 require('burm.autocmd')
+require('burm.keymaps')
 
 function RELOAD_ALL()
     R('burm.funcs')
@@ -17,6 +17,6 @@ function RELOAD_ALL()
     print("reloaded all")
 end
 
-require('burm.keymaps').setup( { function() vim.keymap.set("n", "<leader>R", RELOAD_ALL) end } )
+require('burm.keymaps').map("n", "<leader>R", RELOAD_ALL)
 
 print("config loaded")
