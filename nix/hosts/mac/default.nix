@@ -1,4 +1,4 @@
-{ config, pkgs, ... }@inputs:
+{ config, pkgs, unstable, ... }@inputs:
 {
   users.users.william = {
     home = /Users/william;
@@ -36,10 +36,11 @@
       ];
     })
     hledger
-    inputs.unstable.go
-    inputs.unstable.gopls
+    unstable.go
+    unstable.gopls
     jq
     kitty
+    unstable.neovim
     nil
     nixpkgs-fmt
     nodePackages.pnpm
@@ -56,18 +57,9 @@
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
 
-
-    taps = [
-      {
-        name = "withgraphite/tap";
-      }
-    ];
-
     brews = [
       "ibazel"
       "bazelisk"
-      "rustup"
-      "withgraphite/tap/graphite"
     ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)

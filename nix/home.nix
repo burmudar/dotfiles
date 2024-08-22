@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }@inputs:
+{ config, pkgs, unstable, lib, ... }@inputs:
 rec {
   programs.home-manager.enable = true;
 
@@ -123,9 +123,7 @@ rec {
     enable = true;
     viAlias = true;
     vimAlias = true;
-
-    # extraConfig = ''
-    # '';
+    package = unstable.neovim;
   };
 
   programs.atuin = {
