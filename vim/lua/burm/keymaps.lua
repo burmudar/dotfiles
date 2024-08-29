@@ -46,10 +46,10 @@ local function general()
   km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
   km("n", "<leader>sd", function()
     require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-      {
-        layout_config = { width = 0.80 },
-        bufnr = 0
-      }
+    {
+      layout_config = { width = 0.80 },
+      bufnr = 0
+    }
     )
   end, { desc = "[S]earch [D]iagnostics" })
   km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
@@ -82,8 +82,10 @@ local function general()
   km("s", "<C-j>", '<cmd>lua require("burm.custom.luasnips").jump_back<CR>', { silent = true })
   -- Trouble
   km("n", "<leader>tt", "<cmd>Trouble<cr>", { silent = true })
-  km("n", "<leader>tw", "<cmd>Trouble workspace_diagnostics<cr>", { silent = true })
-  km("n", "<leader>td", "<cmd>Trouble document_diagnostics<cr>", { silent = true })
+  km("n", "<leader>ts", "<cmd>Trouble symbols toggle pinned=true win.relative=win win.position=right<cr>",
+    { silent = true })
+  km("n", "<leader>tw", "<cmd>Trouble diagnostics toggle<cr>", { silent = true })
+  km("n", "<leader>td", "<cmd>Trouble diagnostics toggle focus=false filter.buf=0<cr>", { silent = true })
   --- Debugging
   km('n', "<leader>b", require('dap').toggle_breakpoint)
   km('n', "<leader>B", function()
@@ -110,10 +112,6 @@ local function lsp(bufnr)
   km('n', 'gi', vim.lsp.buf.implementation, opts("[G]oto [i]mplementation"))
   km('n', 'gr', require('telescope.builtin').lsp_references, opts("[G]oto [r]eferences"))
   km('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
-  km('n', '<leader>d', function()
-      vim.diagnostic.open_float({ focusable = false })
-    end,
-    opts("Show [d]iagnostics"))
   km('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
   km('n', '<space>re', vim.lsp.buf.rename, opts("[R][e]name"))
