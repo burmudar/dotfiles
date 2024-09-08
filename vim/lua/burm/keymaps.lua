@@ -32,6 +32,8 @@ local function general()
   km("n", "[p", ":cprev<cr>")
   km("n", "<c-q>", require('burm.funcs').toggle_quickfix)
 
+  km("n", "<leader>o", require('burm.funcs').open_url)
+
   km("n", "<leader>.d", require("gitsigns").diffthis, { desc = "[g]it [d]iff this" })
   km("n", "<leader>.D", function() require("gitsigns").diffthis("~") end, { desc = "[g]it [d]iff this with origin" })
 
@@ -46,10 +48,10 @@ local function general()
   km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
   km("n", "<leader>sd", function()
     require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-    {
-      layout_config = { width = 0.80 },
-      bufnr = 0
-    }
+      {
+        layout_config = { width = 0.80 },
+        bufnr = 0
+      }
     )
   end, { desc = "[S]earch [D]iagnostics" })
   km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
@@ -99,6 +101,8 @@ local function general()
   --- Press CTRL-ESC to exit terminal mode
   km("t", "<Esc><Esc>", '<C-\\><C-n>', { noremap = true })
   --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
+  -- Markdown
+  km("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>")
 end
 
 local function lsp(bufnr)

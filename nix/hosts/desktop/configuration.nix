@@ -179,7 +179,8 @@ in {
     racket
     rust-bin.stable.latest.default
     spotify
-    sumneko-lua-language-server
+    lua-language-server
+    luarocks
     tdesktop # telegram
     tmux
     unzip

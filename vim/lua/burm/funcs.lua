@@ -100,5 +100,36 @@ M.read_full = function(path)
   return fp:read()
 end
 
+M.Darwin = "Darwin"
+M.Linux = "Linux"
+M.Windows = "Windows"
+M.Unknown = "unknown"
+
+M.is_linux = function()
+  return M.get_os() == M.Linux
+end
+M.is_darwin = function()
+  return M.get_os() == M.Darwin
+end
+M.is_windows = function()
+  return M.get_os() == M.Windows
+end
+
+M.get_os = function()
+  return vim.loop.os_uname().sysname
+end
+
+M.open_url = function()
+  local url = vim.fn.expand("<cfile>")
+  if string.find(url, "^https?://") == nil then
+    return
+  end
+  vim.notify("opening " .. url)
+  if M.is_darwin() then
+    vim.fn.execute("!open " .. url)
+  elseif M.is_linux() then
+    vim.fn.execute("!xdg-open " .. url)
+  end
+end
 --- export these funcs as the module
 return M
