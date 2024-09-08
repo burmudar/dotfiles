@@ -87,6 +87,9 @@ in {
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  # trim filesystem - useful for SSD
+  services.fstrim.enable = true;
+
   programs.noisetorch = {
     enable = true;
   };
@@ -143,6 +146,7 @@ in {
     curl
     difftastic
     fd
+    firefox-devedition
     flameshot
     gcc
     git
@@ -182,6 +186,7 @@ in {
     vlc
     wget
     where-is-my-sddm-theme
+    warsow
     xclip
     zk
   ];

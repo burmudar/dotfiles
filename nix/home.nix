@@ -282,7 +282,8 @@ rec {
 
   programs.git = {
     enable = true;
-    userEmail = if pkgs.stdenv.isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout+github@gmail.com";
+    # Add 'william.bezuidenhout+github.com' to the gpg keys
+    userEmail = if pkgs.stdenv.isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
     userName = "William Bezuidenhout";
     signing = {
       signByDefault = true;
