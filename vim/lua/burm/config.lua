@@ -156,7 +156,7 @@ local on_attach = function(client, bufnr)
   bk.lsp(bufnr)
 end
 
-local servers = { "pyright", "gopls", "clangd", "tsserver", "zls", "lua_ls", "nil_ls", "rust_analyzer" }
+local servers = { "pyright", "gopls", "clangd", "ts_ls", "zls", "lua_ls", "nil_ls", "rust_analyzer" }
 local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
@@ -239,22 +239,22 @@ for _, lsp in ipairs(servers) do
 end
 
 -- sg and cody
-local tokenPath = BF.relative_home_dir("sg.token")
-local init_sg = BF.env_for_key("SRC_ACCESS_TOKEN", "") ~= ""
-init_sg = true
--- if not init_sg and BurmFuncs.file_exists(tokenPath) then
---   P("init..sg" .. tostring(init_sg))
---   BurmFuncs.env_set("SRC_ENDPOINT", "https://sourcegraph.com")
---   BurmFuncs.env_set("SRC_ACCESS_TOKEN", BurmFuncs.read_full(tokenPath))
---   init_sg = true
+-- local tokenPath = BF.relative_home_dir("sg.token")
+-- local init_sg = BF.env_for_key("SRC_ACCESS_TOKEN", "") ~= ""
+-- init_sg = true
+-- -- if not init_sg and BurmFuncs.file_exists(tokenPath) then
+-- --   P("init..sg" .. tostring(init_sg))
+-- --   BurmFuncs.env_set("SRC_ENDPOINT", "https://sourcegraph.com")
+-- --   BurmFuncs.env_set("SRC_ACCESS_TOKEN", BurmFuncs.read_full(tokenPath))
+-- --   init_sg = true
+-- -- end
+--
+-- if init_sg then
+--   require("sg").setup({
+--     -- enable_cody = true,
+--     -- auth_stategy = "environment-variables"
+--   })
 -- end
-
-if init_sg then
-  require("sg").setup({
-    -- enable_cody = true,
-    -- auth_stategy = "environment-variables"
-  })
-end
 
 
 
