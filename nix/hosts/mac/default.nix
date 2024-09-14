@@ -17,9 +17,10 @@
   networking.hostName = "Williams-MacBook-Pro";
   networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor" "Thunderbolt Ethernet" ];
 
-  services.tailscale = {
-    enable = true;
-  };
+  # services.tailscale = {
+  #   enable = true;
+  #   package = unstable.tailscale;
+  # };
 
   environment.systemPackages = with pkgs; [
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
@@ -77,14 +78,15 @@
       "hammerspoon"
       "iina"
       "intellij-idea-ce"
-      "loom"
       "linear-linear"
+      "loom"
       "notion"
       "notion-calendar"
       "obsidian"
       "p4v"
       "perforce"
       "postico"
+      "qutebrowser"
       "raycast"
       "skype"
       "slack"
@@ -93,7 +95,6 @@
       "sublime-merge"
       "tailscale"
       "telegram-desktop"
-      "qutebrowser"
       "vlc"
       "zed"
       "zoom"

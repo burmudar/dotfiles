@@ -346,6 +346,7 @@
   services.tailscale = {
     enable = true;
     permitCertUid = "caddy";
+    paclage = inputs.unstable.tailscale;
   };
 
   services.sonarr = {
