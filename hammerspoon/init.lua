@@ -1,54 +1,54 @@
-local function showFn(hint)
-  local names = {}
-  if type(hint) ~= "table" then
-    table.insert(names, hint)
-  else
-    names = hint
-  end
-  return function()
-    for _, name in ipairs(names) do
-      local app = hs.application.find(name)
-      if app and not app:isFrontmost() then
-        app:activate()
-        return
+require("burm.watcher").setup({
+  bind = {
+    meta = { "cmd" },
+    key = "`"
+  }
+})
+
+require("burm.windows").setup({
+  show = {
+    {
+      meta = { "cmd" },
+      key = "1",
+      apps = { "kitty", "alacritty" }
+    },
+    {
+      meta = { "cmd" },
+      key = "2",
+      fn = function()
+        local zoom = hs.application.find("zoom")
+        if zoom then
+          local win = zoom:findWindow("Zoom Meeting")
+          win:focus()
+          return
+        end
       end
-    end
-  end
-end
-
-local function maximizeFocusedWindow()
-  local window = hs.window.focusedWindow()
-  window:centerOnScreen()
-  window:maximize()
-end
-
-local function moveWindow(screenNum)
-  local screens = hs.screen.allScreens()
-  return function()
-    local window = hs.window.focusedWindow()
-    window:moveToScreen(screens[screenNum])
-  end
-end
-
-hs.hotkey.bind({ "cmd" }, "1", showFn({ "kitty", "alacritty" }))
-hs.hotkey.bind({ "cmd" }, "2", function()
-  local tuple = hs.application.find("Tuple")
-  if tuple then
-    tuple:activate()
-    return
-  end
-  local zoom = hs.application.find("zoom")
-  if zoom then
-    local win = zoom:findWindow("Zoom Meeting")
-    win:focus()
-    return
-  end
-end)
-
-hs.hotkey.bind({ "cmd" }, "3", showFn("slack"))
-hs.hotkey.bind({ "cmd" }, "4", showFn({ "Firefox", "qutebrowser" }))
-
-hs.hotkey.bind({ "cmd", "shift" }, "1", moveWindow(1))
-hs.hotkey.bind({ "cmd", "shift" }, "2", moveWindow(2))
-
-hs.hotkey.bind({ "cmd", "shift" }, "w", maximizeFocusedWindow)
+    },
+    {
+      meta = { "cmd" },
+      key = "3",
+      apps = "slack"
+    },
+    {
+      meta = { "cmd" },
+      key = "4",
+      apps = { "Firefox", "qutebrowser" }
+    },
+  },
+  move = {
+    {
+      meta = { "cmd", "shift" },
+      key = "1",
+      window = 1
+    },
+    {
+      meta = { "cmd", "shift" },
+      key = "2",
+      window = 2
+    }
+  },
+  maximise = {
+    meta = { "cmd", "shift" },
+    key = "w",
+  },
+})
