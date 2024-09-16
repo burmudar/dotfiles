@@ -44,6 +44,8 @@ M.setup = function()
 
   -- register a user command which can format json using jq
   vim.api.nvim_create_user_command("JSONF", "% !jq", {})
+  -- register Neogit
+  vim.api.nvim_create_user_command("G", "Neogit", {})
 end
 
 M.lsp_setup = function(client)
