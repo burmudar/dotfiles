@@ -18,7 +18,7 @@ require("lazy").setup({
   "christoomey/vim-tmux-navigator",
   "tpope/vim-sensible",
   "tpope/vim-surround",
-  "tpope/vim-fugitive",
+  --"tpope/vim-fugitive",
   {
     "nvim-lualine/lualine.nvim",
     opts = { theme = "gruvbox" }
@@ -172,6 +172,15 @@ require("lazy").setup({
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  },
+  {
+  "NeogitOrg/neogit",
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "sindrets/diffview.nvim",
+    "nvim-telescope/telescope.nvim",
+  },
+  config = true
   }
 })
 require("burm.keymaps").setup()
