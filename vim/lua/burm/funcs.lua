@@ -1,3 +1,5 @@
+local pathlib = require("plenary.path")
+local M = {}
 --- Print the internal representation of the thing
 P = function(v)
   print(vim.inspect(v))
@@ -10,9 +12,6 @@ R = function(...)
   return require("plenary.reload").reload_module(...)
 end
 
-local pathlib = require("plenary.path")
-
-local M = {}
 M.env_for_key = function(key, default)
   local env = vim.fn.environ()
 
@@ -43,7 +42,7 @@ M.current_file = function()
   return vim.fn.expand("%")
 end
 
-local function toggle_list_window(key, open_cmd, close_cmd)
+M.toggle_list_window = function(key, open_cmd, close_cmd)
   local info = vim.fn.getwininfo()
   local curr_win_nr = vim.api.nvim_win_get_number(0)
   local window_info = info[curr_win_nr]
@@ -131,5 +130,5 @@ M.open_url = function()
     vim.fn.execute("!xdg-open " .. url)
   end
 end
---- export these funcs as the module
+
 return M

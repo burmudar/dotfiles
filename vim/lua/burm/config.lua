@@ -151,9 +151,9 @@ cmp.setup.cmdline(':', {
 
 --- LSP setup
 -- LSPConfig setup
-local bk = require("burm.keymaps")
-local on_attach = function(client, bufnr)
-  bk.lsp(bufnr)
+local keymaps = require("burm.keymaps")
+local on_attach = function(_, bufnr)
+  keymaps.lsp(bufnr)
 end
 
 local servers = { "pyright", "gopls", "clangd", "ts_ls", "zls", "lua_ls", "nil_ls", "rust_analyzer" }

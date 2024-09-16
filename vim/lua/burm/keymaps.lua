@@ -1,4 +1,6 @@
 --- KEYMAPS HERE
+local M = {}
+local km = vim.keymap.set
 
 local function fuzzyBrowser()
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -15,9 +17,7 @@ local function quickFileBrowser()
   )
 end
 
-local km = vim.keymap.set
-
-local function general()
+M.general = function()
   km("n", "<leader>n", ":nohlsearch<CR>")
   km("n", "n", "nzzzv", { noremap = true, desc = "center on next result in search" })
   km("n", "N", "Nzzzv", { noremap = true, desc = "center on previous result in search" })
@@ -48,10 +48,10 @@ local function general()
   km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
   km("n", "<leader>sd", function()
     require('telescope.builtin').diagnostics(require('telescope.themes').get_dropdown
-      {
-        layout_config = { width = 0.80 },
-        bufnr = 0
-      }
+    {
+      layout_config = { width = 0.80 },
+      bufnr = 0
+    }
     )
   end, { desc = "[S]earch [D]iagnostics" })
   km("n", "<leader><space>", require('telescope.builtin').buffers, { desc = "[S]earch existings [B]uffers" })
@@ -105,7 +105,7 @@ local function general()
   km("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>")
 end
 
-local function lsp(bufnr)
+M.lsp = function(bufnr)
   local opts = function(desc)
     return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
   end
@@ -142,16 +142,14 @@ local function lsp(bufnr)
   end
 end
 
-local M = {
-  setup = function(callbacks)
-    if not callbacks == nil then
-      for _, cb in ipairs(callbacks) do
-        cb()
-      end
+M.setup = function(callbacks)
+  if not callbacks == nil then
+    for _, cb in ipairs(callbacks) do
+      cb()
     end
-    general()
-  end,
-  lsp = lsp,
-}
+  end
+  M.general()
+end
+
 
 return M

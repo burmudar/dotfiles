@@ -12,17 +12,6 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local function sg()
-  if vim.env.SG_NVIM_DEV then
-    return { dir = vim.fn.getcwd(), dependencies = { "nvim-lua/plenary.nvim" } }
-  else
-    return {
-      "sourcegraph/sg.nvim",
-      dependencies = { "nvim-lua/plenary.nvim" },
-    }
-  end
-end
-
 require("burm.options").setup()
 require("lazy").setup({
   "nvim-lua/popup.nvim",
@@ -176,7 +165,7 @@ require("lazy").setup({
     dependencies = { "nvim-neotest/nvim-nio" },
   },
   "theHamsta/nvim-dap-virtual-text",
-  sg(),
+  require("burm.sg").setup(),
   {
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
@@ -186,5 +175,5 @@ require("lazy").setup({
   }
 })
 require("burm.keymaps").setup()
-require("burm.autocmd")
+require("burm.autocmd").setup()
 require("burm.config")
