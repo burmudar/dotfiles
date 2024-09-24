@@ -9,6 +9,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+require("oil").setup()
+
 require("nvim-web-devicons").setup({ default = true })
 
 require('Comment').setup {}
@@ -152,7 +154,8 @@ cmp.setup.cmdline(':', {
 --- LSP setup
 -- LSPConfig setup
 local keymaps = require("burm.keymaps")
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
+  print("[LSP] " .. client.name .. " attached")
   keymaps.lsp(bufnr)
 end
 
@@ -222,7 +225,15 @@ local configs = {
         },
       },
     },
-  }
+  },
+  rust_analyzer = {
+    flags = { debounce_text_changes = 200 },
+    settings = {
+      rust_analyzer = {
+        cargo = { allFeatures = true },
+      },
+    },
+  },
 }
 
 
@@ -237,26 +248,6 @@ for _, lsp in ipairs(servers) do
 
   require('lspconfig')[lsp].setup(c)
 end
-
--- sg and cody
--- local tokenPath = BF.relative_home_dir("sg.token")
--- local init_sg = BF.env_for_key("SRC_ACCESS_TOKEN", "") ~= ""
--- init_sg = true
--- -- if not init_sg and BurmFuncs.file_exists(tokenPath) then
--- --   P("init..sg" .. tostring(init_sg))
--- --   BurmFuncs.env_set("SRC_ENDPOINT", "https://sourcegraph.com")
--- --   BurmFuncs.env_set("SRC_ACCESS_TOKEN", BurmFuncs.read_full(tokenPath))
--- --   init_sg = true
--- -- end
---
--- if init_sg then
---   require("sg").setup({
---     -- enable_cody = true,
---     -- auth_stategy = "environment-variables"
---   })
--- end
-
-
 
 -- Trouble
 require('trouble').setup({})

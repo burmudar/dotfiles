@@ -54,8 +54,11 @@ require("lazy").setup({
   },
   {
     'nvim-telescope/telescope.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-live-grep-args.nvim' }
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-tree/nvim-web-devicons',
+      'nvim-telescope/telescope-live-grep-args.nvim'
+    }
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   {
@@ -76,13 +79,6 @@ require("lazy").setup({
       { 'j-hui/fidget.nvim',       opts = {} },
       'folke/neodev.nvim',
     },
-    -- opts = {
-    --   setup = {
-    --     rust_analyzer = function()
-    --       return true
-    --     end,
-    --   },
-    -- },
   },
   {
     "hrsh7th/nvim-cmp",
@@ -106,27 +102,14 @@ require("lazy").setup({
     dependencies = { "saadparwaiz1/cmp_luasnip" }
   },
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    config = function()
-      require("neo-tree").setup({
-        default_component_configs = {
-          name = {
-            use_git_status_colors = true,
-          },
-          git_status = {
-            symbols = {
-              unstaged = ""
-            },
-          },
-        }
-      })
-    end,
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
     dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    }
+	    { "echasnovski/mini.icons", opts = {} }
+    },
   },
   "folke/which-key.nvim",
   "folke/lsp-colors.nvim",
@@ -170,8 +153,7 @@ require("lazy").setup({
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
   },
   {
   "NeogitOrg/neogit",

@@ -73,10 +73,10 @@ M.general = function()
   -- Yank into clipboard
   km("v", "<leader>y", "\"+y")
   km("n", "<leader>p", "\"+p")
-  -- Nvim Tree Lua
 
-  km("n", "<leader>n", "<cmd>Neotree toggle reveal_force_cwd<cr>", { desc = "NeoTree Toggle" })
-
+  -- Oil
+  km("n", "<leader>f", require("oil").toggle_float)
+  -- snips
   km("i", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
   km("s", "<C-k>", '<cmd>lua require("burm.custom.luasnips").expand_or_jump<CR>', { silent = true })
 

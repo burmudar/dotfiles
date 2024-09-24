@@ -78,6 +78,9 @@ in {
         enable = true;
       };
       defaultSession = "xfce+i3";
+      sessionCommands = ''
+      ${pkgs.xorg.xset}/bin/xset r rate 200 40
+      '';
     };
   };
 
@@ -216,6 +219,8 @@ in {
 
   programs.steam = {
     enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
   };
 
   fonts.packages = with pkgs; [
