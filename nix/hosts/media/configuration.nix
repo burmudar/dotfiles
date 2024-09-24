@@ -301,16 +301,16 @@
         };
         "files.burmudar.dev" = {
           extraConfig = ''
-          tls { dns cloudflare ${token} }
-          ${preambleFragment "files.burmudar.dev" }
-          basic_auth {
-            christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
-            william $2a$14$DheN0jfcSW0TuYGRfiGTJeAqqcyRkEyzO2Q0zm8Iz2ctXqlrldcdi
-          }
-          file_server {
-            root /mnt/storage1/
-            browse
-          }
+            tls { dns cloudflare ${token} }
+            ${preambleFragment "files.burmudar.dev" }
+            basic_auth {
+              christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
+              william $2a$14$DheN0jfcSW0TuYGRfiGTJeAqqcyRkEyzO2Q0zm8Iz2ctXqlrldcdi
+            }
+            file_server {
+              root /mnt/storage1/
+              browse
+            }
           '';
         };
         "*.media.internal" = {

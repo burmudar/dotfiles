@@ -79,7 +79,7 @@ in {
       };
       defaultSession = "xfce+i3";
       sessionCommands = ''
-      ${pkgs.xorg.xset}/bin/xset r rate 200 40
+        ${pkgs.xorg.xset}/bin/xset r rate 200 40
       '';
     };
   };
