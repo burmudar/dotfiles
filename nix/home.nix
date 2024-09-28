@@ -26,13 +26,6 @@ rec {
         "${config.xdg.configHome}/polybar/launch.sh".source = ../polybar/launch.sh;
         "${config.xdg.configHome}/polybar/config.ini".source = ../polybar/config.ini;
         "${config.xdg.configHome}/i3/i3lock.sh".source = ../i3/i3lock.sh;
-        "${config.xdg.configHome}/gnupg/gpg.conf".source = pkgs.writeTextFile {
-          name = "gpg.conf";
-          text = ''
-            use agent
-            pinentry-mode loopback
-          '';
-        };
       };
     in
     if pkgs.stdenv.isDarwin then
