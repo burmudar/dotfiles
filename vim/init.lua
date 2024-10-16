@@ -45,7 +45,7 @@ require("lazy").setup({
         flavour = "mocha",
         background = {
           light = "latte",
-          dark = "mocha",
+          dark = "macchiato",
         }
       }
       vim.o.background = "dark"
