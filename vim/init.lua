@@ -30,16 +30,38 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects" }
   },
   "vim-pandoc/vim-pandoc",
-  {
-    "folke/tokyonight.nvim",
-    lazy = false, -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
+  { "catppuccin/nvim",
+    lazy = false,
+    name = "catppuccin",
+    priority = 1000,
     config = function()
       -- load the colorscheme here
+      require("catppuccin").setup {
+        -- other possible flavours:
+        -- macchiato
+        -- frappe
+        -- latte
+        -- mocha
+        flavour = "mocha",
+        background = {
+          light = "latte",
+          dark = "mocha",
+        }
+      }
       vim.o.background = "dark"
-      vim.cmd([[colorscheme tokyonight-storm]])
-    end,
+      vim.cmd([[colorscheme catppuccin]])
+    end
   },
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   lazy = false, -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  --   config = function()
+  --     -- load the colorscheme here
+  --     vim.o.background = "dark"
+  --     vim.cmd([[colorscheme tokyonight-storm]])
+  --   end,
+  -- },
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
