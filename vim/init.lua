@@ -30,7 +30,8 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects" }
   },
   "vim-pandoc/vim-pandoc",
-  { "catppuccin/nvim",
+  {
+    "catppuccin/nvim",
     lazy = false,
     name = "catppuccin",
     priority = 1000,
@@ -96,6 +97,7 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     dependencies = {
+      'saghen/blink.cmp',
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
       { 'j-hui/fidget.nvim',       opts = {} },
@@ -103,7 +105,34 @@ require("lazy").setup({
     },
   },
   {
+    'saghen/blink.cmp',
+    dependencies = 'rafamadriz/friendly-snippets',
+
+    version = 'v0.*',
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      keymap = 'default',
+      highlight = {
+        -- sets the fallback highlight groups to nvim-cmp's highlight groups
+        -- useful for when your theme doesn't support blink.cmp
+        -- will be removed in a future release, assuming themes add support
+        use_nvim_cmp_as_default = false,
+      },
+      -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- adjusts spacing to ensure icons are aligned
+      nerd_font_variant = 'normal',
+
+      -- experimental auto-brackets support
+      accept = { auto_brackets = { enabled = true } },
+
+      -- experimental signature help support
+      trigger = { signature_help = { enabled = true } },
+    }
+  },
+  {
     "hrsh7th/nvim-cmp",
+    enabled = false,
     opts = function(_, opts)
       opts.sources = opts.sources or {}
       table.insert(opts.sources, {
@@ -119,18 +148,13 @@ require("lazy").setup({
     }
   },
   {
-    "L3MON4D3/LuaSnip",
-    tag = "v2.1.0",
-    dependencies = { "saadparwaiz1/cmp_luasnip" }
-  },
-  {
     'stevearc/oil.nvim',
     ---@module 'oil'
     ---@type oil.SetupOpts
     opts = {},
     -- Optional dependencies
     dependencies = {
-	    { "echasnovski/mini.icons", opts = {} }
+      { "echasnovski/mini.icons", opts = {} }
     },
   },
   "folke/which-key.nvim",
@@ -178,13 +202,13 @@ require("lazy").setup({
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
   },
   {
-  "NeogitOrg/neogit",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "sindrets/diffview.nvim",
-    "nvim-telescope/telescope.nvim",
-  },
-  config = true
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = true
   }
 })
 require("burm.keymaps").setup()

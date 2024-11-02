@@ -74,82 +74,12 @@ require('telescope').load_extension('harpoon')
 require('telescope').load_extension('live_grep_args')
 
 
---- Luasnip
-local luasnip = require("luasnip")
-luasnip.config.set_config {
-  history = true,
-  enable_autosnippets = true
-}
-
 --- nvim-cmp setup
 local lspkind = require('lspkind')
 lspkind.init()
-local cmp = require 'cmp'
-cmp.setup({
-  mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-d>'] = cmp.mapping.scroll_docs( -4),
-    ['<C-u>'] = cmp.mapping.scroll_docs(4),
-    ['<tab>'] = cmp.config.disable,
-    ['<C-y>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Insert,
-      select = true
-    },
-    ['<C-q>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<C-Space>'] = cmp.mapping.complete,
-  },
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end
-  },
-  formatting = {
-    format = lspkind.cmp_format({
-      with_text = true,
-      maxwidth = 50,
-      mode = "symbol_text",
-      menu = {
-        nvim_lsp = "[LSP]",
-        cody = "[cody]",
-        path = "[path]",
-        luasnip = "[snip]",
-        buffer = "[buf]",
-      }
-    })
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'cody',    priority = -50 },
-    { name = 'luasnip' },
-    { name = 'path' },
-    { name = 'buffer' },
-  }, {
-    { name = 'buffer' },
-  })
-})
 
--- `/` cmdline setup.
-cmp.setup.cmdline('/', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
--- `:` cmdline setup.
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
-})
-
+local cmp = require('burm.cmp')
+cmp.setup()
 
 --- LSP setup
 -- LSPConfig setup
@@ -164,19 +94,8 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, "lua/?.lua")
 table.insert(runtime_path, "lua/?/init.lua")
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.resolveSupport = {
-  properties = {
-    'documentation',
-    'detail',
-    'additionalTextEdits',
-  }
-}
-
 local configs = {
   default = {
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities),
     on_attach = on_attach
   },
   lua_ls = {
@@ -238,12 +157,13 @@ local configs = {
 
 
 
+local blink = require('blink.cmp')
 for _, lsp in ipairs(servers) do
   local c = configs.default
   if configs[lsp] ~= nil then
     c = configs[lsp]
     c.on_attach = configs.default.on_attach
-    c.capabilities = configs.default.capabilities
+    c.capabilities = blink.get_lsp_capabilities(configs['capabilities'])
   end
 
   require('lspconfig')[lsp].setup(c)
@@ -254,6 +174,7 @@ require('trouble').setup({})
 
 -- Mason, use :Mason to open up the window
 require("mason").setup()
+
 
 local dap, dapui = require("dap"), require("dapui")
 -- require("nvim-dap-virtual-text").setup() this throws a cannot allocate memory error in delv
@@ -286,5 +207,3 @@ require("nvim-lastplace").setup({
   lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "hgcommit" },
   lastplace_open_folds = true
 })
-
-require('burm.custom.luasnips').configure_snippets()

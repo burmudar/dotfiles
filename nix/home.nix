@@ -319,27 +319,6 @@ rec {
     };
   };
 
-  programs.alacritty = {
-    enable = false;
-    package = pkgs.alacritty;
-    settings = {
-      window = {
-        decorations = "none";
-        padding = { x = 2; y = 2; };
-        startup_mode = "Maximized";
-        dynamic_title = true;
-        option_as_alt = "OnlyLeft";
-      };
-      font = {
-        size = if pkgs.stdenv.isDarwin then 12.0 else 10.00;
-        normal = {
-          family = "JetBrainsMono Nerd Font Mono";
-          style = "Medium";
-        };
-      };
-    };
-  };
-
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
