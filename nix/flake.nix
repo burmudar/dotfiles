@@ -23,6 +23,8 @@
 
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+
+    ghostty.url = "git+ssh://git@github.com/ghostty-org/ghostty";
   };
 
   outputs =
@@ -37,6 +39,7 @@
     , darwin-nixpkgs
     , unstable-nixpkgs
     , rust-overlay
+    , ghostty
     ,
     }@inputs:
     let
@@ -97,7 +100,7 @@
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; };
+        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; ghostty = ghostty.packages.x86_64-linux; };
         modules = [
           ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager

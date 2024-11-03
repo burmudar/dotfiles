@@ -153,6 +153,7 @@ in {
     flameshot
     gcc
     git
+    inputs.ghostty.default
     gnumake
     inputs.unstable.go
     inputs.unstable.gopls
