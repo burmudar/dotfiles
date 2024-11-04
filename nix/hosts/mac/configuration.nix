@@ -1,5 +1,6 @@
-{ config, pkgs, unstable, ... }@inputs:
+{ config, pkgs, unstable, ghostty, ... }@inputs:
 {
+  system.stateVersion = 5;
   users.users.william = {
     home = /Users/william;
   };
@@ -14,7 +15,7 @@
   nix= {
     package = pkgs.nixFlakes;
     gc = {
-      autmatic = true;
+      automatic = true;
       interval = { Weekday = 0; Hour = 0; Minute = 0; };
       options = "--delete-older-than 60d";
     };
@@ -44,6 +45,7 @@
       ];
     })
     hledger
+    ghostty.default
     unstable.go
     unstable.gopls
     jq

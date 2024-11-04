@@ -129,9 +129,9 @@
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
-        specialArgs = { pkgs = darwin-pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; };
+        specialArgs = { pkgs = darwin-pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; ghostty = ghostty.packages.aarch64-darwin;};
         modules = [
-          ./hosts/mac/default.nix
+          ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
