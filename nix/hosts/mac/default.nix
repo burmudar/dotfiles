@@ -11,7 +11,14 @@
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
   # Installs a version of nix, that dosen't need "experimental-features = nix-command flakes" in /etc/nix/nix.conf
-  nix.package = pkgs.nixFlakes;
+  nix= {
+    package = pkgs.nixFlakes;
+    gc = {
+      autmatic = true;
+      interval = { Weekday = 0; Hour = 0; Minute = 0; };
+      options = "--delete-older-than 60d";
+    };
+  };
 
   networking.dns = [ "192.168.1.1" "1.1.1.1" "8.8.8.8" ];
   networking.hostName = "Williams-MacBook-Pro";

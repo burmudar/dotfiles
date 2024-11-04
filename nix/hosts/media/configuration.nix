@@ -196,7 +196,11 @@
   nix = {
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" "william" ];
-    gc.automatic = true;
+    gc = {
+      autmatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 60d";
+    };
     optimise.automatic = true;
   };
 

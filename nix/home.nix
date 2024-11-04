@@ -322,7 +322,7 @@ rec {
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;
-    theme = "Catppuccin-Macchiato";
+    theme = "Catppuccin-Frappe";
     font = {
       package = with pkgs; (nerdfonts.override { fonts = [ "FiraCode" ]; });
       name = "FiraCode Nerd Font";
