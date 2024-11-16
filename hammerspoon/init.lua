@@ -10,7 +10,7 @@ require("burm.windows").setup({
     {
       meta = { "cmd" },
       key = "1",
-      apps = { "kitty", "alacritty" }
+      apps = { "ghostty", "kitty", "alacritty" }
     },
     {
       meta = { "cmd" },

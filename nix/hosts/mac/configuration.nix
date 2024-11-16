@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, ghostty, ... }@inputs:
+{ config, pkgs, unstable, ... }@inputs:
 {
   system.stateVersion = 5;
   users.users.william = {
@@ -12,8 +12,12 @@
   # Make sure the nix daemon always runs
   services.nix-daemon.enable = true;
   # Installs a version of nix, that dosen't need "experimental-features = nix-command flakes" in /etc/nix/nix.conf
-  nix= {
+  nix = {
     package = pkgs.nixFlakes;
+    settings = {
+      trusted-users = [ "root" "keegan" ];
+      trusted-substituters = [ "https://sourcegraph-keegan.cachix.org" ];
+    };
     gc = {
       automatic = true;
       interval = { Weekday = 0; Hour = 0; Minute = 0; };
@@ -45,7 +49,6 @@
       ];
     })
     hledger
-    ghostty.default
     unstable.go
     unstable.gopls
     jq

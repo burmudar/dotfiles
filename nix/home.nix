@@ -319,6 +319,22 @@ rec {
     };
   };
 
+  programs.ghostty = {
+    enable = true;
+    shellIntegration = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+    settings = {
+      theme = "catppuccin-frappe";
+
+      font-size = 13.0;
+      font-family = "FiraCode Nerd Font";
+
+      macos-option-as-alt = true;
+    };
+  };
+
   programs.kitty = {
     enable = true;
     package = pkgs.kitty;

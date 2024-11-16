@@ -25,6 +25,7 @@
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
     ghostty.url = "git+ssh://git@github.com/ghostty-org/ghostty";
+    ghostty-hm.url = "github:clo4/ghostty-hm-module";
   };
 
   outputs =
@@ -40,6 +41,7 @@
     , unstable-nixpkgs
     , rust-overlay
     , ghostty
+    , ghostty-hm
     ,
     }@inputs:
     let
@@ -129,7 +131,7 @@
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
-        specialArgs = { pkgs = darwin-pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; ghostty = ghostty.packages.aarch64-darwin;};
+        specialArgs = { pkgs = darwin-pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; };
         modules = [
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
@@ -138,6 +140,7 @@
             home-manager.useUserPackages = true;
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
+            home-manager.sharedModules = [ ghostty-hm.homeModules.default ];
           }
         ];
       };
@@ -152,11 +155,11 @@
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.x86_64-linux;
-          modules = [ ./home.nix { home.homeDirectory = "/home/william"; } ];
+          modules = [./home.nix { home.homeDirectory = "/home/william"; } ];
         };
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.aarch64-darwin;
-          modules = [ ./home.nix { home.homeDirectory = "/Users/william"; } ];
+          modules = [./home.nix { home.homeDirectory = "/Users/william"; } ];
         };
       };
       formatter.x86_64-linux = pkgs.x86_64-linux.nixpkgs-fmt;
