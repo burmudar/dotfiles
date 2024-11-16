@@ -37,7 +37,8 @@ rec {
 
   home.shellAliases =
     let
-      systemCmd = if pkgs.stdenv.isDarwin then "darwin-rebuild switch --flake nix/." else "sudo nixos-rebuild switch --flake nix/.";
+      # these bash functions are defined in scripts.d/
+      systemCmd = if pkgs.stdenv.isDarwin then "nix-darwin-sw" else "nix-sw";
     in
     {
       pass = "gopass";
@@ -52,7 +53,7 @@ rec {
       bq = "bazel query";
       bc = "bazel configure";
       hsw = "cd $SRC/dotfiles && home-manager switch --flake 'nix/#mac'; cd -";
-      ssw = "cd $SRC/dotfiles && ${systemCmd}; cd -";
+      ssw = "${systemCmd}";
     };
 
   home.packages = with pkgs; [

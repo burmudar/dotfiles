@@ -111,6 +111,7 @@
             home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
+            home-manager.sharedModules = [ ghostty-hm.homeModules.default ];
           }
         ];
       };

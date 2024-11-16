@@ -209,7 +209,6 @@ in {
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" "william" ];
     gc = {
-      autmatic = true;
       dates = "weekly";
       options = "--delete-older-than 60d";
     };
