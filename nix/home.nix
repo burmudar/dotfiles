@@ -218,6 +218,7 @@ rec {
 
   programs.ssh = {
     enable = true;
+    addKeysToAgent = "yes";
     forwardAgent = true;
     includes = [
       "~/.ssh/config.d/*"
