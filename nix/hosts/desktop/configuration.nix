@@ -46,9 +46,13 @@ in {
   };
   services.blueman.enable = true;
 
-  hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.nvidiaSettings = true;
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -145,7 +149,7 @@ in {
     aspellDicts.en-science
     bash
     btrfs-progs
-    cura
+    # temporarily borken cura
     curl
     difftastic
     fd
@@ -229,9 +233,9 @@ in {
 
   fonts.packages = with pkgs; [
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
-    (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
+    (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" "FiraCode" ]; })
   ];
 
   services.avahi = {

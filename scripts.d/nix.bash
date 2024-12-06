@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 function nix-sw() {
   cd $SRC/dotfiles/nix
 

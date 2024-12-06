@@ -49,6 +49,7 @@ require("lazy").setup({
           dark = "macchiato",
         }
       }
+
       vim.o.background = "dark"
       vim.cmd([[colorscheme catppuccin]])
     end
@@ -89,7 +90,7 @@ require("lazy").setup({
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = {
       numhl = true,
-      word_diff = true,
+      word_diff = false,
       current_line_blame = true,
     }
   },
