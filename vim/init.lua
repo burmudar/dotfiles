@@ -209,6 +209,14 @@ require("lazy").setup({
       "nvim-telescope/telescope.nvim",
     },
     config = true
+  },
+  {
+    "julienvincent/hunk.nvim",
+    cmd = { "DiffEditor" },
+    dependencies = { "MunifTanjim/nui.nvim" },
+    config = function()
+      require("hunk").setup()
+    end,
   }
 })
 require("burm.keymaps").setup()

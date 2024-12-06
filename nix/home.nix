@@ -20,7 +20,7 @@ rec {
         ".zwork".source = if pkgs.stdenv.isDarwin then ../zsh/zwork else keepFile ".zwork";
         "code/.keep".source = keepFile ".keep";
         ".ssh/config.d/.keep".source = keepFile ".keep";
-        "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
+        #"${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../qutebrowser/userscripts;
         "${config.xdg.configHome}/i3/config".source = ../i3/config;
         "${config.xdg.configHome}/polybar/launch.sh".source = ../polybar/launch.sh;
@@ -111,12 +111,11 @@ rec {
     enable = true;
   };
 
-  # Currently broken
-  # programs.qutebrowser = {
-  #   enable = true;
-  #   package = inputs.pkgs.qutebrowser;
-  #   extraConfig = (builtins.readFile ../qutebrowser/config.py);
-  # };
+  programs.qutebrowser = {
+    enable = true;
+    package = inputs.pkgs.qutebrowser;
+    extraConfig = (builtins.readFile ../qutebrowser/config.py);
+  };
 
 
 

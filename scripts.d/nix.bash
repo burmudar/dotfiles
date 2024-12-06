@@ -22,7 +22,7 @@ function nix-darwin-sw() {
   echo "--- done ---"
 
   echo "--- step 2: switch to the built system configuration ---"
-  ./result/bin/switch-to-configuration switch
+  sudo ./result/activate
   echo "--- done ---"
 
   cd -
