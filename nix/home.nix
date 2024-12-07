@@ -162,6 +162,7 @@ rec {
 
   programs.zsh = {
     enable = true;
+    package = unstable.zsh;
     syntaxHighlighting = {
       enable = true;
     };
