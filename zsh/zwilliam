@@ -46,8 +46,6 @@ fi
 # # in zsh =~ means:
 # # = -> perform word splitting
 # # ~ -> perform globbing
-set -x
 for file in $=~scripts; do
     source "$file"
 done
-set +x
