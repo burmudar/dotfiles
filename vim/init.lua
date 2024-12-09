@@ -14,6 +14,23 @@ vim.opt.rtp:prepend(lazypath)
 
 require("burm.options").setup()
 require("lazy").setup({
+  {
+    "robitx/gp.nvim",
+    config = function()
+      require("gp").setup({
+        providers = {
+          openai = {
+            endpoint = "https://api.openai.com/v1/chat/completions",
+            secret = {
+              "bash",
+              "-c",
+              "gopass cat Internet/openai/chatgpt | head -n1"
+            },
+          }
+        }
+      })
+    end,
+  },
   "nvim-lua/popup.nvim",
   "christoomey/vim-tmux-navigator",
   "tpope/vim-sensible",

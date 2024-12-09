@@ -22,6 +22,7 @@ M.general = function()
   km("n", "n", "nzzzv", { noremap = true, desc = "center on next result in search" })
   km("n", "N", "Nzzzv", { noremap = true, desc = "center on previous result in search" })
 
+
   km("n", "<tab><leader>", ":tabn<cr>")
   km("n", "<leader><tab>", ":tabp<cr>")
   km("n", "<leader><cr>", ":so ~/.config/nvim/init.lua<cr>")
@@ -63,12 +64,9 @@ M.general = function()
   km("n", "<leader>si", require('telescope.builtin').lsp_implementations, { desc = "[S]earch [I]mplementation" })
   km("n", "<leader>m", require('harpoon.mark').add_file, { desc = "[M]ark a file" })
   km("n", "<leader>sm", require('harpoon.ui').toggle_quick_menu, { desc = "[S]how [M]arks" })
-  -- Cody bindings
-  km('n', ',c', '<cmd>CodyChat<cr>', { desc = "Cody [C]hat" })
-  km('v', ',e', '<cmd>CodyExplain<cr>', { desc = "Cody [E]xplain" })
-  km('n', ',h', '<cmd>CodyHistory<cr>', { desc = "Cody [H]istory" })
-  km('n', ',t', '<cmd>CodyToggle<cr>', { desc = "Cody [T]oggle" })
-  km('n', ',d', '<cmd>CodyDo', { desc = "Cody [D]o" })
+  -- GP bindings
+  km("n", "<C-g>t", "<cmd>GpChatToggle<CR>", { noremap = true, desc = "Toggle GP Chat interface" })
+  km("v", "<C-g>i", "<cmd>GpImplement<CR>", { noremap = true, desc = "Use current line as prompt and expand" })
 
   -- Yank into clipboard
   km("v", "<leader>y", "\"+y")
