@@ -57,6 +57,9 @@
           ];
           config = {
             allowUnfree = true;
+            permittedInsecurePackages = [
+              "aspnetcore-runtime-wrapped-6.0.36"
+              ];
           };
         };
       })).pkgs;
@@ -69,6 +72,7 @@
           config = {
             allowUnfree = true;
             permittedInsecurePackages = [
+              "aspnetcore-runtime-wrapped-6.0.36"
               "electron-25.9.0"
               "dotnet-sdk-6.0.428"
             ];
@@ -111,6 +115,7 @@
             home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
+            home-manager.sharedModules = [ ghostty-hm.homeModules.default ];
           }
         ];
       };

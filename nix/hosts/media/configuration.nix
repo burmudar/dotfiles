@@ -59,9 +59,12 @@
     font = "Lat2-Terminus16";
   };
 
-  hardware.opengl.enable = true;
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.nvidiaSettings = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -152,6 +155,7 @@
       cloudflare-caddy
       curl
       fd
+      nil
       firefox
       chromium
       flameshot
@@ -197,7 +201,6 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
     settings.trusted-users = [ "root" "william" ];
     gc = {
-      autmatic = true;
       dates = "weekly";
       options = "--delete-older-than 60d";
     };
@@ -350,7 +353,7 @@
   services.tailscale = {
     enable = true;
     permitCertUid = "caddy";
-    paclage = inputs.unstable.tailscale;
+    package = inputs.unstable.tailscale;
   };
 
   services.sonarr = {
