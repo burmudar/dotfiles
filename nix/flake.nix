@@ -72,6 +72,7 @@
             allowUnfree = true;
             permittedInsecurePackages = [
               "electron-25.9.0"
+              "dotnet-sdk-6.0.428"
             ];
           };
         };
