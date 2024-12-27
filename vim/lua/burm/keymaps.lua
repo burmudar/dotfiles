@@ -44,6 +44,7 @@ M.general = function()
   km("n", "<leader>gf", require('telescope.builtin').git_files, { desc = "[G]it [F]iles" })
   km("n", "<leader>sf", quickFileBrowser, { desc = "[S]earch [F]iles" })
   km("n", "<leader>sg", require('telescope.builtin').live_grep, { desc = "[S]earch by [G]rep" })
+  km("n", "<leader>sG", require('burm.telescope').grep_with_glob, { desc = "[S]earch by [G]rep [G]lob" })
   km("n", "<leader>sl", require('telescope').extensions.live_grep_args.live_grep_args,
     { desc = "[S]earch by [L]ive Grep Args" })
   km("n", "<leader>sw", require('telescope.builtin').grep_string, { desc = "[S]earch [W]ord by grep" })
@@ -101,6 +102,10 @@ M.general = function()
   --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
   -- Markdown
   km("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>")
+  -- Execute lua
+  km("n", "<space><space>x", "<cmd>source %<cr>")
+  km("n", "<space>x", ":.lua<cr>")
+  km("v", "<space>x", ":lua<cr>")
 end
 
 M.lsp = function(bufnr)
