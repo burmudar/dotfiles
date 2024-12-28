@@ -70,12 +70,12 @@ rec {
     tldr
   ];
 
-  xdg = {
+  xdg = if pkgs.stdenv.isDarwin then { enable = false; } else {
     enable = true;
 
     mimeApps = {
       enable = true;
-      defaultApplications = if pkgs.stdenv.isDarwin then {} else {
+      defaultApplications = {
         "text/html" = "org.qutebrowser.qutebrowser.desktop";
         "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
         "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
@@ -133,7 +133,7 @@ rec {
   };
 
   programs.qutebrowser = {
-    enable = true;
+    enable = pkgs.stdenv.isLinux;
     package = inputs.pkgs.qutebrowser;
     extraConfig = (builtins.readFile ../qutebrowser/config.py);
   };
@@ -151,6 +151,7 @@ rec {
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
+    package = unstable.atuin;
     settings = {
       auto_sync = true;
       style = "compact";
