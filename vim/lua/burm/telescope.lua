@@ -2,10 +2,28 @@ local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local make_entry = require("telescope.make_entry")
 local conf = require("telescope.config").values
+local builtin = require("telescope.builtin")
+local themes = require("telescope.themes")
 
 local M = {}
 
-M.grep_with_glob = function(opts)
+function M.fuzzy_browser(_opts)
+  builtin.current_buffer_fuzzy_find(themes.get_dropdown {
+    previewer = false,
+    winblend = 10,
+  })
+end
+
+function M.quick_file_browser(_opts)
+  builtin.find_files(
+    themes.get_dropdown(
+      {
+        previewer = false, layout_config = { width = 0.65 }
+      })
+  )
+end
+
+function M.grep_with_glob(opts)
   opts = opts or {}
   opts.cwd = opts.cwd or vim.uv.cwd()
 

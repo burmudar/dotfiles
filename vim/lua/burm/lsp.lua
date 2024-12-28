@@ -4,7 +4,7 @@ local blink = require('blink.cmp')
 local lspconfig = require('lspconfig')
 local servers = { "pyright", "gopls", "clangd", "ts_ls", "zls", "lua_ls", "nil_ls", "rust_analyzer" }
 
-local function create_hightlight_autocmd(client)
+local function create_hightlight_autocmd(client, bufnr)
   if client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
     vim.api.nvim_clear_autocmds { buffer = bufnr, group = "lsp_document_highlight" }
@@ -25,7 +25,7 @@ end
 
 local function on_attach(client, bufnr)
   keymaps.lsp(bufnr)
-  create_hightlight_autocmd(client)
+  create_hightlight_autocmd(client, bufnr)
   print("[LSP] " .. client.name .. " attached")
 end
 
