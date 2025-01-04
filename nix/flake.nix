@@ -59,7 +59,9 @@
             allowUnfree = true;
             permittedInsecurePackages = [
               "aspnetcore-runtime-wrapped-6.0.36"
-              ];
+              "aspnetcore-runtime-6.0.36"
+              "dotnet-sdk-6.0.428"
+            ];
           };
         };
       })).pkgs;
@@ -115,7 +117,6 @@
             home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.sharedModules = [ ghostty-hm.homeModules.default ];
           }
         ];
       };
@@ -144,11 +145,11 @@
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.x86_64-linux;
-          modules = [./home.nix { home.homeDirectory = "/home/william"; } ];
+          modules = [ ./home.nix { home.homeDirectory = "/home/william"; } ];
         };
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.aarch64-darwin;
-          modules = [./home.nix { home.homeDirectory = "/Users/william"; } ];
+          modules = [ ./home.nix { home.homeDirectory = "/Users/william"; } ];
         };
       };
       formatter.x86_64-linux = pkgs.x86_64-linux.nixpkgs-fmt;

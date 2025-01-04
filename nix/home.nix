@@ -75,7 +75,7 @@ rec {
 
     mimeApps = {
       enable = true;
-      defaultApplications = {
+      defaultApplications = if pkgs.stdenv.isDarwin then { } else {
         "text/html" = "org.qutebrowser.qutebrowser.desktop";
         "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
         "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
@@ -137,9 +137,6 @@ rec {
     package = inputs.pkgs.qutebrowser;
     extraConfig = (builtins.readFile ../qutebrowser/config.py);
   };
-
-
-
 
   programs.neovim = {
     enable = true;
