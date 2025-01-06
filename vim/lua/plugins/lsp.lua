@@ -10,7 +10,7 @@ return {
       'folke/neodev.nvim',
     },
     config = function(opts)
-      require("burm.lsp").setup()
+      require("burm.lsp").setup({})
     end,
   },
   "folke/lsp-colors.nvim",

@@ -4,10 +4,7 @@ return {
   "tpope/vim-sensible",
   "tpope/vim-surround",
   --"tpope/vim-fugitive",
-  {
-    "nvim-lualine/lualine.nvim",
-    opts = { theme = "gruvbox" }
-  },
+  { 'echasnovski/mini.statusline', version = '*', opts = {} },
   "vim-pandoc/vim-pandoc",
   {
     'lewis6991/gitsigns.nvim',
@@ -62,7 +59,7 @@ return {
       },
     },
   },
-  { "Bilal2453/luvit-meta",                     lazy = true }, -- optional `vim.uv` typings
+  { "Bilal2453/luvit-meta",        lazy = true }, -- optional `vim.uv` typings
   require("burm.sg").setup(),
   {
     'MeanderingProgrammer/render-markdown.nvim',

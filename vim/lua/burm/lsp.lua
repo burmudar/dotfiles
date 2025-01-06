@@ -1,6 +1,7 @@
 local M = {}
 local keymaps = require("burm.keymaps")
 local blink = require('blink.cmp')
+local lspconfig = require('lspconfig')
 local servers = { "pyright", "gopls", "clangd", "ts_ls", "zls", "lua_ls", "nil_ls", "rust_analyzer" }
 
 local function create_hightlight_autocmd(client, bufnr)
@@ -90,8 +91,7 @@ local configs = {
 }
 
 function M.setup(_opts)
-  local lspconfig = require('lspconfig')
-  for _, lsp in ipairs(servers) do
+  for i, lsp in ipairs(servers) do
     local c = configs.default
     if configs[lsp] ~= nil then
       c = configs[lsp]
