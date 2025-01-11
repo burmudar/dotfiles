@@ -24,7 +24,6 @@
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
     ghostty.url = "git+ssh://git@github.com/ghostty-org/ghostty";
-    ghostty-hm.url = "github:clo4/ghostty-hm-module";
   };
 
   outputs =
@@ -39,7 +38,6 @@
     , unstable-nixpkgs
     , rust-overlay
     , ghostty
-    , ghostty-hm
     ,
     }@inputs:
     let
@@ -98,7 +96,6 @@
             home-manager.useUserPackages = false;
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.sharedModules = [ ghostty-hm.homeModules.default ];
           }
         ];
       };
@@ -128,7 +125,6 @@
             home-manager.useUserPackages = true;
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
-            home-manager.sharedModules = [ ghostty-hm.homeModules.default ];
           }
         ];
       };

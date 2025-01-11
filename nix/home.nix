@@ -346,10 +346,7 @@ rec {
 
   programs.ghostty = {
     enable = true;
-    shellIntegration = {
-      enable = true;
-      enableZshIntegration = true;
-    };
+    enableZshIntegration = true;
     settings = {
       theme = "catppuccin-frappe";
 
