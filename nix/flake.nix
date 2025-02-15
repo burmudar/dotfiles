@@ -54,6 +54,7 @@
             cloudflare-dns-ip.overlay
             neovim-nightly-overlay.overlays.default
             rust-overlay.overlays.default
+            (final: prev: { jackett = prev.jackett.overrideAttrs { doCheck = false; }; })
           ];
           config = {
             allowUnfree = true;
