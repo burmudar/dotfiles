@@ -328,6 +328,9 @@
 
   # because we're using a custom caddy package
   systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+  # there is a bug where wailt online service always times out
+  # see https://github.com/NixOS/nixpkgs/issues/180175
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   services.avahi = {
     enable = true;
@@ -349,7 +352,6 @@
       KbdInteractiveAuthentication = false;
     };
   };
-
   services.tailscale = {
     enable = true;
     permitCertUid = "caddy";
@@ -358,6 +360,7 @@
 
   services.sonarr = {
     enable = true;
+    package = inputs.unstable.sonarr;
   };
 
   services.jellyfin = {
