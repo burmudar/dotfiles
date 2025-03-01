@@ -152,6 +152,7 @@ in {
     # temporarily borken cura
     curl
     difftastic
+    feh
     fd
     firefox-devedition
     flameshot

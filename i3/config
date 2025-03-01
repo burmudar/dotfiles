@@ -96,6 +96,9 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
+bindsym $mod+ctrl+1 move workspace to output left
+bindsym $mod+ctrl+2 move workspace to output right
+
 # focus the child container
 #bindsym $mod+d focus child
 
@@ -106,15 +109,15 @@ set $browser "4"
 set $games "5"
 set $spotify "6"
 set $other "10"
-set $left_screen HDMI-0
-set $right_screen DP-4
+set $secondary_screen HDMI-0
+set $primary_screen DP-2
 
-workspace $terminal output $left_screen
-workspace $browser output $right_screen
-workspace $chat output $right_screen workspace_layout tabbed
-workspace $spotify output $right_screen
-workspace $games output $right_screen
-workspace $ide output $left_screen
+workspace $terminal output $primary_screen
+workspace $browser output $secondary_screen
+workspace $chat output $secondary_screen workspace_layout tabbed
+workspace $spotify output $secondary_screen
+workspace $games output $primary_screen
+workspace $ide output $primary_screen
 
 # switch to workspace
 bindsym $mod+1 workspace $terminal
@@ -158,6 +161,9 @@ for_window [class="discord"] move to workspace $chat, border none
 
 assign [class="idea"] $ide
 for_window [class="idea"] border none, move to workspace $ide
+
+assign [class="[sS]team"] $games
+for_window [class="[sS]team"] move to workspace $games
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -247,5 +253,5 @@ exec --no-startup-id qutebrowser
 exec --no-startup-id picom -b
 
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper.jpg
+exec_always --no-startup-id feh --bg-center ~/Pictures/wallpaper.png
 
