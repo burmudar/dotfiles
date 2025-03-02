@@ -343,7 +343,7 @@ rec {
   };
 
   programs.ghostty = {
-    enable = true;
+    enable = pkgs.stdenv.isLinux;
     enableZshIntegration = true;
     settings = {
       theme = "catppuccin-frappe";

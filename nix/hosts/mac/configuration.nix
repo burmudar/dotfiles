@@ -26,7 +26,7 @@
 
   networking.dns = [ "192.168.1.1" "1.1.1.1" "8.8.8.8" ];
   networking.hostName = "Williams-MacBook-Pro";
-  networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor" "Thunderbolt Ethernet" ];
+  networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor (en2)" "Thunderbolt Bridge" ];
 
   # services.tailscale = {
   #   enable = true;
