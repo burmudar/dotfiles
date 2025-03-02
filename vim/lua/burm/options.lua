@@ -46,6 +46,7 @@ M.setup = function()
   vim.opt.list = true
   vim.opt.listchars = "tab:▎·,trail:·,eol:↲,nbsp:␣"
 
+  vim.opt.timeoutlen = 300
   vim.opt.updatetime = 50
   vim.opt.syntax = "enable"
 

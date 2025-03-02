@@ -89,11 +89,11 @@ function M.lsp(bufnr)
   end
 
   km('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
-  km('n', 'gd', vim.lsp.buf.definition, opts("[G]oto [D]efinition"))
+  km('n', 'gd', telescope_builtin.lsp_definitions, opts("[G]oto [D]efinition"))
   km('n', 'K', vim.lsp.buf.hover, opts("[H]over Documentation"))
-  km('n', 'gi', vim.lsp.buf.implementation, opts("[G]oto [i]mplementation"))
+  km('n', 'gi', telescope_builtin.lsp_implementations, opts("[G]oto [i]mplementation"))
   km('n', 'gr', telescope_builtin.lsp_references, opts("[G]oto [r]eferences"))
-  km('n', 'gt', vim.lsp.buf.type_definition, opts("[G]oto [t]ype"))
+  km('n', 'gt', telescope_builtin.lsp_type_definitions, opts("[G]oto [t]ype"))
   km('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
   km("n", "<leader>sd", function()
@@ -119,7 +119,6 @@ function M.lsp(bufnr)
   km('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols,
     opts("[W]orkspace [S]ymbols"))
   km("n", "<leader>ss", telescope_builtin.lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
-  km("n", "<leader>si", telescope_builtin.lsp_implementations, { desc = "[S]earch [I]mplementation" })
 
   local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 

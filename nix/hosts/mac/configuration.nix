@@ -97,6 +97,8 @@
       "obsidian"
       "p4v"
       "perforce"
+      "podman"
+      "podman-tui"
       "postico"
       "qutebrowser"
       "raycast"

@@ -171,17 +171,18 @@ in {
     man-pages
     man-pages-posix
     inputs.unstable.neovim
+    inputs.unstable.obsidian
     nil
     nix-direnv
     nmap
     nodePackages.typescript-language-server
     nodejs_20
-    os-prober
     openssl.dev
-    inputs.unstable.obsidian
+    os-prober
     pavucontrol
     pipewire
     pkg-config
+    podmain-tui
     python3
     qmk
     inputs.unstable.qutebrowser
@@ -264,16 +265,16 @@ in {
     enable = true;
   };
 
-  # Enable docker daemon to start
-  virtualisation.docker.enable = true;
-  virtualisation.docker.storageDriver = "btrfs";
-
-  # Enable virtualbox
-  virtualisation.virtualbox.host.enable = true;
-
-  # Enable libvirt/kvm
-  virtualisation.libvirtd.enable = true;
-
+  virtualisation = {
+    containers.enable = true;
+    virtualbox.host.enable = true;
+    libvirtd.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+  };
 
   # Need so that qmk can see the keyboard
   services.udev.packages = [ pkgs.qmk-udev-rules ];

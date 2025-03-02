@@ -175,6 +175,7 @@ rec {
 
       export VISUAL="nvim"
       export EDITOR="nvim"
+      export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
     '';
 
     initExtra =
@@ -404,4 +405,5 @@ rec {
       allow-loopback-pinentry
     '';
   };
+
 }
