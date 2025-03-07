@@ -37,6 +37,7 @@
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     age
     comma
+    customNodePackages."@anthropic-ai/claude-code"
     fd
     home-manager
     (nerdfonts.override {
