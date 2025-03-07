@@ -41,20 +41,16 @@
     ,
     }@inputs:
     let
-      # generate pkgs for each subsystem ie. this results in the following set:
-      # pkgs {
-      #   x86_64-linux = <nixpkgs>;
-      #   aarch64-darwin = <nixpkgs>;
-      # }
       pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.nixpkgs {
           inherit system;
           overlays = [
+            # TODO Move these overlays into lib/overlay.nix
             cloudflare-caddy.overlay
             cloudflare-dns-ip.overlay
             neovim-nightly-overlay.overlays.default
             rust-overlay.overlays.default
-            (final: prev: { jackett = prev.jackett.overrideAttrs { doCheck = false; }; })
+            (import lib/overlay.nix)
           ];
           config = {
             allowUnfree = true;
