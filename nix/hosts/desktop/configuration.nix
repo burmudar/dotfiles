@@ -154,7 +154,6 @@ in {
     difftastic
     feh
     fd
-    firefox-devedition
     flameshot
     gcc
     git
@@ -182,7 +181,7 @@ in {
     pavucontrol
     pipewire
     pkg-config
-    podmain-tui
+    podman-tui
     python3
     qmk
     inputs.unstable.qutebrowser
