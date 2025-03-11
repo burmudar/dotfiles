@@ -56,6 +56,9 @@
     jq
     unstable.jujutsu
     kitty
+    k9s
+    github-cli
+    fzf
     unstable.neovim
     nil
     nixpkgs-fmt
@@ -65,35 +68,38 @@
     passage
     racket
     zig
-    zk
   ];
 
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
+    onActivation.cleanup = "zap";
 
     brews = [
-      "ibazel"
       "bazelisk"
+      "ibazel"
+      "mise"
+      "pinentry-mac"
+      "podman"
+      "starship"
     ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
       "1password"
       "1password-cli"
-      "amethyst"
       "calibre"
-      "chromium"
+      "claude"
       "discord"
       "docker"
       "element"
       "firefox"
       "font-jetbrains-mono-nerd-font"
+      "google-chrome"
       "hammerspoon"
       "ghostty"
       "iina"
-      "intellij-idea-ce"
       "linear-linear"
       "loom"
       "notion"
@@ -103,9 +109,7 @@
       "perforce"
       "podman-desktop"
       "postico"
-      "qutebrowser"
       "raycast"
-      "skype"
       "slack"
       "spotify"
       "steam"
