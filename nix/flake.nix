@@ -117,9 +117,23 @@
           }
         ];
       };
+      darwinConfigurations.Machine-Spirit = darwin.lib.darwinSystem rec {
+        system = "aarch64-darwin";
+        specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; hostname = "Machine-Spirit"; };
+        modules = [
+          ./hosts/mac/configuration.nix
+          inputs.home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.william = import ./home.nix;
+            home-manager.extraSpecialArgs = specialArgs;
+          }
+        ];
+      };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
-        specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; };
+        specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; hostname = "Williams-MacBook-Pro"; };
         modules = [
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager

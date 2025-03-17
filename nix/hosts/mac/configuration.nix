@@ -1,4 +1,4 @@
-{ config, pkgs, unstable, ... }@inputs:
+{ config, pkgs, unstable, hostname, ... }@inputs:
 {
   system.stateVersion = 5;
   users.users.william = {
@@ -14,6 +14,7 @@
   nix = {
     package = pkgs.nixVersions.stable;
     settings = {
+      experimental-features = [ "nix-command" "flakes" ];
       trusted-users = [ "root" "keegan" ];
       trusted-substituters = [ "https://sourcegraph-keegan.cachix.org" ];
     };
@@ -25,7 +26,7 @@
   };
 
   networking.dns = [ "192.168.1.1" "1.1.1.1" "8.8.8.8" ];
-  networking.hostName = "Williams-MacBook-Pro";
+  networking.hostName = hostname;
   networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor (en2)" "Thunderbolt Bridge" ];
 
   # services.tailscale = {
@@ -48,6 +49,7 @@
         "Noto"
       ];
     })
+    git
     hledger
     unstable.go
     unstable.gopls
@@ -89,6 +91,7 @@
       "firefox"
       "font-jetbrains-mono-nerd-font"
       "hammerspoon"
+      "ghostty"
       "iina"
       "intellij-idea-ce"
       "linear-linear"
@@ -98,8 +101,7 @@
       "obsidian"
       "p4v"
       "perforce"
-      "podman"
-      "podman-tui"
+      "podman-desktop"
       "postico"
       "qutebrowser"
       "raycast"
@@ -112,7 +114,6 @@
       "telegram-desktop"
       "vlc"
       "zed"
-      "zoom"
     ];
   };
 }
