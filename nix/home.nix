@@ -275,52 +275,52 @@ rec {
       "media.tailscale" = {
         hostname = "media.raptor-emperor.ts.net";
         user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "media.*" = {
         hostname = "media.internal";
         user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "github.com" = {
         hostname = "github.com";
         user = "git";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "mac.tailscale" = {
         user = "william";
         hostname = "Williams-MacBook-Pro.raptor-emperor.ts.net";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "mac" = {
         hostname = "Williams-MacBook-Pro.internal";
         user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "router" = {
         user = "root";
         hostname = "192.168.1.1";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "desktop.tailscale" = {
         user = "william";
         hostname = "fort-kickass.raptor-emperor.ts.net";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "desktop" = {
         user = "william";
         hostname = "fort-kickass.internal";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
       "spotipi" = {
         user = "pi";
         hostname = "spotipi.internal";
-        identityFile = "~/.ssh//keys/burmkey.pvt";
+        identityFile = "~/.ssh//keys/burmkey.pem";
       };
       "bezuidenhout" = {
         user = "bezuidenhout";
         hostname = "bezuidenhout-pc";
-        identityFile = "~/.ssh/keys/burmkey.pvt";
+        identityFile = "~/.ssh/keys/burmkey.pem";
       };
     };
   };
