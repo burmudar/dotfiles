@@ -59,6 +59,7 @@
     k9s
     github-cli
     fzf
+    fswatch
     unstable.neovim
     nil
     nixpkgs-fmt
@@ -117,6 +118,7 @@
       "tailscale"
       "telegram-desktop"
       "vlc"
+      "visual-studio-code"
       "zed"
     ];
   };
