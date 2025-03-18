@@ -53,6 +53,7 @@
     hledger
     unstable.go
     unstable.gopls
+    gopass
     jq
     unstable.jujutsu
     kitty
