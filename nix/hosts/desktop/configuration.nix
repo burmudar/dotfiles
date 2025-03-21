@@ -149,10 +149,10 @@ in {
     aspellDicts.en-science
     bash
     btrfs-progs
-    # temporarily borken cura
     curl
     difftastic
     feh
+    inputs.unstable.freecad
     fd
     flameshot
     gcc
@@ -178,11 +178,13 @@ in {
     nodejs_20
     openssl.dev
     os-prober
+    inputs.unstable.super-slicer-latest
     pavucontrol
     pipewire
     pkg-config
     podman-tui
     python3
+    inputs.unstable.openscad
     qmk
     inputs.unstable.qutebrowser
     racket
