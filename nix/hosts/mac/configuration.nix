@@ -49,19 +49,16 @@
         "Noto"
       ];
     })
-    git
-    hledger
-    unstable.go
-    unstable.gopls
-    gopass
-    jq
-    unstable.jujutsu
-    kitty
-    k9s
-    github-cli
-    fzf
     fswatch
-    unstable.neovim
+    fzf
+    git
+    github-cli
+    gopass
+    hledger
+    jq
+    k9s
+    kitty
+    luarocks
     nil
     nixpkgs-fmt
     nodePackages.pnpm
@@ -70,7 +67,12 @@
     passage
     racket
     zig
-  ];
+  ] ++ (with unstable; [
+    go
+    gopls
+    jujutsu
+    neovim
+  ]);
 
   homebrew = {
     enable = true;

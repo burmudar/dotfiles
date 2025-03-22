@@ -12,6 +12,8 @@ in {
       ./ergodox.nix
     ];
 
+  home-manager.backupFileExtension = "bak";
+
   boot.supportedFilesystems = [ "ntfs" ];
 
   # Bootloader.
@@ -152,15 +154,11 @@ in {
     curl
     difftastic
     feh
-    inputs.unstable.freecad
     fd
     flameshot
     gcc
     git
-    inputs.ghostty.default
     gnumake
-    inputs.unstable.go
-    inputs.unstable.gopls
     grub2
     htop
     jq
@@ -169,8 +167,6 @@ in {
     lua
     man-pages
     man-pages-posix
-    inputs.unstable.neovim
-    inputs.unstable.obsidian
     nil
     nix-direnv
     nmap
@@ -178,15 +174,12 @@ in {
     nodejs_20
     openssl.dev
     os-prober
-    inputs.unstable.super-slicer-latest
     pavucontrol
     pipewire
     pkg-config
     podman-tui
     python3
-    inputs.unstable.openscad
     qmk
-    inputs.unstable.qutebrowser
     racket
     rust-bin.stable.latest.default
     spotify
@@ -201,7 +194,16 @@ in {
     warsow
     xclip
     zk
-  ];
+  ] ++ (with inputs.unstable; [
+    cura-appimage
+    freecad
+    inputs.ghostty.default
+    go
+    gopls
+    neovim
+    obsidian
+    qutebrowser
+  ]);
 
   programs.zsh.enable = true;
 

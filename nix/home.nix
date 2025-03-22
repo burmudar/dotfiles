@@ -159,12 +159,6 @@ rec {
     enable = true;
   };
 
-  programs.qutebrowser = {
-    enable = pkgs.stdenv.isLinux;
-    package = inputs.pkgs.qutebrowser;
-    extraConfig = (builtins.readFile ../qutebrowser/config.py);
-  };
-
   programs.neovim = {
     enable = true;
     viAlias = true;
