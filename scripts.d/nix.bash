@@ -15,7 +15,7 @@ function nix-sw() {
 function nix-darwin-sw() {
   cd $SRC/dotfiles/nix
 
-  hostname="$(cat hostname)"
+  hostname="$(hostname)"
 
   echo "--- building system configuration (${hostname}) ---"
   nix run 'nix-darwin/master#darwin-rebuild' -- switch --flake ".#${hostname}"

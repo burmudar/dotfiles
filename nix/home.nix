@@ -210,8 +210,11 @@ rec {
       if pkgs.stdenv.isDarwin then
         ''
           ${base}
+          eval "$(/opt/homebrew/bin/brew shellenv)"
           export PATH=$PATH:/usr/local/bin
-          source ~/.cargo/env
+          if [ -f ~/.cargo/env ]; then
+            source ~/.cargo/env
+          fi
         ''
       else
         base;
@@ -240,6 +243,7 @@ rec {
 
     extraConfig = ''
       set -g renumber-windows on
+      set -g default-command ${pkgs.zsh}/bin/zsh
       set-option -g visual-activity off
       set-option -g visual-bell off
       set-option -g visual-silence off
@@ -412,15 +416,22 @@ rec {
     '';
   };
 
+  programs.gpg = {
+    enable = true;
+    publicKeys = [
+    { text = "EDE8072F89D58CD9!"; trust = 5; }
+    ];
+  };
+
   # services
   services.gpg-agent = {
-    enable = pkgs.stdenv.isLinux;
+    enable = true;
     enableSshSupport = true;
     enableZshIntegration = true;
 
     defaultCacheTtl = 3600 * 4;
 
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentryPackage = if pkgs.stdenv.isLinux then pkgs.pinentry-curses else pkgs.pinentry_mac;
 
     extraConfig = ''
       allow-loopback-pinentry

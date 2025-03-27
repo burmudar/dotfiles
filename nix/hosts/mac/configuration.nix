@@ -1,6 +1,16 @@
 { config, pkgs, unstable, hostname, ... }@inputs:
 {
-  system.stateVersion = 5;
+  system = {
+    stateVersion = 5;
+    defaults = {
+      # https://daiderd.com/nix-darwin/manual/index.html
+      NSGlobalDomain = {
+        # https://mac-key-repeat.zaymon.dev/
+        InitialKeyRepeat = 10; # 120 ms
+        KeyRepeat = 1; # 15 ms
+      };
+    };
+  };
   users.users.william = {
     home = /Users/william;
   };

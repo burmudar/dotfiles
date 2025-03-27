@@ -2,4 +2,6 @@
 # vim: set filetype=bash : */ ~
 
 export PATH=$PATH:~/.sg
-PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
+if [ -f ~/sourcegraph/sg.zsh_autocomplete ]; then
+  PROG=sg source /Users/william/.sourcegraph/sg.zsh_autocomplete
+fi
