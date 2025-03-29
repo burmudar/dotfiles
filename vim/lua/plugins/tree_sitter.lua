@@ -1,13 +1,18 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    version = false,
     build = ':TSUpdate',
     dependencies = {
       "nvim-treesitter/nvim-treesitter-context", "nvim-treesitter/nvim-treesitter-textobjects"
     },
+    init = function(plugin)
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
     opts = {
       ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-        "rust", "lua_ls", "nix", "ocaml", "starlark" },
+        "rust", "lua_ls", "nix", "ocaml", "norg", "starlark" },
       auto_install = true,
       ignore_install = {},
       highlight = {
@@ -31,6 +36,6 @@ return {
       require("nvim-treesitter.configs").setup(opts)
     end
   },
-  { "nvim-treesitter/nvim-treesitter-context", dependencies = { "nvim-treesitter/nvim-treesitter" } },
+  { "nvim-treesitter/nvim-treesitter-context",     dependencies = { "nvim-treesitter/nvim-treesitter" } },
   { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } },
 }
