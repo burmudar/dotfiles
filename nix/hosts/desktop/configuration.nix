@@ -154,6 +154,7 @@ in {
     curl
     difftastic
     feh
+    scrot
     fd
     flameshot
     gcc
@@ -161,6 +162,8 @@ in {
     gnumake
     grub2
     htop
+    i3lock
+    imagemagick
     jq
     kitty
     krita

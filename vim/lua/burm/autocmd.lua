@@ -43,6 +43,21 @@ M.setup = function()
 
   -- register a user command which can format json using jq
   vim.api.nvim_create_user_command("JSONF", "% !jq", {})
+
+  -- register user command with !! which puts the entire buffer through a shell command
+  vim.api.nvim_create_user_command("RR", function(opts)
+    local range = ""
+    if opts.range > 0 then
+      range = string.format(":%d,%d!", opts.line1, opts.line2)
+    else
+      range = ":%!"
+    end
+    vim.cmd(range .. opts.args)
+  end, {
+    nargs = "+",
+    range = true,
+    desc = "Pipe (pipe of the buffer through a shell command"
+  })
 end
 
 return M

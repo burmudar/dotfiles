@@ -3,7 +3,7 @@
 function nix-sw() {
   cd $SRC/dotfiles/nix
 
-  hostname="$(cat hostname)"
+  hostname="$(hostname)"
 
   echo "--- building system configuration ($hostname)---"
   sudo nixos-rebuild switch --flake .
