@@ -4,6 +4,8 @@ return {
     lazy = false,
     version = "*",
     config = function()
+      vim.api.nvim_create_user_command("Nt", ":e ~/code/notes/tasks.norg", {})
+      vim.api.nvim_create_user_command("Nj", "Neorg journal today", {})
       require("neorg").setup {
         load = {
           ["core.defaults"] = {},

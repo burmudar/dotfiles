@@ -14,6 +14,10 @@
   users.users.william = {
     home = /Users/william;
   };
+
+  home-manager.useUserPackages = true;
+  home-manager.useGlobalPkgs = true;
+
   # From https://gist.github.com/jmatsushita/5c50ef14b4b96cb24ae5268dab613050
   # Without this, home-manager user packages doesn't work properly
   # Create /etc/bashrc that loads the nix-darwin environment.
@@ -69,6 +73,7 @@
     k9s
     kitty
     luarocks
+    lua-language-server
     nil
     nixpkgs-fmt
     nodePackages.pnpm
@@ -88,7 +93,6 @@
     enable = true;
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
-    onActivation.cleanup = "zap";
 
     brews = [
       "bazelisk"
@@ -118,7 +122,6 @@
       "loom"
       "notion"
       "notion-calendar"
-      "obsidian"
       "p4v"
       "perforce"
       "podman-desktop"
@@ -130,6 +133,7 @@
       "sublime-merge"
       "tailscale"
       "telegram-desktop"
+      "qutebrowser"
       "vlc"
       "visual-studio-code"
       "zed"

@@ -3,7 +3,7 @@ local BF = require('burm.funcs')
 local lga_actions = require("telescope-live-grep-args.actions")
 require('telescope').setup {
   defaults = {
-    prompt_prefix = '> ',
+    prompt_prefix = '🔍 ',
     color_devicons = true,
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
     grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
@@ -15,10 +15,6 @@ require('telescope').setup {
     }
   },
   extensions = {
-    fzf_native = {
-      override_generic_sorter = false,
-      override_file_sorter = true,
-    },
     live_grep_args = {
       auto_quoting = true,
       mappings = {
