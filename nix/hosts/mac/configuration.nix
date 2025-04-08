@@ -1,4 +1,9 @@
-{ config, pkgs, unstable, hostname, ... }@inputs:
+{ config, pkgs, unstable, hostname, personal, ... }@inputs:
+let
+  lib = pkgs.lib;
+  personal = lib.defaultTo false inputs.personal;
+  isWork = !personal;
+in
 {
   system = {
     stateVersion = 5;
@@ -15,6 +20,7 @@
     home = /Users/william;
   };
 
+  home-manager.backupFileExtension = "bak";
   home-manager.useUserPackages = true;
   home-manager.useGlobalPkgs = true;
 
@@ -93,24 +99,21 @@
     enable = true;
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
+    onActivation.cleanup = "zap";
 
     brews = [
-      "bazelisk"
-      "ibazel"
-      "mise"
       "pinentry-mac"
       "podman"
       "starship"
-    ];
+    ] ++ lib.optionals isWork [ "bazelisk" "ibazel" "mise" ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
-      "1password"
-      "1password-cli"
+      "slack"
       "calibre"
       "claude"
+      "chatgpt"
       "discord"
-      "docker"
       "element"
       "firefox"
       "font-jetbrains-mono-nerd-font"
@@ -118,16 +121,9 @@
       "hammerspoon"
       "ghostty"
       "iina"
-      "linear-linear"
-      "loom"
-      "notion"
-      "notion-calendar"
-      "p4v"
-      "perforce"
       "podman-desktop"
       "postico"
       "raycast"
-      "slack"
       "spotify"
       "steam"
       "sublime-merge"
@@ -136,7 +132,6 @@
       "qutebrowser"
       "vlc"
       "visual-studio-code"
-      "zed"
-    ];
+    ] ++ lib.optionals isWork [ "1password" "1password-cli" "docker" "linear-linear" "loom" "notion" "notion-calendar" "p4v" "perforce" ];
   };
 }

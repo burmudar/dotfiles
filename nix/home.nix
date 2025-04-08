@@ -419,7 +419,7 @@ rec {
   programs.gpg = {
     enable = true;
     publicKeys = [
-    { text = "EDE8072F89D58CD9!"; trust = 5; }
+      { text = "EDE8072F89D58CD9!"; trust = 5; }
     ];
   };
 
