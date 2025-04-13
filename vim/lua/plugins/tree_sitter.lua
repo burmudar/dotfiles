@@ -7,7 +7,7 @@ return {
     },
     opts = {
       ensure_install = { "c99", "c++", "html", "java", "kotlin", "go", "javascript", "typescript", "python", "zig",
-        "rust", "lua_ls", "nix", "ocaml" },
+        "rust", "lua_ls", "nix", "ocaml", "starlark" },
       auto_install = true,
       ignore_install = {},
       highlight = {
