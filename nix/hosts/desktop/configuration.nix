@@ -34,6 +34,8 @@ in {
 
   # Enable networking
   networking.networkmanager.enable = true;
+  # disabled otherwise it fails on switch
+  systemd.services.NetworkManager-wait-online.enable = false;
 
   # Set your time zone.
   time.timeZone = "Africa/Johannesburg";

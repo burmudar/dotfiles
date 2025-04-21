@@ -418,20 +418,20 @@ rec {
 
   programs.gpg = {
     enable = true;
-    publicKeys = [
-      { text = "EDE8072F89D58CD9!"; trust = 5; }
-    ];
+    # if this key is not found then loading home manager fails
+    # publicKeys = [
+    #   { text = "EDE8072F89D58CD9!"; trust = 5; }
+    # ];
   };
 
   # services
   services.gpg-agent = {
     enable = true;
-    enableSshSupport = true;
     enableZshIntegration = true;
 
     defaultCacheTtl = 3600 * 4;
 
-    pinentryPackage = if pkgs.stdenv.isLinux then pkgs.pinentry-curses else pkgs.pinentry_mac;
+    pinentryPackage = if pkgs.stdenv.isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
 
     extraConfig = ''
       allow-loopback-pinentry
