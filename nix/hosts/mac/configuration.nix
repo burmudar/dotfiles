@@ -1,7 +1,7 @@
-{ config, pkgs, unstable, hostname, personal, ... }@inputs:
+{ config, pkgs, unstable, hostname, ... }@inputs:
 let
   lib = pkgs.lib;
-  personal = lib.defaultTo false inputs.personal;
+  personal = lib.attrByPath ["personal"] false inputs;
   isWork = !personal;
 in
 {
