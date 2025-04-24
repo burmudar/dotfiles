@@ -61,6 +61,7 @@ in
     customNodePackages."@anthropic-ai/claude-code"
     fd
     home-manager
+    uv
     (nerdfonts.override {
       fonts = [
         "JetBrainsMono"
