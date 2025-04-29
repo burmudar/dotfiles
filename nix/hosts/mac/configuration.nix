@@ -110,6 +110,7 @@ in
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
+      "aerospace"
       "slack"
       "calibre"
       "claude"
