@@ -98,15 +98,15 @@ function M.lsp(bufnr)
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
   km("n", "<leader>sd", function()
     telescope_builtin.diagnostics(require('telescope.themes').get_dropdown
-    {
-      layout_config = { width = 0.80 },
-      bufnr = 0
-    }
+      {
+        layout_config = { width = 0.80 },
+        bufnr = 0
+      }
     )
   end, { desc = "[S]earch [D]iagnostics" })
-  km('n', '<leader>re', vim.lsp.buf.rename, opts("[R][e]name"))
-  km('n', '<leader>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
-  km('v', '<leader>ca', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
+  km('n', '<M-r>', vim.lsp.buf.rename, opts("[R][e]name"))
+  km('n', '<M-.>', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
+  km('v', '<M-.>', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
   km('n', '<leader>ci', vim.lsp.buf.incoming_calls, opts("[I]ncoming [c]alls"))
   km('n', '<leader>co', vim.lsp.buf.outgoing_calls, opts("[O]utgoing [c]alls"))
   km('n', '<leader>l', vim.diagnostic.setloclist, opts("Diagnostics to Loc List"))
