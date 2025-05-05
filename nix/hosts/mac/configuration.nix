@@ -85,7 +85,7 @@ in
     nixpkgs-fmt
     nodePackages.pnpm
     nodePackages.typescript-language-server
-    nodejs_20
+    nodejs_22
     passage
     racket
     zig
