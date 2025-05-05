@@ -83,9 +83,11 @@ in
     lua-language-server
     nil
     nixpkgs-fmt
-    nodePackages.pnpm
-    nodePackages.typescript-language-server
-    nodejs_22
+    # All the below seem to ignore the nodejs version and want v20
+    # nodePackages.typescript-language-server
+    # typescript-language-server
+    # nodejs_22.pkgs.typescript-language-server
+    nodePackages.pnpm # works ... pnpm node --verison = v22
     passage
     racket
     zig
@@ -93,7 +95,6 @@ in
     go
     gopls
     jujutsu
-    neovim
   ]);
 
   homebrew = {
