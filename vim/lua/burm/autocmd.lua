@@ -58,6 +58,29 @@ M.setup = function()
     range = true,
     desc = "Pipe (pipe of the buffer through a shell command"
   })
+
+  -- register a user command to insert co-author lines
+  vim.api.nvim_create_user_command("Coauth", function(opts)
+    local keegan = "Co-authored-by Keegan Carruthers-Smith <keegan.csmith@gmail.com>"
+    local bolaji = "Co-authored-by Bolaji Olajide <25608335+BolajiOlajide@users.noreply.github.com>"
+    
+    local text = ""
+    if opts.args == "keegan" then
+      text = keegan
+    elseif opts.args == "bolaji" then
+      text = bolaji
+    else
+      text = keegan .. "\n" .. bolaji
+    end
+    
+    -- Insert the text at the current cursor position
+    local pos = vim.api.nvim_win_get_cursor(0)
+    local line = pos[1] - 1
+    vim.api.nvim_buf_set_lines(0, line, line, false, vim.split(text, "\n"))
+  end, {
+    nargs = "?",
+    desc = "Insert co-author lines for commit messages"
+  })
 end
 
 return M

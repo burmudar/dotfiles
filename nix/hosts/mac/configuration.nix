@@ -79,6 +79,8 @@ in
     jq
     k9s
     kitty
+    kubectl
+    kubectx
     luarocks
     lua-language-server
     nil
@@ -111,30 +113,30 @@ in
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
-      "aerospace"
-      "slack"
       "calibre"
-      "claude"
       "chatgpt"
+      "claude"
       "discord"
       "element"
       "firefox"
       "font-jetbrains-mono-nerd-font"
+      "ghostty"
       "google-chrome"
       "hammerspoon"
-      "ghostty"
       "iina"
       "podman-desktop"
       "postico"
+      "qutebrowser"
       "raycast"
+      "slack"
       "spotify"
       "steam"
       "sublime-merge"
       "tailscale"
       "telegram-desktop"
-      "qutebrowser"
-      "vlc"
+      "tuple"
       "visual-studio-code"
-    ] ++ lib.optionals isWork [ "1password" "1password-cli" "docker" "linear-linear" "loom" "notion" "notion-calendar" "p4v" "perforce" ];
+      "vlc"
+    ] ++ lib.optionals isWork [ "1password" "1password-cli" "linear-linear" "loom" "notion" "notion-calendar" "p4v" "perforce" ];
   };
 }

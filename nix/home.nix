@@ -67,6 +67,10 @@ rec {
     jq
     lsd
     procs
+    dust
+    duf
+    broot
+    procs
     ripgrep
     starship
     tldr
@@ -356,6 +360,11 @@ rec {
     extraConfig = {
       push.autoSetupRemote = true;
       rerere.enabled = true;
+      url = {
+        "ssh://git@github.com/" = {
+          insteadOf = "https://github.com/";
+        };
+      };
     };
 
     delta = {
