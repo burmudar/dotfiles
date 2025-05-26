@@ -63,7 +63,7 @@ M.setup = function()
   vim.api.nvim_create_user_command("Coauth", function(opts)
     local keegan = "Co-authored-by Keegan Carruthers-Smith <keegan.csmith@gmail.com>"
     local bolaji = "Co-authored-by Bolaji Olajide <25608335+BolajiOlajide@users.noreply.github.com>"
-    
+
     local text = ""
     if opts.args == "keegan" then
       text = keegan
@@ -72,7 +72,7 @@ M.setup = function()
     else
       text = keegan .. "\n" .. bolaji
     end
-    
+
     -- Insert the text at the current cursor position
     local pos = vim.api.nvim_win_get_cursor(0)
     local line = pos[1] - 1
@@ -80,6 +80,12 @@ M.setup = function()
   end, {
     nargs = "?",
     desc = "Insert co-author lines for commit messages"
+  })
+  -- Show errors and warnings in a floating window
+  vim.api.nvim_create_autocmd("CursorHold", {
+    callback = function()
+      vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
+    end,
   })
 end
 

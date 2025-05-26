@@ -8,7 +8,7 @@ local themes = require("telescope.themes")
 local M = {}
 
 function M.fuzzy_browser(_opts)
-  builtin.current_buffer_fuzzy_find(themes.get_dropdown {
+  builtin.current_buffer_fuzzy_find(themes.get_ivy {
     previewer = false,
     winblend = 10,
   })
@@ -16,7 +16,7 @@ end
 
 function M.quick_file_browser(_opts)
   builtin.find_files(
-    themes.get_dropdown(
+    themes.get_ivy(
       {
         previewer = false, layout_config = { width = 0.65 }
       })

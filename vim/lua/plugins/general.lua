@@ -38,6 +38,12 @@ return {
   "rust-lang/rust.vim",
   "ziglang/zig.vim",
   {
+    "m4xshen/hardtime.nvim",
+    lazy = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {},
+  },
+  {
     'stevearc/oil.nvim',
     ---@module 'oil'
     ---@type oil.SetupOpts

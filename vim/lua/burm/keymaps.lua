@@ -5,23 +5,29 @@ local telescope_builtin = require("telescope.builtin")
 local burm_telescope    = require("burm.telescope")
 local gitsigns          = require("gitsigns")
 
+local as_ivy            = function(fn)
+  local theme = require('telescope.themes').get_ivy { layout_config = { height = 0.35 } }
+  return function() fn(theme) end
+end
+
+
 local function telescope()
-  km("n", "<leader>ll", telescope_builtin.resume, { desc = "[enter] resume last pick" })
-  km("n", "<leader>?", telescope_builtin.oldfiles, { desc = "[?] Find recently opened files" })
-  km("n", "<leader>sg", telescope_builtin.live_grep, { desc = "[S]earch by [G]rep" })
-  km("n", "<leader>gf", telescope_builtin.git_files, { desc = "[G]it [F]iles" })
-  km("n", "<leader>sw", telescope_builtin.grep_string, { desc = "[S]earch [W]ord by grep" })
-  km("n", "<leader><space>", telescope_builtin.buffers, { desc = "[S]earch existings [B]uffers" })
-  km("n", "<leader>sh", telescope_builtin.help_tags, { desc = "[S]earch [H]elp" })
-  km("n", "<leader>df", function()
+  km("n", "<leader>ll", as_ivy(telescope_builtin.resume), { desc = "[enter] resume last pick" })
+  km("n", "<leader>?", as_ivy(telescope_builtin.oldfiles), { desc = "[?] Find recently opened files" })
+  km("n", "<leader>sg", as_ivy(telescope_builtin.live_grep), { desc = "[S]earch by [G]rep" })
+  km("n", "<leader>gf", as_ivy(telescope_builtin.git_files), { desc = "[G]it [F]iles" })
+  km("n", "<leader>sw", as_ivy(telescope_builtin.grep_string), { desc = "[S]earch [W]ord by grep" })
+  km("n", "<leader><space>", as_ivy(telescope_builtin.buffers), { desc = "[S]earch existings [B]uffers" })
+  km("n", "<leader>sh", as_ivy(telescope_builtin.help_tags), { desc = "[S]earch [H]elp" })
+  km("n", "<leader>df", as_ivy(function()
     telescope_builtin.git_files { cwd = '$SRC/dotfiles' }
-  end, { desc = "Search [D]ot[F]iles" })
-  km("n", "<leader>sl", require('telescope').extensions.live_grep_args.live_grep_args,
+  end), { desc = "Search [D]ot[F]iles" })
+  km("n", "<leader>sl", as_ivy(require('telescope').extensions.live_grep_args.live_grep_args),
     { desc = "[S]earch by [L]ive Grep Args" })
 
-  km("n", "<leader>/", burm_telescope.fuzzy_browser, { desc = "[/] Fuzzy search in current buffer" })
-  km("n", "<leader>sf", burm_telescope.quick_file_browser, { desc = "[S]earch [F]iles" })
-  km("n", "<leader>sG", burm_telescope.grep_with_glob, { desc = "[S]earch by [G]rep [G]lob" })
+  km("n", "<leader>/", as_ivy(burm_telescope.fuzzy_browser), { desc = "[/] Fuzzy search in current buffer" })
+  km("n", "<leader>sf", as_ivy(burm_telescope.quick_file_browser), { desc = "[S]earch [F]iles" })
+  km("n", "<leader>sG", as_ivy(burm_telescope.grep_with_glob), { desc = "[S]earch by [G]rep [G]lob" })
 end
 
 local function misc()
@@ -88,12 +94,12 @@ function M.lsp(bufnr)
     return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
   end
 
-  km('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
-  km('n', 'gd', telescope_builtin.lsp_definitions, opts("[G]oto [D]efinition"))
+  km('n', 'gD', as_ivy(vim.lsp.buf.declaration), opts("[G]oto [D]eclaration"))
+  km('n', 'gd', as_ivy(telescope_builtin.lsp_definitions), opts("[G]oto [D]efinition"))
   km('n', 'K', vim.lsp.buf.hover, opts("[H]over Documentation"))
-  km('n', 'gi', telescope_builtin.lsp_implementations, opts("[G]oto [i]mplementation"))
-  km('n', 'gr', telescope_builtin.lsp_references, opts("[G]oto [r]eferences"))
-  km('n', 'gt', telescope_builtin.lsp_type_definitions, opts("[G]oto [t]ype"))
+  km('n', 'gi', as_ivy(telescope_builtin.lsp_implementations), opts("[G]oto [i]mplementation"))
+  km('n', 'gr', as_ivy(telescope_builtin.lsp_references), opts("[G]oto [r]eferences"))
+  km('n', 'gt', as_ivy(telescope_builtin.lsp_type_definitions), opts("[G]oto [t]ype"))
   km('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
   km("n", "<leader>sd", function()
@@ -118,7 +124,7 @@ function M.lsp(bufnr)
   km('n', '<leader>wr', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [R]emove folder"))
   km('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols,
     opts("[W]orkspace [S]ymbols"))
-  km("n", "<leader>ss", telescope_builtin.lsp_document_symbols, { desc = "[S]earch Document [S]ymbols" })
+  km("n", "<leader>ss", as_ivy(telescope_builtin.lsp_document_symbols), { desc = "[S]earch Document [S]ymbols" })
 
   local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
 
