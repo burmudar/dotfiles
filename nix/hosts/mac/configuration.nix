@@ -6,6 +6,7 @@ let
 in
 {
   system = {
+    primaryUser = "william";
     stateVersion = 5;
     defaults = {
       # https://daiderd.com/nix-darwin/manual/index.html
@@ -30,7 +31,6 @@ in
   programs.zsh.enable = true;
 
   # Make sure the nix daemon always runs
-  services.nix-daemon.enable = true;
   nix = {
     package = pkgs.nixVersions.stable;
     settings = {
@@ -62,14 +62,6 @@ in
     fd
     home-manager
     uv
-    (nerdfonts.override {
-      fonts = [
-        "JetBrainsMono"
-        "Hack"
-        "FiraCode"
-        "Noto"
-      ];
-    })
     fswatch
     fzf
     git
@@ -91,12 +83,16 @@ in
     # nodejs_22.pkgs.typescript-language-server
     nodePackages.pnpm # works ... pnpm node --verison = v22
     passage
-    racket
     zig
   ] ++ (with unstable; [
     go
     gopls
     jujutsu
+  ]) ++ (with pkgs.nerd-fonts; [
+    jetbrains-mono
+    hack
+    fira-code
+    noto
   ]);
 
   homebrew = {
@@ -119,7 +115,6 @@ in
       "discord"
       "element"
       "firefox"
-      "font-jetbrains-mono-nerd-font"
       "ghostty"
       "google-chrome"
       "hammerspoon"

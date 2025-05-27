@@ -329,7 +329,7 @@ rec {
 
   programs.lsd = {
     enable = true;
-    enableAliases = true;
+    enableZshIntegration = true;
   };
 
   programs.git = {
@@ -342,7 +342,7 @@ rec {
       key = "EDE8072F89D58CD9!";
     };
     aliases = {
-      s = "status";
+      st = "status";
       co = "checkout";
       c = "commit";
       cm = "commit -m";
@@ -394,7 +394,7 @@ rec {
     package = pkgs.kitty;
     theme = "Catppuccin-Frappe";
     font = {
-      package = with pkgs; (nerdfonts.override { fonts = [ "FiraCode" ]; });
+      package = pkgs.nerd-fonts.fira-code;
       name = "FiraCode Nerd Font";
       size = 13.0;
     };
@@ -440,7 +440,7 @@ rec {
 
     defaultCacheTtl = 3600 * 4;
 
-    pinentryPackage = if pkgs.stdenv.isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
+    pinentry.package = if pkgs.stdenv.isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
 
     extraConfig = ''
       allow-loopback-pinentry
