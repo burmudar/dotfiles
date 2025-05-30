@@ -13,7 +13,7 @@ in
       NSGlobalDomain = {
         # https://mac-key-repeat.zaymon.dev/
         InitialKeyRepeat = 10; # 120 ms
-        KeyRepeat = 1; # 15 ms
+        KeyRepeat = 2; # 15 ms
       };
     };
   };

@@ -168,10 +168,12 @@
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.x86_64-linux;
+          extraSpecialArgs = { unstable = unstable-pkgs.x86_64-linux; };
           modules = [ ./home.nix { home.homeDirectory = "/home/william"; } ];
         };
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.aarch64-darwin;
+          extraSpecialArgs = { unstable = unstable-pkgs.aarch64-darwin; };
           modules = [ ./home.nix { home.homeDirectory = "/Users/william"; } ];
         };
       };
