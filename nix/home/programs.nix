@@ -1,7 +1,24 @@
 { config, pkgs, unstable ? pkgs, lib, ... }:
+let
+  # Platform detection
+  isDarwin = pkgs.stdenv.isDarwin;
+  isLinux = pkgs.stdenv.isLinux;
+  
+  # Common values
+  defaultIdentityFile = "~/.ssh/keys/burmkey.pem";
+  defaultUser = "william";
+  fontSize = 13.0;
+  fontFamily = "FiraCode Nerd Font";
+  theme = "catppuccin-frappe";
+  
+  # SSH host configuration helpers
+  mkSSHHost = { hostname, user ? defaultUser, identityFile ? defaultIdentityFile }: {
+    inherit hostname user identityFile;
+  };
+in
 {
   programs.firefox = {
-    enable = pkgs.stdenv.isLinux;
+    enable = isLinux;
     package = pkgs.librewolf;
     policies = {
       DisableTelemetry = true;
@@ -105,7 +122,7 @@
       fi
     '';
 
-    initExtra =
+    initContent =
       let
         base = ''
           setopt EXTENDED_GLOB
@@ -113,7 +130,7 @@
           source ~/.zwork
         '';
       in
-      if pkgs.stdenv.isDarwin then
+      if isDarwin then
         ''
           ${base}
           eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -175,56 +192,16 @@
       "~/.ssh/config.d/*"
     ];
     matchBlocks = {
-      "media.tailscale" = {
-        hostname = "media.raptor-emperor.ts.net";
-        user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "media.*" = {
-        hostname = "media.internal";
-        user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "mac.tailscale" = {
-        user = "william";
-        hostname = "Williams-MacBook-Pro.raptor-emperor.ts.net";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "mac" = {
-        hostname = "Williams-MacBook-Pro.internal";
-        user = "william";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "router" = {
-        user = "root";
-        hostname = "192.168.1.1";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "desktop.tailscale" = {
-        user = "william";
-        hostname = "fort-kickass.raptor-emperor.ts.net";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "desktop" = {
-        user = "william";
-        hostname = "fort-kickass.internal";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
-      "spotipi" = {
-        user = "pi";
-        hostname = "spotipi.internal";
-        identityFile = "~/.ssh//keys/burmkey.pem";
-      };
-      "bezuidenhout" = {
-        user = "bezuidenhout";
-        hostname = "bezuidenhout-pc";
-        identityFile = "~/.ssh/keys/burmkey.pem";
-      };
+      "media.tailscale" = mkSSHHost { hostname = "media.raptor-emperor.ts.net"; };
+      "media.*" = mkSSHHost { hostname = "media.internal"; };
+      "github.com" = mkSSHHost { hostname = "github.com"; user = "git"; };
+      "mac.tailscale" = mkSSHHost { hostname = "Williams-MacBook-Pro.raptor-emperor.ts.net"; };
+      "mac" = mkSSHHost { hostname = "Williams-MacBook-Pro.internal"; };
+      "router" = mkSSHHost { hostname = "192.168.1.1"; user = "root"; };
+      "desktop.tailscale" = mkSSHHost { hostname = "fort-kickass.raptor-emperor.ts.net"; };
+      "desktop" = mkSSHHost { hostname = "fort-kickass.internal"; };
+      "spotipi" = mkSSHHost { hostname = "spotipi.internal"; user = "pi"; };
+      "bezuidenhout" = mkSSHHost { hostname = "bezuidenhout-pc"; user = "bezuidenhout"; };
     };
   };
 
@@ -236,7 +213,7 @@
   programs.git = {
     enable = true;
     # Add 'william.bezuidenhout+github.com' to the gpg keys
-    userEmail = if pkgs.stdenv.isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
+    userEmail = if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
     userName = "William Bezuidenhout";
     signing = {
       signByDefault = true;
@@ -278,14 +255,12 @@
   };
 
   programs.ghostty = {
-    enable = pkgs.stdenv.isLinux;
+    enable = isLinux;
     enableZshIntegration = true;
     settings = {
-      theme = "catppuccin-frappe";
-
-      font-size = 13.0;
-      font-family = "FiraCode Nerd Font";
-
+      inherit theme;
+      font-size = fontSize;
+      font-family = fontFamily;
       macos-option-as-alt = true;
     };
   };
@@ -296,8 +271,8 @@
     themeFile = "Catppuccin-Frappe";
     font = {
       package = pkgs.nerd-fonts.fira-code;
-      name = "FiraCode Nerd Font";
-      size = 13.0;
+      name = fontFamily;
+      size = fontSize;
     };
     keybindings = {
       "cmd+k>w" = "close_tab";
@@ -340,7 +315,7 @@
 
     defaultCacheTtl = 3600 * 4;
 
-    pinentry.package = if pkgs.stdenv.isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
+    pinentry.package = if isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
 
     extraConfig = ''
       allow-loopback-pinentry
