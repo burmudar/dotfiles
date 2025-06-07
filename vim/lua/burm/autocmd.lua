@@ -84,9 +84,26 @@ M.setup = function()
   -- Show errors and warnings in a floating window
   vim.api.nvim_create_autocmd("CursorHold", {
     callback = function()
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local config = vim.api.nvim_win_get_config(win)
+        if config.relative ~= "" then
+          return
+        end
+      end
       vim.diagnostic.open_float(nil, { focusable = false, source = "if_many" })
     end,
   })
+
+  -- Inspect floats
+  vim.api.nvim_create_user_command("InspectFloats", function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local config = vim.api.nvim_win_get_config(win)
+      if config.relative ~= "" then
+        print("Float window: ", win)
+        print(vim.inspect(config))
+      end
+    end
+  end, {})
 end
 
 return M
