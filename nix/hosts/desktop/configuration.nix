@@ -41,7 +41,7 @@ in {
   time.timeZone = "Africa/Johannesburg";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.utf8";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   # bluetooth
   hardware.bluetooth = {
@@ -155,6 +155,7 @@ in {
     btrfs-progs
     curl
     difftastic
+    customNodePackages."@anthropic-ai/claude-code"
     feh
     scrot
     fd
@@ -245,8 +246,7 @@ in {
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" "FiraCode" ]; })
-  ];
+  ] ++ (with nerd-fonts; [ hack jetbrains-mono fira-code ]);
 
   services.avahi = {
     enable = true;

@@ -3,14 +3,14 @@ let
   # Platform detection
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-  
+
   # Common values
   defaultIdentityFile = "~/.ssh/keys/burmkey.pem";
   defaultUser = "william";
   fontSize = 13.0;
-  fontFamily = "FiraCode Nerd Font";
+  fontFamily = "Hack Nerd Font Mono";
   theme = "catppuccin-frappe";
-  
+
   # SSH host configuration helpers
   mkSSHHost = { hostname, user ? defaultUser, identityFile ? defaultIdentityFile }: {
     inherit hostname user identityFile;
