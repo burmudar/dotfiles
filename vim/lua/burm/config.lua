@@ -1,38 +1,4 @@
 local BF = require('burm.funcs')
---- Telescope setup
-local lga_actions = require("telescope-live-grep-args.actions")
-require('telescope').setup {
-  defaults = {
-    prompt_prefix = '🔍 ',
-    color_devicons = true,
-    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
-    grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
-    qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
-    mappings = {
-      i = {
-        ["<C-h>"] = "which_key",
-      }
-    }
-  },
-  extensions = {
-    live_grep_args = {
-      auto_quoting = true,
-      mappings = {
-        i = {
-          ["<C-k>"] = lga_actions.quote_prompt(),
-          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-        }
-      }
-    },
-  },
-}
-
-
-require('telescope').load_extension('fzf')
-require('telescope').load_extension('harpoon')
-require('telescope').load_extension('live_grep_args')
-
-
 local cmp = require('burm.cmp')
 cmp.setup()
 

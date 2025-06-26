@@ -1,11 +1,9 @@
 return {
-  "nvim-lua/popup.nvim",
+  -- "nvim-lua/popup.nvim",
   "christoomey/vim-tmux-navigator",
   "tpope/vim-sensible",
   "tpope/vim-surround",
-  --"tpope/vim-fugitive",
   { 'echasnovski/mini.statusline', version = '*', opts = {} },
-  "vim-pandoc/vim-pandoc",
   {
     'lewis6991/gitsigns.nvim',
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -15,25 +13,10 @@ return {
       current_line_blame = true,
     }
   },
-  "stevearc/dressing.nvim",
+  -- "stevearc/dressing.nvim",
   {
     "sindrets/diffview.nvim",
     dependencies = "nvim-lua/plenary.nvim"
-  },
-  "ethanholz/nvim-lastplace",
-  "ThePrimeagen/harpoon",
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl"
-  },
-  "numToStr/comment.nvim",
-  {
-    "julienvincent/hunk.nvim",
-    cmd = { "DiffEditor" },
-    dependencies = { "MunifTanjim/nui.nvim" },
-    config = function()
-      require("hunk").setup()
-    end,
   },
   "rust-lang/rust.vim",
   "ziglang/zig.vim",
@@ -64,7 +47,6 @@ return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
   },
 }

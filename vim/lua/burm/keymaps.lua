@@ -1,8 +1,7 @@
 --- KEYMAPS HERE
 local M                 = {}
 local km                = vim.keymap.set
-local telescope_builtin = require("telescope.builtin")
-local burm_telescope    = require("burm.telescope")
+--local burm_telescope    = require("burm.telescope")
 local gitsigns          = require("gitsigns")
 
 local as_ivy            = function(fn)
@@ -12,6 +11,7 @@ end
 
 
 local function telescope()
+  local telescope_builtin = require("telescope.builtin")
   km("n", "<leader>ll", as_ivy(telescope_builtin.resume), { desc = "[enter] resume last pick" })
   km("n", "<leader>?", as_ivy(telescope_builtin.oldfiles), { desc = "[?] Find recently opened files" })
   km("n", "<leader>sg", as_ivy(telescope_builtin.live_grep), { desc = "[S]earch by [G]rep" })
@@ -51,12 +51,6 @@ local function misc()
   km("n", "<leader>.d", gitsigns.diffthis, { desc = "[g]it [d]iff this" })
   km("n", "<leader>.D", function() gitsigns.diffthis("~") end, { desc = "[g]it [d]iff this with origin" })
 
-  km("n", "<leader>m", require('harpoon.mark').add_file, { desc = "[M]ark a file" })
-  km("n", "<leader>sm", require('harpoon.ui').toggle_quick_menu, { desc = "[S]how [M]arks" })
-  -- GP bindings
-  km("n", "<C-g>t", "<cmd>GpChatToggle<CR>", { noremap = true, desc = "Toggle GP Chat interface" })
-  km("v", "<C-g>i", "<cmd>GpImplement<CR>", { noremap = true, desc = "Use current line as prompt and expand" })
-
   -- Yank into clipboard
   km("v", "<leader>y", "\"+y")
   km("n", "<leader>p", "\"+p")
@@ -86,7 +80,7 @@ end
 
 M.general = function()
   misc()
-  telescope()
+  --telescope()
 end
 
 function M.lsp(bufnr)
@@ -94,22 +88,22 @@ function M.lsp(bufnr)
     return { desc = "LSP: " .. desc, buffer = bufnr, noremap = true, silent = true }
   end
 
-  km('n', 'gD', as_ivy(vim.lsp.buf.declaration), opts("[G]oto [D]eclaration"))
-  km('n', 'gd', as_ivy(telescope_builtin.lsp_definitions), opts("[G]oto [D]efinition"))
+  km('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
+  --km('n', 'gd', telescope_builtin.lsp_definitions, opts("[G]oto [D]efinition"))
   km('n', 'K', vim.lsp.buf.hover, opts("[H]over Documentation"))
-  km('n', 'gi', as_ivy(telescope_builtin.lsp_implementations), opts("[G]oto [i]mplementation"))
-  km('n', 'gr', as_ivy(telescope_builtin.lsp_references), opts("[G]oto [r]eferences"))
-  km('n', 'gt', as_ivy(telescope_builtin.lsp_type_definitions), opts("[G]oto [t]ype"))
+  --km('n', 'gi', telescope_builtin.lsp_implementations, opts("[G]oto [i]mplementation"))
+  --km('n', 'gr', telescope_builtin.lsp_references, opts("[G]oto [r]eferences"))
+  --km('n', 'gt', telescope_builtin.lsp_type_definitions, opts("[G]oto [t]ype"))
   km('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
-  km("n", "<leader>sd", function()
-    telescope_builtin.diagnostics(require('telescope.themes').get_dropdown
-      {
-        layout_config = { width = 0.80 },
-        bufnr = 0
-      }
-    )
-  end, { desc = "[S]earch [D]iagnostics" })
+  --km("n", "<leader>sd", function()
+    --telescope_builtin.diagnostics(require('telescope.themes').get_dropdown
+      --{
+        --layout_config = { width = 0.80 },
+        --bufnr = 0
+      --}
+    --)
+  --end, { desc = "[S]earch [D]iagnostics" })
   km('n', '<M-r>', vim.lsp.buf.rename, opts("[R][e]name"))
   km('n', '<M-.>', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
   km('v', '<M-.>', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
@@ -118,21 +112,6 @@ function M.lsp(bufnr)
   km('n', '<leader>l', vim.diagnostic.setloclist, opts("Diagnostics to Loc List"))
   km('n', '<leader>q', vim.diagnostic.setqflist, opts("Diagnostics to QuickFix List"))
   km('n', '<leader>cf', function() vim.lsp.buf.format { async = true } end, opts("Format"))
-  km('n', '<leader>wl', function() P(vim.lsp.buf.list_workspace_folders()) end,
-    opts("List Workspace Folders"))
-  km('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [A]dd folder"))
-  km('n', '<leader>wr', vim.lsp.buf.add_workspace_folder, opts("[W]orkspace [R]emove folder"))
-  km('n', '<leader>ws', telescope_builtin.lsp_dynamic_workspace_symbols,
-    opts("[W]orkspace [S]ymbols"))
-  km("n", "<leader>ss", as_ivy(telescope_builtin.lsp_document_symbols), { desc = "[S]earch Document [S]ymbols" })
-
-  local filetype = vim.api.nvim_buf_get_option(0, 'filetype')
-
-  if filetype == "go" then
-    vim.keymap.set('n', '<leader>ws', function()
-      telescope_builtin.lsp_workspace_symbols { query = vim.fn.input("Query: ") }
-    end, opts("[W]orkspace [S]ymbols"))
-  end
 end
 
 M.setup = function(callbacks)
