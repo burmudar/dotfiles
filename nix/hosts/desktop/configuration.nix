@@ -162,6 +162,7 @@ in {
     flameshot
     gcc
     git
+    git-spice
     gnumake
     grub2
     htop

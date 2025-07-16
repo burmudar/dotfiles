@@ -65,6 +65,7 @@ in
     fswatch
     fzf
     git
+    git-spice
     github-cli
     gopass
     hledger

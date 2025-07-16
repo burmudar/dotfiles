@@ -18,8 +18,7 @@ function nix-darwin-sw() {
   hostname="$(hostname)"
 
   echo "--- building system configuration (${hostname}) ---"
-  nix run 'nix-darwin/master#darwin-rebuild' -- build --flake ".#${hostname}"
-  sudo ./result/activate
+  sudo nix run 'nix-darwin/master#darwin-rebuild' -- switch --flake ".#${hostname}"
   echo "--- done ---"
 
   cd -
