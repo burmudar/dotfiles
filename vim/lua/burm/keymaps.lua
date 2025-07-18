@@ -1,33 +1,25 @@
 --- KEYMAPS HERE
-local M                 = {}
-local km                = vim.keymap.set
+local M        = {}
+local km       = vim.keymap.set
 --local burm_telescope    = require("burm.telescope")
-local gitsigns          = require("gitsigns")
+local gitsigns = require("gitsigns")
 
-local as_ivy            = function(fn)
-  local theme = require('telescope.themes').get_ivy { layout_config = { height = 0.35 } }
-  return function() fn(theme) end
-end
+-- snippets sets keybindings for Luansnips
+local function snippets()
+  km({ "i", "s" }, "<C-j>", function()
+    local ls = require("luasnip")
+    if ls.expand_or_jumpable() then
+      ls.expand_or_jump()
+    end
+  end, { silent = true })
 
-
-local function telescope()
-  local telescope_builtin = require("telescope.builtin")
-  km("n", "<leader>ll", as_ivy(telescope_builtin.resume), { desc = "[enter] resume last pick" })
-  km("n", "<leader>?", as_ivy(telescope_builtin.oldfiles), { desc = "[?] Find recently opened files" })
-  km("n", "<leader>sg", as_ivy(telescope_builtin.live_grep), { desc = "[S]earch by [G]rep" })
-  km("n", "<leader>gf", as_ivy(telescope_builtin.git_files), { desc = "[G]it [F]iles" })
-  km("n", "<leader>sw", as_ivy(telescope_builtin.grep_string), { desc = "[S]earch [W]ord by grep" })
-  km("n", "<leader><space>", as_ivy(telescope_builtin.buffers), { desc = "[S]earch existings [B]uffers" })
-  km("n", "<leader>sh", as_ivy(telescope_builtin.help_tags), { desc = "[S]earch [H]elp" })
-  km("n", "<leader>df", as_ivy(function()
-    telescope_builtin.git_files { cwd = '$SRC/dotfiles' }
-  end), { desc = "Search [D]ot[F]iles" })
-  km("n", "<leader>sl", as_ivy(require('telescope').extensions.live_grep_args.live_grep_args),
-    { desc = "[S]earch by [L]ive Grep Args" })
-
-  km("n", "<leader>/", as_ivy(burm_telescope.fuzzy_browser), { desc = "[/] Fuzzy search in current buffer" })
-  km("n", "<leader>sf", as_ivy(burm_telescope.quick_file_browser), { desc = "[S]earch [F]iles" })
-  km("n", "<leader>sG", as_ivy(burm_telescope.grep_with_glob), { desc = "[S]earch by [G]rep [G]lob" })
+  -- Use <C-k> to jump backward
+  km({ "i", "s" }, "<C-k>", function()
+    local ls = require("luasnip")
+    if ls.jumpable(-1) then
+      ls.jump(-1)
+    end
+  end, { silent = true })
 end
 
 local function misc()
@@ -80,7 +72,7 @@ end
 
 M.general = function()
   misc()
-  --telescope()
+  snippets()
 end
 
 function M.lsp(bufnr)
@@ -89,21 +81,9 @@ function M.lsp(bufnr)
   end
 
   km('n', 'gD', vim.lsp.buf.declaration, opts("[G]oto [D]eclaration"))
-  --km('n', 'gd', telescope_builtin.lsp_definitions, opts("[G]oto [D]efinition"))
   km('n', 'K', vim.lsp.buf.hover, opts("[H]over Documentation"))
-  --km('n', 'gi', telescope_builtin.lsp_implementations, opts("[G]oto [i]mplementation"))
-  --km('n', 'gr', telescope_builtin.lsp_references, opts("[G]oto [r]eferences"))
-  --km('n', 'gt', telescope_builtin.lsp_type_definitions, opts("[G]oto [t]ype"))
   km('n', '[d', vim.diagnostic.goto_prev, opts("Prev Diagnostic"))
   km('n', ']d', vim.diagnostic.goto_next, opts("Next Diagnostics"))
-  --km("n", "<leader>sd", function()
-    --telescope_builtin.diagnostics(require('telescope.themes').get_dropdown
-      --{
-        --layout_config = { width = 0.80 },
-        --bufnr = 0
-      --}
-    --)
-  --end, { desc = "[S]earch [D]iagnostics" })
   km('n', '<M-r>', vim.lsp.buf.rename, opts("[R][e]name"))
   km('n', '<M-.>', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
   km('v', '<M-.>', vim.lsp.buf.code_action, opts("[C]ode [A]ction"))
