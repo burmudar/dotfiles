@@ -59,5 +59,18 @@ ls.add_snippets("norg", {
     t({ "- 📓 What have I tried?", "  • " }), i(10), t({ "", "" }),
     t({ "- 🚩 Any assumptions to challenge?", "  • " }), i(11), t({ "", "" }),
     t({ "- ⏭️ Next step or experiment:", "  • " }), i(12), t({ "", "" }),
-  })
+  }),
+  s("mindset", {
+    t({ "* Mindset Reframe + Future Self — " }), f(date), t({ "", "" }),
+
+    t({ "** 😟 Default Thought Pattern (name the vibe)", "- " }), i(1, "Insecure, doubtful, hesitant"), t({ "", "" }),
+    t({ "** 🧠 What thoughts or beliefs are showing up?", "- " }), i(2), t({ "", "" }),
+    t({ "** 🌱 What mindset do I *want* to shift into?", "- " }), i(3, "Confident, grounded, clear"), t({ "", "" }),
+    t({ "** 💬 Reframed thoughts (say them boldly)", "- " }), i(4), t({ "", "" }),
+    t({ "** 🎭 Identity Role Play — Imagine it’s already true", "- " }), i(5,
+    "I log on with clarity. I own my updates. I debug calmly. I trust myself."), t({ "", "" }),
+    t({ "** 🧘‍♂️ Embodied shift (what it feels like in the body)", "- " }), i(6, "Steady. Clear. Energized."), t({ "",
+    "" }),
+    t({ "** 📛 Anchor mantra for the day", "- " }), i(7, "I bring order to chaos."), t({ "", "" }),
+  }),
 })

@@ -24,19 +24,6 @@
   };
 
   xdg.autostart.enable = true;
-  environment.etc."xdg/autostart/kodi.desktop".text = ''
-    [Desktop Entry]
-    Version=1.0
-    Name=Kodi
-    GenericName=Media Center
-    Comment=Manage and view your media
-    Exec=kodi -fs
-    Icon=kodi
-    Terminal=false
-    Type=Application
-    Categories=AudioVideo;Video;Player;TV;
-  '';
-
   networking.hostName = "media"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -139,11 +126,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages =
-    let
-      kodiCustom = pkgs.kodi.withPackages (ps: with ps; [
-        jellyfin
-      ]);
-    in
     with pkgs; [
       aspell
       aspellDicts.en
