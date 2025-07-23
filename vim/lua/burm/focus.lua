@@ -36,6 +36,7 @@ local function newFocus()
   end
 
   function self:show_popup()
+    self:maybe_create()
     local buf = vim.fn.bufadd(self.filename)
     vim.fn.bufload(self.filename)
 

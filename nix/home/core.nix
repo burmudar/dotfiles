@@ -50,6 +50,7 @@ rec {
         ".zwilliam".source = ../../zsh/zwilliam;
         ".zwork".source = if pkgs.stdenv.isDarwin then ../../zsh/zwork else keepFile ".zwork";
         "code/.keep".source = keepFile ".keep";
+        "code/bin/.keep".source = keepFile ".keep";
         ".ssh/config.d/.keep".source = keepFile ".keep";
         ".ssh/keys/.keep".source = keepFile ".keep";
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../../qutebrowser/config.py;

@@ -114,6 +114,7 @@ in
       export LC_ALL=en_US.UTF-8
       export LANG=en_US.UTF-8
       export TERM=screen-256color
+      export PATH="$PATH:$HOME/code/bin"
 
       export VISUAL="nvim"
       export EDITOR="nvim"
@@ -181,6 +182,10 @@ in
 
       # without this, vim scrolling lags
       set-option -s escape-time 10
+
+      # Set terminal title to current pane title
+      set -g set-titles on
+      set -g set-titles-string "#{pane_title}"
     '';
   };
 
@@ -234,7 +239,7 @@ in
       f = "fetch";
       ap = "add -p";
       log-me = "log --author=\"${config.programs.git.userName}\" --pretty=format:\"%ad %h %s\" --date=short";
-      pristine = "clean -dx -e .envrc -e .direnv";
+      pristine = "clean -dx -e .envrc -e .direnv -e server/env.local";
     };
     extraConfig = {
       push.autoSetupRemote = true;

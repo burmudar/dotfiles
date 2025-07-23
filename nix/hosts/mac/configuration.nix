@@ -89,6 +89,7 @@ in
     go
     gopls
     jujutsu
+    nodejs
   ]) ++ (with pkgs.nerd-fonts; [
     jetbrains-mono
     hack

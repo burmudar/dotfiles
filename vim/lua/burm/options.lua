@@ -53,6 +53,9 @@ M.setup = function()
   vim.opt.lazyredraw = true
   vim.opt.ttyfast = true
 
+  vim.opt.title = true
+  vim.opt.titlestring = "nvim - %t"
+
 
   vim.fn.sign_define(
     'DiagnosticSignError',
