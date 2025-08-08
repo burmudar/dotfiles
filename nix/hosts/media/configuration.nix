@@ -41,7 +41,7 @@
   time.timeZone = "Africa/Johannesburg";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.utf8";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
   };
@@ -148,7 +148,6 @@
       htop
       jq
       kitty
-      kodiCustom
       lua
       man-pages
       man-pages-posix
@@ -195,7 +194,8 @@
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-emoji
-    (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" ]; })
+    nerd-fonts.hack
+    nerd-fonts.jetbrains-mono
   ];
 
 
@@ -265,7 +265,10 @@
     in
     {
       enable = true;
-      package = pkgs.cloudflare-caddy;
+      package = pkgs.caddy.withPlugins {
+        plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
+        hash = "sha256-2D7dnG50CwtCho+U+iHmSj2w14zllQXPjmTHr6lJZ/A=";
+      };
       # instead of readFile we should read the token from age or something like that
       logFormat = ''
         output stdout

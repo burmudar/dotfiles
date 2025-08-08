@@ -14,9 +14,6 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     neovim-nightly-overlay.inputs.nixpkgs.follows = "unstable-nixpkgs";
 
-    cloudflare-caddy.url = "github:burmudar/nix-cloudflare-caddy";
-    cloudflare-caddy.inputs.nixpkgs.follows = "nixpkgs";
-
     cloudflare-dns-ip.url = "github:burmudar/cloudflare-dns-ip";
     cloudflare-dns-ip.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -28,7 +25,6 @@
 
   outputs =
     { self
-    , cloudflare-caddy
     , cloudflare-dns-ip
     , darwin
     , flake-utils
@@ -52,7 +48,6 @@
             in [
             # TODO Move these overlays into lib/overlay.nix
             nodejs-overlay
-            cloudflare-caddy.overlay
             cloudflare-dns-ip.overlay
             rust-overlay.overlays.default
             (import lib/overlay.nix)
