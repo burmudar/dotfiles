@@ -24,4 +24,15 @@
       };
     };
   };
+
+  dconf = if pkgs.stdenv.isDarwin then {} else {
+    settings = {
+      "org/gnome/desktop/session" = {
+        idle-delay = lib.hm.gvariant.mkUint32 3600;
+      };
+      "org/gnome/desktop/screensaver" = {
+        lock-delay = lib.hm.gvariant.mkUint32 0;
+      };
+    };
+  };
 }
