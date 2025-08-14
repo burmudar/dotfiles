@@ -58,42 +58,53 @@ in {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    xkb = {
-      layout = "za";
-    };
+  # # Enable the X11 windowing system.
+  # services.xserver = {
+  #   enable = true;
+  #   xkb = {
+  #     layout = "za";
+  #   };
+  #
+  #   videoDrivers = [ "nvidia" ];
+  #
+  #   desktopManager = {
+  #     xterm.enable = false;
+  #     xfce = {
+  #       enable = true;
+  #       noDesktop = true;
+  #       enableXfwm = false;
+  #     };
+  #   };
+  #
+  #   windowManager.i3 = {
+  #     enable = true;
+  #     extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
+  #   };
+  services = {
 
-    videoDrivers = [ "nvidia" ];
-
-    desktopManager = {
-      xterm.enable = false;
-      xfce = {
+    xserver.displayManager = {
+      gdm = {
         enable = true;
-        noDesktop = true;
-        enableXfwm = false;
+        wayland = true;
       };
-    };
-
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
-    };
-
-    displayManager = {
-      lightdm = {
-        enable = true;
-      };
-      defaultSession = "xfce+i3";
       sessionCommands = ''
         ${pkgs.xorg.xset}/bin/xset r rate 200 40
       '';
     };
+
+    displayManager = {
+      defaultSession = "hyprland";
+    };
   };
 
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  services.picom.enable = true;
+
+  #services.picom.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -118,12 +129,6 @@ in {
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
-
-  # Additional plugins for Thunar
-  programs.thunar.plugins = with pkgs.xfce; [
-    thunar-archive-plugin
-    thunar-volman
-  ];
 
   # Needed for Thunar to function properly
   services.gvfs.enable = true;
@@ -162,7 +167,6 @@ in {
     flameshot
     gcc
     git
-    git-spice
     gnumake
     grub2
     htop
@@ -179,6 +183,7 @@ in {
     nmap
     nodePackages.typescript-language-server
     nodejs_20
+    nautilus
     openssl.dev
     os-prober
     pavucontrol
@@ -199,9 +204,12 @@ in {
     wget
     where-is-my-sddm-theme
     warsow
+    wofi
+    waybar
     xclip
     zk
   ] ++ (with inputs.unstable; [
+    git-spice
     cura-appimage
     freecad
     inputs.ghostty.default
