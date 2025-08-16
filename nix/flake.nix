@@ -21,6 +21,8 @@
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
     ghostty.url = "git+ssh://git@github.com/ghostty-org/ghostty";
+
+    hyprland.url = "github:hyprwm/hyprland";
   };
 
   outputs =
@@ -34,6 +36,7 @@
     , unstable-nixpkgs
     , rust-overlay
     , ghostty
+    , hyprland
     ,
     }@inputs:
     let
@@ -97,7 +100,7 @@
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
-        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; ghostty = ghostty.packages.x86_64-linux; };
+        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; ghostty = ghostty.packages.x86_64-linux; hyprland = inputs.hyprland.packages.x86_64-linux; };
         modules = [
           ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager

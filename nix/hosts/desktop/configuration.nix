@@ -82,23 +82,36 @@ in {
   #   };
   services = {
 
-    xserver.displayManager = {
-      gdm = {
-        enable = true;
-        wayland = true;
-      };
-      sessionCommands = ''
-        ${pkgs.xorg.xset}/bin/xset r rate 200 40
-      '';
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+      displayManager = {
+        gdm = {
+          enable = true;
+          wayland = true;
+        };
+        # sessionCommands = ''
+        #   ${pkgs.xorg.xset}/bin/xset r rate 200 40
+        # '';
     };
 
-    displayManager = {
-      defaultSession = "hyprland";
+      displayManager = {
+        defaultSession = "hyprland";
+      };
     };
+
+  };
+
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ inputs.hyprland.xdg-desktop-portal-hyprland ];
   };
 
   programs.hyprland = {
     enable = true;
+    package = inputs.hyprland.hyprland;
+    portalPackage = inputs.hyprland.xdg-desktop-portal-hyprland;
     xwayland.enable = true;
   };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -151,6 +164,7 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    xorg.xrandr
     alacritty
     aspell
     aspellDicts.en
@@ -161,6 +175,7 @@ in {
     curl
     difftastic
     customNodePackages."@anthropic-ai/claude-code"
+    clipse
     feh
     scrot
     fd
@@ -176,10 +191,12 @@ in {
     kitty
     krita
     lua
+    mako
+    hyprpolkitagent
     man-pages
     man-pages-posix
-    nil
     nix-direnv
+    networkmanagerapplet
     nmap
     nodePackages.typescript-language-server
     nodejs_20
@@ -194,18 +211,24 @@ in {
     qmk
     racket
     rust-bin.stable.latest.default
-    spotify
+    egl-wayland
     lua-language-server
     luarocks
+    spotify
     tdesktop # telegram
     tmux
     unzip
     vlc
+    warsow
+    waybar
+    wttrbar
     wget
     where-is-my-sddm-theme
-    warsow
+    whitesur-cursors
+    whitesur-gtk-theme
+    whitesur-icon-theme
     wofi
-    waybar
+    wl-clipboard
     xclip
     zk
   ] ++ (with inputs.unstable; [
@@ -230,8 +253,12 @@ in {
   programs.wireshark.package = pkgs.wireshark;
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-    settings.trusted-users = [ "root" "william" ];
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "root" "william" ];
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+    };
     gc = {
       dates = "weekly";
       options = "--delete-older-than 60d";
@@ -251,20 +278,21 @@ in {
     dedicatedServer.openFirewall = true;
   };
 
-  fonts.packages = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-emoji
-  ] ++ (with nerd-fonts; [ hack jetbrains-mono fira-code ]);
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    publish = {
-      addresses = true;
-      domain = true;
+  fonts = {
+    fontconfig = {
       enable = true;
+      defaultFonts = {
+        serif = [ "Noto Serif" ];
+        sansSerif = [ "Noto Sans" ];
+        monospace = [ "Caskaydia Mono Nerd Font" ];
+      };
     };
+    packages = with pkgs; [
+      font-awesome
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
+    ] ++ (with nerd-fonts; [ caskaydia-cove hack jetbrains-mono fira-code fira-code-symbols]);
   };
 
   # List services that you want to enable:
