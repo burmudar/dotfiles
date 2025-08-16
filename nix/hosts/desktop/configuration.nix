@@ -48,12 +48,10 @@ in {
     enable = true;
     powerOnBoot = true;
   };
-  services.blueman.enable = true;
-
   hardware.graphics.enable = true;
   hardware.nvidia = {
     modesetting.enable = true;
-    open = true;
+    open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
@@ -81,6 +79,10 @@ in {
   #     extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
   #   };
   services = {
+    # Need so that qmk can see the keyboard
+    udev.packages = [ pkgs.qmk-udev-rules ];
+    blueman.enable = true;
+    dbus.enable = true;
 
     xserver = {
       enable = true;
@@ -117,38 +119,54 @@ in {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
 
-  #services.picom.enable = true;
+  services = {
+    printing.enable = true;
+
+    # trim filesystem - useful for SSD
+    fstrim.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      jack.enable = true;
+      wireplumber.enable = true;
+    };
+    pulseaudio.enable = false;
+
+    gvfs.enable = true;
+    tumbler.enable = true;
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      publish = {
+        addresses = true;
+        domain = true;
+        enable = true;
+      };
+    };
+
+    # List services that you want to enable:
+
+    # Enable the OpenSSH daemon.
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
+    };
+
+    tailscale.enable = true;
+  };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # trim filesystem - useful for SSD
-  services.fstrim.enable = true;
 
   programs.noisetorch = {
     enable = true;
   };
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    jack.enable = true;
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
-
-  # Needed for Thunar to function properly
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # set in Home manager
@@ -156,7 +174,7 @@ in {
   users.users.william = {
     isNormalUser = true;
     description = "William Bezuidenhout";
-    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" "libvirtd" "wireshark" "tty" "dialout" ];
+    extraGroups = [ "input" "networkmanager" "wheel" "docker" "vboxusers" "libvirtd" "wireshark" "tty" "dialout" ];
     openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com" ];
 
   };
@@ -295,20 +313,6 @@ in {
     ] ++ (with nerd-fonts; [ caskaydia-cove hack jetbrains-mono fira-code fira-code-symbols]);
   };
 
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-    };
-  };
-
-  services.tailscale = {
-    enable = true;
-  };
 
   virtualisation = {
     containers.enable = true;
@@ -320,9 +324,6 @@ in {
       defaultNetwork.settings.dns_enabled = true;
     };
   };
-
-  # Need so that qmk can see the keyboard
-  services.udev.packages = [ pkgs.qmk-udev-rules ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
