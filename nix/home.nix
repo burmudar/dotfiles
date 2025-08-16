@@ -7,5 +7,6 @@
     ./home/core.nix        # Core settings, packages, aliases, and file management
     ./home/programs.nix    # All programs.* configurations (git, zsh, tmux, etc.)
     ./home/platform.nix    # OS-specific settings (XDG on Linux, etc.)
+    ./home/waybar.nix    # OS-specific settings (XDG on Linux, etc.)
   ];
 }
