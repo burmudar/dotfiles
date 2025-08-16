@@ -55,9 +55,11 @@ rec {
         ".ssh/keys/.keep".source = keepFile ".keep";
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../../qutebrowser/userscripts;
-        "${config.xdg.configHome}/i3/config".source = ../../i3/config;
-        "${config.xdg.configHome}/polybar/launch.sh".source = ../../polybar/launch.sh;
-        "${config.xdg.configHome}/polybar/config.ini".source = ../../polybar/config.ini;
+        "${config.xdg.configHome}/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprland.conf";
+        # Disabled 16 Aug 2025 - moving to hyprland
+        # "${config.xdg.configHome}/i3/config".source = ../../i3/config;
+        # "${config.xdg.configHome}/polybar/launch.sh".source = ../../polybar/launch.sh;
+        # "${config.xdg.configHome}/polybar/config.ini".source = ../../polybar/config.ini;
         "${config.xdg.configHome}/i3/i3lock.sh".source = ../../i3/i3lock.sh;
         "${config.xdg.configHome}/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/vim";
       };
