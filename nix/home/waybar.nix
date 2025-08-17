@@ -24,7 +24,7 @@
           "clock"
       ];
       modules-right = [
-        #"wlr/taskbar"
+        "custom/dnd"
         "cpu"
         "memory"
         "disk"
@@ -33,6 +33,17 @@
         "network"
         "custom/pwr_btn"
       ];
+      "custom/dnd" = {
+          exec = "~/code/bin/mako-mode status";
+          exec-on-event = true;
+          format = "{icon}";
+          format-icons = {
+            "active" = "  ";
+            "not-active" = " 󰂞 ";
+          };
+          on-click = "~/code/bin/mako-mode toggle && sleep 1";
+          return-type = "json";
+       };
       "custom/nixicon" = {
         format = " 󱄅 ";
         on-click = "wofi --show drun";
@@ -212,6 +223,7 @@
         border-radius: 10px;
     }
 
+  #custom-dnd,
   #custom-nixicon,
   #custom-pwr_btn,
   #custom-weather,
@@ -262,7 +274,7 @@
         padding: 0px 5px;
     }
 
-  #tray, #cpu, #wireplumber  {
+  #tray, #custom-dnd, #wireplumber  {
         border-radius: 10px 0px 0px 10px;
         margin-left: 5px;
     }

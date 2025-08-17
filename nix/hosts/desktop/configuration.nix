@@ -211,6 +211,7 @@ in {
     lua
     mako
     hyprpolkitagent
+    hyprpaper
     man-pages
     man-pages-posix
     nix-direnv
