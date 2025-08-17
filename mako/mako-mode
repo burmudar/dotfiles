@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+status() {
+  mode="$(makoctl mode)"
+  if [[ "$mode" == "dnd" ]]; then
+    jq --compact-output -n '{text: "dnd", alt: "active", tooltip: "Mode: dnd"}'
+  else
+    jq --compact-output -n --arg mode "$mode" --arg tooltip "Mode: $mode" '{text: $mode, alt: "not-active", tooltip: $tooltip }'
+  fi
+}
+
+toggle() {
+  mode="$(makoctl mode)"
+  if [[ "$mode" == "dnd" ]]; then
+    makoctl mode -s default >/dev/null 2>&1
+  else
+    makoctl mode -s dnd >/dev/null 2>&1
+  fi
+  status
+}
+
+# Main
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 {status|toggle}"
+    exit 1
+fi
+
+case "$1" in
+    status)
+        status
+        ;;
+    toggle)
+        toggle
+        ;;
+    *)
+        echo "Unknown argument: $1"
+        echo "Usage: $0 {status|toggle}"
+        exit 1
+        ;;
+esac
