@@ -58,6 +58,7 @@ in
     (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
     age
     comma
+    cachix
     customNodePackages."@anthropic-ai/claude-code"
     fd
     home-manager
@@ -65,7 +66,6 @@ in
     fswatch
     fzf
     git
-    git-spice
     github-cli
     gopass
     hledger
@@ -86,6 +86,7 @@ in
     passage
     zig
   ] ++ (with unstable; [
+    git-spice
     go
     gopls
     jujutsu
