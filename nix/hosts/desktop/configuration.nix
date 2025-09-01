@@ -56,28 +56,6 @@ in {
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  # # Enable the X11 windowing system.
-  # services.xserver = {
-  #   enable = true;
-  #   xkb = {
-  #     layout = "za";
-  #   };
-  #
-  #   videoDrivers = [ "nvidia" ];
-  #
-  #   desktopManager = {
-  #     xterm.enable = false;
-  #     xfce = {
-  #       enable = true;
-  #       noDesktop = true;
-  #       enableXfwm = false;
-  #     };
-  #   };
-  #
-  #   windowManager.i3 = {
-  #     enable = true;
-  #     extraPackages = with pkgs; [ rofi dmenu polybarFull i3lock ];
-  #   };
   services = {
     # Need so that qmk can see the keyboard
     udev.packages = [ pkgs.qmk-udev-rules ];
@@ -101,29 +79,16 @@ in {
         defaultSession = "hyprland";
       };
     };
+    gvfs.enable = true;
+    tumbler.enable = true;
+    hypridle.enable = true;
 
-  };
-
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [ inputs.hyprland.xdg-desktop-portal-hyprland ];
-  };
-
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.hyprland;
-    portalPackage = inputs.hyprland.xdg-desktop-portal-hyprland;
-    xwayland.enable = true;
-  };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-
-  services = {
     printing.enable = true;
 
     # trim filesystem - useful for SSD
     fstrim.enable = true;
+
+    # sound
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -135,8 +100,7 @@ in {
     };
     pulseaudio.enable = false;
 
-    gvfs.enable = true;
-    tumbler.enable = true;
+
     avahi = {
       enable = true;
       nssmdns4 = true;
@@ -146,6 +110,7 @@ in {
         enable = true;
       };
     };
+
 
     # List services that you want to enable:
 
@@ -162,10 +127,37 @@ in {
   };
 
   # Enable CUPS to print documents.
-
-  programs.noisetorch = {
+  xdg.portal = {
     enable = true;
+    wlr.enable = true;
+    extraPortals = [ inputs.hyprland.xdg-desktop-portal-hyprland ];
   };
+
+  programs = {
+    hyprland = {
+      enable = true;
+      package = inputs.hyprland.hyprland;
+      portalPackage = inputs.hyprland.xdg-desktop-portal-hyprland;
+      xwayland.enable = true;
+    };
+    hyprlock.enable = true;
+
+    zsh.enable = true;
+    mtr.enable = true;
+    wireshark.enable = true;
+    noisetorch.enable = true;
+
+    neovim.viAlias = true;
+    neovim.vimAlias = true;
+
+    steam = {
+      enable = true;
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+    };
+
+  };
+
   security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -212,6 +204,8 @@ in {
     mako
     hyprpolkitagent
     hyprpaper
+    hyprlock
+    hypridle
     man-pages
     man-pages-posix
     nix-direnv
@@ -262,14 +256,6 @@ in {
     qutebrowser
   ]);
 
-  programs.zsh.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  programs.mtr.enable = true;
-
-  programs.wireshark.enable = true;
-  programs.wireshark.package = pkgs.wireshark;
 
   nix = {
     settings = {
@@ -285,17 +271,10 @@ in {
     optimise.automatic = true;
   };
 
+  # needed for hyprland and electron
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/nix-direnv" ];
   environment.shells = with pkgs; [ zsh ];
-
-  programs.neovim.viAlias = true;
-  programs.neovim.vimAlias = true;
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
 
   fonts = {
     fontconfig = {
