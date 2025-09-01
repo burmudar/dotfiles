@@ -228,6 +228,7 @@ in {
     lua-language-server
     luarocks
     spotify
+    prusa-slicer
     tdesktop # telegram
     tmux
     unzip
@@ -246,7 +247,6 @@ in {
     zk
   ] ++ (with inputs.unstable; [
     git-spice
-    cura-appimage
     freecad
     inputs.ghostty.default
     go
