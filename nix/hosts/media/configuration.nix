@@ -369,7 +369,6 @@
     enable = true;
     zone = "burmudar.dev";
     record = "media,files";
-      token = (import ./token.nix).value;
   };
 
   services.syncthing = {
