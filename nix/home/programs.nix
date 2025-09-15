@@ -259,7 +259,7 @@ in
       f = "fetch";
       ap = "add -p";
       log-me = "log --author=\"${config.programs.git.userName}\" --pretty=format:\"%ad %h %s\" --date=short";
-      pristine = "clean -dx -e .envrc -e .direnv -e server/env.local";
+      pristine = "clean -dx -e .envrc -e .direnv -e server/env.local -e contrib/nix/";
     };
     extraConfig = {
       push.autoSetupRemote = true;

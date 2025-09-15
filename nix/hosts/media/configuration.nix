@@ -298,6 +298,7 @@
             basic_auth {
               christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
               william $2a$14$MdrKAPy9E2Af7oVlt5Ehc.0lj.Wy6IiRUagHZz1q/HnOgx4BEAsQe
+              sourcegraph $2a$14$K15WAUpbvDSN0L83Nxx/NOmj1HNGFBsOSwpjhQPBHxGtmKV287Bgm
             }
             file_server {
               root /mnt/storage1/
@@ -341,6 +342,10 @@
     enable = true;
     permitCertUid = "caddy";
     package = inputs.unstable.tailscale;
+    extraSetFlags = [
+      "--advertise-exit-node"
+      "--advertise-routes=192.168.1.0/24"
+    ];
   };
 
   services.sonarr = {
