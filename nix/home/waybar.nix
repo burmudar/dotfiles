@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 {
   programs.waybar = {
-  enable = true;
+  enable = pkgs.stdenv.isLinux;
   settings = [
     {
       layer = "top";

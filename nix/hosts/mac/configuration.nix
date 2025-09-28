@@ -90,6 +90,7 @@ in
     go
     gopls
     jujutsu
+    git-spice
     nodejs
   ]) ++ (with pkgs.nerd-fonts; [
     jetbrains-mono
@@ -129,6 +130,7 @@ in
       "spotify"
       "steam"
       "sublime-merge"
+      "prusaslicer"
       "tailscale"
       "telegram-desktop"
       "tuple"
