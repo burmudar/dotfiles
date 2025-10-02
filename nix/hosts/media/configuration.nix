@@ -6,22 +6,68 @@
       ./hardware-configuration.nix
     ];
 
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = [ "ntfs" "zfs" ];
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GB ARC limit
+  networking.hostId = "8425e349"; # Required for ZFS
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   fileSystems = {
-    "/mnt/storage1" = {
-      device = "/dev/disk/by-partuuid/e0d8361c-edc1-4310-b7b0-6ab79b801d34";
-      fsType = "ntfs";
+    "/mnt/storage" = {
+      device = "tank";
+      fsType = "zfs";
     };
-    "/mnt/storage2" = {
-      device = "/dev/disk/by-partuuid/bcdbd6f3-a33f-41f4-a713-d6333752acef";
-      fsType = "ntfs";
+    "/mnt/photos" = {
+      device = "tank/photos";
+      fsType = "zfs";
     };
   };
+
+  services.zfs = {
+    autoScrub.enable = true;
+    autoScrub.interval = "monthly";
+    trim.enable = true;
+  };
+
+  services.sanoid = {
+    enable = true;
+    datasets = {
+      "tank/photos" = {
+        frequently = 15;   # 15 snapshots taken every 15 minutes
+        hourly = 24;       # 24 hourly snapshots
+        daily = 30;        # 30 daily snapshots  
+        monthly = 12;      # 12 monthly snapshots
+      };
+    };
+  };
+
+  system.activationScripts.createZfsPools = pkgs.lib.stringAfter [ "var" ] ''
+    # Create main tank pool if it doesn't exist
+    if ! ${pkgs.zfs}/bin/zpool list tank >/dev/null 2>&1; then
+      echo "Creating ZFS pool 'tank'..."
+      ${pkgs.zfs}/bin/zpool create -o ashift=12 -m /mnt/storage tank \
+        /dev/disk/by-id/wwn-0x5000c500f6824101 \
+        /dev/disk/by-id/wwn-0x50014ee003d2bb01 \
+        /dev/disk/by-id/wwn-0x50014ee2b20b046c
+      
+      # Create photos dataset
+      ${pkgs.zfs}/bin/zfs create tank/photos
+      ${pkgs.zfs}/bin/zfs set quota=1T tank/photos
+      ${pkgs.zfs}/bin/zfs set mountpoint=/mnt/photos tank/photos
+    fi
+
+    # Create backup pool if it doesn't exist and USB is connected
+    if ! ${pkgs.zfs}/bin/zpool list backup >/dev/null 2>&1; then
+      if [ -e /dev/disk/by-id/wwn-0x50014ee20f1d6642 ]; then
+        echo "Creating ZFS pool 'backup' on USB..."
+        ${pkgs.zfs}/bin/zpool create -o ashift=12 -m /mnt/backup backup \
+          /dev/disk/by-id/wwn-0x50014ee20f1d6642
+      fi
+    fi
+  '';
 
   xdg.autostart.enable = true;
   networking.hostName = "media"; # Define your hostname.
@@ -300,8 +346,8 @@
               sourcegraph $2a$14$K15WAUpbvDSN0L83Nxx/NOmj1HNGFBsOSwpjhQPBHxGtmKV287Bgm
             }
             file_server {
-              root /mnt/storage1/
-              browse
+            root /mnt/storage/
+            browse
             }
           '';
         };
@@ -395,13 +441,13 @@
       };
       folders = {
         "NZB" = {
-          path = "/mnt/storage1/Downloads/nzb";
+          path = "/mnt/storage/Downloads/nzb";
           id = "nzb";
           devices = [ "seedbox" ];
           type = "sendreceive";
         };
         "Torrents" = {
-          path = "/mnt/storage1/Downloads/torrents";
+          path = "/mnt/storage/Downloads/torrents";
           id = "torrents";
           devices = [ "seedbox" ];
           type = "sendreceive";
@@ -422,6 +468,34 @@
       user = "william";
     }
   ];
+
+  # Backup photos to USB nightly at 12pm
+  systemd.services.backup-photos = {
+    description = "Backup photos to USB drive";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.zfs}/bin/zfs send -I tank/photos@daily | ${pkgs.zfs}/bin/zfs receive -F backup/photos";
+      User = "root";
+    };
+    preStart = ''
+      # Create snapshot
+      ${pkgs.zfs}/bin/zfs snapshot tank/photos@daily
+      
+      # Import backup pool if not imported
+      if ! ${pkgs.zfs}/bin/zpool list backup >/dev/null 2>&1; then
+        ${pkgs.zfs}/bin/zpool import backup
+      fi
+    '';
+  };
+
+  systemd.timers.backup-photos = {
+    description = "Timer for daily photo backup";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "12:00";
+      Persistent = true;
+    };
+  };
 
 
   # Enable docker daemon to start
