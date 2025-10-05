@@ -100,6 +100,7 @@
       };
       disk = {
         format = "{percentage_free}% ";
+        path = "/dev/nvme1n1p1";
         tooltip = true;
         tooltip-format = "Usage = {free} / {total} ({percentage_free}%)";
       };

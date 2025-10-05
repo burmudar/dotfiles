@@ -10,6 +10,7 @@ in {
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./ergodox.nix
+      ./vm.nix
     ];
 
   home-manager.backupFileExtension = "bak";
