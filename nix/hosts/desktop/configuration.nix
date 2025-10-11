@@ -4,6 +4,7 @@
 
 { pkgs, config, ... }@inputs:
 let
+  username = "william";
 in {
   imports =
     [
@@ -67,6 +68,10 @@ in {
       enable = true;
       videoDrivers = [ "nvidia" ];
       displayManager = {
+        autoLogin = {
+          user = username;
+          enable = true;
+        };
         gdm = {
           enable = true;
           wayland = true;
@@ -164,7 +169,7 @@ in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # set in Home manager
   users.defaultUserShell = pkgs.zsh;
-  users.users.william = {
+  users.users."${username}" = {
     isNormalUser = true;
     description = "William Bezuidenhout";
     extraGroups = [ "input" "networkmanager" "wheel" "docker" "vboxusers" "libvirtd" "wireshark" "tty" "dialout" ];
