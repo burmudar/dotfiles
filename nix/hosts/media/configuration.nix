@@ -7,6 +7,7 @@
     ];
 
   boot.supportedFilesystems = [ "ntfs" "zfs" ];
+  boot.zfs.extraPools = [ "tank"];
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GB ARC limit
   networking.hostId = "8425e349"; # Required for ZFS
@@ -15,16 +16,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  fileSystems = {
-    "/mnt/storage" = {
-      device = "tank";
-      fsType = "zfs";
-    };
-    "/mnt/photos" = {
-      device = "tank/photos";
-      fsType = "zfs";
-    };
-  };
+  # the following needs to be executed manually on the system
+  # zfs set mountpoint=/mnt/storage tank
+  # zfs set canmount=on tank
+  # zfs set mountpoint=/mnt/photos tank/photos
+  # zfs set canmount=on tank/photos
 
   services.zfs = {
     autoScrub.enable = true;
@@ -38,36 +34,36 @@
       "tank/photos" = {
         frequently = 15;   # 15 snapshots taken every 15 minutes
         hourly = 24;       # 24 hourly snapshots
-        daily = 30;        # 30 daily snapshots  
+        daily = 30;        # 30 daily snapshots
         monthly = 12;      # 12 monthly snapshots
       };
     };
   };
 
-  system.activationScripts.createZfsPools = pkgs.lib.stringAfter [ "var" ] ''
-    # Create main tank pool if it doesn't exist
-    if ! ${pkgs.zfs}/bin/zpool list tank >/dev/null 2>&1; then
-      echo "Creating ZFS pool 'tank'..."
-      ${pkgs.zfs}/bin/zpool create -o ashift=12 -m /mnt/storage tank \
-        /dev/disk/by-id/wwn-0x5000c500f6824101 \
-        /dev/disk/by-id/wwn-0x50014ee003d2bb01 \
-        /dev/disk/by-id/wwn-0x50014ee2b20b046c
-      
-      # Create photos dataset
-      ${pkgs.zfs}/bin/zfs create tank/photos
-      ${pkgs.zfs}/bin/zfs set quota=1T tank/photos
-      ${pkgs.zfs}/bin/zfs set mountpoint=/mnt/photos tank/photos
-    fi
-
-    # Create backup pool if it doesn't exist and USB is connected
-    if ! ${pkgs.zfs}/bin/zpool list backup >/dev/null 2>&1; then
-      if [ -e /dev/disk/by-id/wwn-0x50014ee20f1d6642 ]; then
-        echo "Creating ZFS pool 'backup' on USB..."
-        ${pkgs.zfs}/bin/zpool create -o ashift=12 -m /mnt/backup backup \
-          /dev/disk/by-id/wwn-0x50014ee20f1d6642
-      fi
-    fi
-  '';
+  # system.activationScripts.createZfsPools = pkgs.lib.stringAfter [ "var" ] ''
+  #   # Create main tank pool if it doesn't exist
+  #   if ! ${pkgs.zfs}/bin/zpool list tank >/dev/null 2>&1; then
+  #     echo "Creating ZFS pool 'tank'..."
+  #     ${pkgs.zfs}/bin/zpool create -o ashift=12 -m /mnt/storage tank \
+  #       /dev/disk/by-id/wwn-0x5000c500f6824101 \
+  #       /dev/disk/by-id/wwn-0x50014ee003d2bb01 \
+  #       /dev/disk/by-id/wwn-0x50014ee2b20b046c
+  #
+  #     # Create photos dataset
+  #     ${pkgs.zfs}/bin/zfs create tank/photos
+  #     ${pkgs.zfs}/bin/zfs set quota=1T tank/photos
+  #     ${pkgs.zfs}/bin/zfs set mountpoint=/mnt/photos tank/photos
+  #   fi
+  #
+  #   # Create backup pool if it doesn't exist and USB is connected
+  #   if ! ${pkgs.zfs}/bin/zpool list backup >/dev/null 2>&1; then
+  #     if [ -e /dev/disk/by-id/wwn-0x50014ee20f1d6642 ]; then
+  #       echo "Creating ZFS pool 'backup' on USB..."
+  #       ${pkgs.zfs}/bin/zpool create -o ashift=12 -m /mnt/backup backup \
+  #         /dev/disk/by-id/wwn-0x50014ee20f1d6642
+  #     fi
+  #   fi
+  # '';
 
   xdg.autostart.enable = true;
   networking.hostName = "media"; # Define your hostname.
@@ -144,15 +140,31 @@
   users = {
     defaultUserShell = pkgs.zsh;
     mutableUsers = false;
+    groups.storage = { };
+    users.root.extraGroups = [ "storage"];
+    users.sonarr.extraGroups = [ "storage"];
+    users.radarr.extraGroups = [ "storage"];
+    users.immich.extraGroups = [ "storage" ];
+    users.syncthing.extraGroups = [ "storage" ];
+    users.caddy.extraGroups = [ "storage" ];
     users.william = {
       isNormalUser = true;
       description = "William Bezuidenhout";
-      extraGroups = [ "networkmanager" "wheel" "docker" ];
+      extraGroups = [ "storage" "networkmanager" "wheel" "docker" ];
       hashedPassword = "$6$Rz1GnmAfbEsmPZ52$Ze2ue2JtgVxwT5x1AA7k.KL0rY4.HTmHn8yn3IjjwAbflFqf3hUELMA/W/nADGoHZa0nxuFKBcIALl4kOCcEP/";
       openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com" ];
     };
   };
 
+  systemd.tmpfiles.rules = [
+    "d /mnt/storage                       2775 root storage -"
+    "d /mnt/storage/downloads             2775 root storage -"
+    "d /mnt/storage/downloads/nzb         2775 root storage -"
+    "d /mnt/storage/downloads/torrents    2775 root storage -"
+    "d /mnt/storage/series                2775 root storage -"
+    "d /mnt/storage/movies                2775 root storage -"
+    "d /mnt/photos                        2775 root storage -"
+  ];
   hardware.xpadneo.enable = true;
   hardware.enableAllFirmware = true;
   hardware.bluetooth = {
@@ -243,6 +255,14 @@
     nerd-fonts.jetbrains-mono
   ];
 
+  services.immich = {
+    enable = true;
+    port = 33333;
+    package = inputs.unstable.immich;
+    mediaLocation = "/mnt/photos";
+    openFirewall = true;
+    settings.server.externalDomain = "https://photos.burmudar.dev";
+  };
 
   services.caddy =
     let
@@ -302,6 +322,7 @@
         ${genHandleFragment { host = "jacket.${host}"; proxy = "http://localhost:9117"; }}
         ${genHandleFragment { host = "sonar.${host}"; proxy = "http://localhost:8989"; }}
         ${genHandleFragment { host = "radar.${host}"; proxy = "http://localhost:7878"; }}
+        ${genHandleFragment { host = "photos.${host}"; proxy = "http://localhost:33333"; }}
         handle /ok {
           respond "Ok this works"
         }
@@ -310,6 +331,7 @@
     in
     {
       enable = true;
+      email = "william.bezuidenhout@gmail.com";
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
         hash = "sha256-2D7dnG50CwtCho+U+iHmSj2w14zllQXPjmTHr6lJZ/A=";
@@ -324,6 +346,13 @@
             tls { dns cloudflare ${token} }
             ${preambleFragment "media.burmudar.dev"}
             reverse_proxy http://localhost:8096
+          '';
+        };
+        "photos.burmudar.dev" = {
+          extraConfig = ''
+            tls { dns cloudflare ${token} }
+            ${preambleFragment "photos.burmudar.dev" }
+            reverse_proxy http://localhost:33333
           '';
         };
         "media.raptor-emperor.ts.net" = {
@@ -414,7 +443,7 @@
   services.cloudflare-dns-ip = {
     enable = true;
     zone = "burmudar.dev";
-    record = "media,files";
+    record = "media,files,photos";
   };
 
   services.syncthing = {
@@ -441,13 +470,13 @@
       };
       folders = {
         "NZB" = {
-          path = "/mnt/storage/Downloads/nzb";
+          path = "/mnt/storage/downloads/nzb";
           id = "nzb";
           devices = [ "seedbox" ];
           type = "sendreceive";
         };
         "Torrents" = {
-          path = "/mnt/storage/Downloads/torrents";
+          path = "/mnt/storage/downloads/torrents";
           id = "torrents";
           devices = [ "seedbox" ];
           type = "sendreceive";
@@ -480,7 +509,7 @@
     preStart = ''
       # Create snapshot
       ${pkgs.zfs}/bin/zfs snapshot tank/photos@daily
-      
+
       # Import backup pool if not imported
       if ! ${pkgs.zfs}/bin/zpool list backup >/dev/null 2>&1; then
         ${pkgs.zfs}/bin/zpool import backup
