@@ -60,6 +60,7 @@ in
     comma
     cachix
     customNodePackages."@anthropic-ai/claude-code"
+    emacs
     fd
     home-manager
     uv
@@ -99,6 +100,8 @@ in
     noto
   ]);
 
+  services.emacs.enable = true;
+
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
@@ -136,6 +139,6 @@ in
       "tuple"
       "visual-studio-code"
       "vlc"
-    ] ++ lib.optionals isWork [ "1password" "1password-cli" "linear-linear" "loom" "notion" "notion-calendar" "p4v" "perforce" ];
+    ] ++ lib.optionals isWork [ "virtualbox" "1password" "1password-cli" "linear-linear" "loom" "notion" "notion-calendar" "p4v" "perforce" ];
   };
 }
