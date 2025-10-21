@@ -1,0 +1,54 @@
+/* Wofi Style - Tokyo Night Theme */
+
+window {
+    margin: 0px;
+    border: 2px solid #33ccff;
+    background-color: #1a1b26;
+    border-radius: 0px;
+}
+
+#input {
+    margin: 5px;
+    border: none;
+    color: #c0caf5;
+    background-color: #24283b;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#inner-box {
+    margin: 5px;
+    border: none;
+    background-color: #1a1b26;
+}
+
+#outer-box {
+    margin: 5px;
+    border: none;
+    background-color: #1a1b26;
+}
+
+#scroll {
+    margin: 0px;
+    border: none;
+}
+
+#text {
+    margin: 5px;
+    border: none;
+    color: #c0caf5;
+}
+
+#entry:selected {
+    background-color: #33ccff;
+    color: #1a1b26;
+    font-weight: bold;
+}
+
+#entry:selected #text {
+    color: #1a1b26;
+}
+
+#text:selected {
+    background-color: transparent;
+}

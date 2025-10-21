@@ -283,12 +283,13 @@ in
   programs.ghostty = {
     enable = isLinux;
     enableZshIntegration = true;
-    settings = {
-      inherit theme;
-      font-size = fontSize;
-      font-family = fontFamily;
-      macos-option-as-alt = true;
-    };
+    # Configuration is handled via dotfiles/ghostty/config linked in core.nix
+    # settings = {
+    #   inherit theme;
+    #   font-size = fontSize;
+    #   font-family = fontFamily;
+    #   macos-option-as-alt = true;
+    # };
   };
 
   programs.kitty = {

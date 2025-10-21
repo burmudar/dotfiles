@@ -1,0 +1,25 @@
+# Ghostty Configuration
+
+# Font
+font-family = "CaskaydiaMono Nerd Font"
+font-style = Regular
+font-size = 9
+
+# Window
+window-theme = ghostty
+window-padding-x = 14
+window-padding-y = 14
+confirm-close-surface = false
+resize-overlay = never
+# gtk-toolbar-style = flat  # 2025-10-20: unavailable - not a valid ghostty option
+
+# Cursor styling
+cursor-style = block
+cursor-style-blink = false
+
+# Keyboard bindings - Hyprland handles copy/paste via sendshortcut
+# So we don't need to rebind them here
+
+# Shell integration - disable cursor shape changes
+shell-integration-features = no-cursor
+# shell-integration-features = ssh-env  # 2025-10-20: unavailable - not a valid feature

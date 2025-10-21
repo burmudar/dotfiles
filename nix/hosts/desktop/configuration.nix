@@ -180,8 +180,8 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    xorg.xrandr
     alacritty
+    xorg.xrandr
     aspell
     aspellDicts.en
     aspellDicts.en-computers
@@ -251,6 +251,13 @@ in {
     wl-clipboard
     xclip
     zk
+    # Hyprland tools
+    grim           # Screenshot utility
+    slurp          # Screen area selection
+    hyprpicker     # Color picker
+    wlogout        # Logout menu
+    playerctl      # Media player control
+    brightnessctl  # Brightness control
   ] ++ (with inputs.unstable; [
     git-spice
     freecad
@@ -260,6 +267,7 @@ in {
     neovim
     obsidian
     qutebrowser
+    firefox
   ]);
 
 
