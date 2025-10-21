@@ -43,18 +43,20 @@
       pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.nixpkgs {
           inherit system;
-          overlays = let
-            nodejs-overlay = (final: prev: {
-              # to get nodePackages.* to use a newer node version you have to overlay nodejs with the version you want
-              nodejs = prev.nodejs_22;
-            });
-            in [
-            # TODO Move these overlays into lib/overlay.nix
-            nodejs-overlay
-            cloudflare-dns-ip.overlay
-            rust-overlay.overlays.default
-            (import lib/overlay.nix)
-          ];
+          overlays =
+            let
+              nodejs-overlay = (final: prev: {
+                # to get nodePackages.* to use a newer node version you have to overlay nodejs with the version you want
+                nodejs = prev.nodejs_22;
+              });
+            in
+            [
+              # TODO Move these overlays into lib/overlay.nix
+              nodejs-overlay
+              cloudflare-dns-ip.overlay
+              rust-overlay.overlays.default
+              (import lib/overlay.nix)
+            ];
           config = {
             allowUnfree = true;
             permittedInsecurePackages = [
@@ -68,16 +70,18 @@
       unstable-pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
         pkgs = import inputs.unstable-nixpkgs {
           inherit system;
-          overlays = let
-            neovim-unwrapped-overlay = (final: prev: {
-              neovim-unwrapped = inputs.unstable-nixpkgs.legacyPackages."${system}".neovim-unwrapped.overrideAttrs (old: {
-                meta = old.meta or {} // { maintainers = []; };
+          overlays =
+            let
+              neovim-unwrapped-overlay = (final: prev: {
+                neovim-unwrapped = inputs.unstable-nixpkgs.legacyPackages."${system}".neovim-unwrapped.overrideAttrs (old: {
+                  meta = old.meta or { } // { maintainers = [ ]; };
                 });
-            });
-            in [
-            neovim-unwrapped-overlay
-            neovim-nightly-overlay.overlays.default
-          ];
+              });
+            in
+            [
+              neovim-unwrapped-overlay
+              neovim-nightly-overlay.overlays.default
+            ];
           config = {
             allowUnfree = true;
             permittedInsecurePackages = [

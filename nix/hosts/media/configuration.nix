@@ -7,7 +7,7 @@
     ];
 
   boot.supportedFilesystems = [ "ntfs" "zfs" ];
-  boot.zfs.extraPools = [ "tank"];
+  boot.zfs.extraPools = [ "tank" ];
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GB ARC limit
   networking.hostId = "8425e349"; # Required for ZFS
@@ -32,10 +32,10 @@
     enable = true;
     datasets = {
       "tank/photos" = {
-        frequently = 15;   # 15 snapshots taken every 15 minutes
-        hourly = 24;       # 24 hourly snapshots
-        daily = 30;        # 30 daily snapshots
-        monthly = 12;      # 12 monthly snapshots
+        frequently = 15; # 15 snapshots taken every 15 minutes
+        hourly = 24; # 24 hourly snapshots
+        daily = 30; # 30 daily snapshots
+        monthly = 12; # 12 monthly snapshots
       };
     };
   };
@@ -141,9 +141,9 @@
     defaultUserShell = pkgs.zsh;
     mutableUsers = false;
     groups.storage = { };
-    users.root.extraGroups = [ "storage"];
-    users.sonarr.extraGroups = [ "storage"];
-    users.radarr.extraGroups = [ "storage"];
+    users.root.extraGroups = [ "storage" ];
+    users.sonarr.extraGroups = [ "storage" ];
+    users.radarr.extraGroups = [ "storage" ];
     users.immich.extraGroups = [ "storage" ];
     users.syncthing.extraGroups = [ "storage" ];
     users.caddy.extraGroups = [ "storage" ];

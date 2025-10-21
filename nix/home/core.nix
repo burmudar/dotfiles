@@ -55,7 +55,7 @@ rec {
         ".ssh/keys/.keep".source = keepFile ".keep";
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/config.py".source = ../../qutebrowser/config.py;
         "${configHome}/${(if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")}/userscripts".source = ../../qutebrowser/userscripts;
-        
+
         # Hyprland configuration
         "${config.xdg.configHome}/hypr/hyprland.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprland.conf";
         "${config.xdg.configHome}/hypr/monitors.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/monitors.conf";
@@ -67,17 +67,17 @@ rec {
         "${config.xdg.configHome}/hypr/autostart.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/autostart.conf";
         "${config.xdg.configHome}/hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprlock.conf";
         "${config.xdg.configHome}/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hypridle.conf";
-        
+
         # Ghostty configuration
         "${config.xdg.configHome}/ghostty/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/ghostty/config";
-        
+
         # Mako notification daemon configuration
         "${config.xdg.configHome}/mako/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/mako/config";
-        
+
         # Wofi launcher configuration
         "${config.xdg.configHome}/wofi/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/wofi/config";
         "${config.xdg.configHome}/wofi/style.css".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/wofi/style.css";
-        
+
         # Disabled 16 Aug 2025 - moving to hyprland
         # "${config.xdg.configHome}/i3/config".source = ../../i3/config;
         # "${config.xdg.configHome}/polybar/launch.sh".source = ../../polybar/launch.sh;

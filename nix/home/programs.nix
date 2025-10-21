@@ -17,29 +17,31 @@ let
   };
 in
 {
-  services.gpg-agent = let
-    one_day = 3600 * 24;
-    in {
-    enable = true;
-    enableExtraSocket = true;
-    enableSshSupport = true;
-    enableZshIntegration = true;
+  services.gpg-agent =
+    let
+      one_day = 3600 * 24;
+    in
+    {
+      enable = true;
+      enableExtraSocket = true;
+      enableSshSupport = true;
+      enableZshIntegration = true;
 
-    defaultCacheTtl = one_day;
-    defaultCacheTtlSsh = one_day;
-    maxCacheTtl = one_day;
-    maxCacheTtlSsh = one_day;
+      defaultCacheTtl = one_day;
+      defaultCacheTtlSsh = one_day;
+      maxCacheTtl = one_day;
+      maxCacheTtlSsh = one_day;
 
-    pinentry.package = if isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
+      pinentry.package = if isLinux then pkgs.pinentry-rofi else pkgs.pinentry_mac;
 
-    extraConfig = ''
-      allow-loopback-pinentry
-    '';
-  };
+      extraConfig = ''
+        allow-loopback-pinentry
+      '';
+    };
 
   programs.firefox = {
     enable = isLinux;
-    package = pkgs.librewolf;
+    package = unstable.librewolf;
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;

@@ -1,7 +1,7 @@
-{ pkgs, ...}:
+{ pkgs, ... }:
 {
-  users.groups.libvirtd.members = ["william"];
-  users.groups.kvm.members = ["william"];
+  users.groups.libvirtd.members = [ "william" ];
+  users.groups.kvm.members = [ "william" ];
   virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirtd.qemu = {

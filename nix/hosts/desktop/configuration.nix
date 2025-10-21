@@ -5,7 +5,8 @@
 { pkgs, config, ... }@inputs:
 let
   username = "william";
-in {
+in
+{
   imports =
     [
       # Include the results of the hardware scan.
@@ -79,7 +80,7 @@ in {
         # sessionCommands = ''
         #   ${pkgs.xorg.xset}/bin/xset r rate 200 40
         # '';
-    };
+      };
 
       displayManager = {
         defaultSession = "hyprland";
@@ -252,12 +253,12 @@ in {
     xclip
     zk
     # Hyprland tools
-    grim           # Screenshot utility
-    slurp          # Screen area selection
-    hyprpicker     # Color picker
-    wlogout        # Logout menu
-    playerctl      # Media player control
-    brightnessctl  # Brightness control
+    grim # Screenshot utility
+    slurp # Screen area selection
+    hyprpicker # Color picker
+    wlogout # Logout menu
+    playerctl # Media player control
+    brightnessctl # Brightness control
   ] ++ (with inputs.unstable; [
     git-spice
     freecad
@@ -267,7 +268,6 @@ in {
     neovim
     obsidian
     qutebrowser
-    firefox
   ]);
 
 
@@ -275,8 +275,8 @@ in {
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       trusted-users = [ "root" "william" ];
-      substituters = ["https://hyprland.cachix.org"];
-      trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+      substituters = [ "https://hyprland.cachix.org" ];
+      trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
     };
     gc = {
       dates = "weekly";
@@ -304,7 +304,7 @@ in {
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-emoji
-    ] ++ (with nerd-fonts; [ caskaydia-cove hack jetbrains-mono fira-code fira-code-symbols]);
+    ] ++ (with nerd-fonts; [ caskaydia-cove hack jetbrains-mono fira-code fira-code-symbols ]);
   };
 
 
