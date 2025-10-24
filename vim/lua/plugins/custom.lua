@@ -5,8 +5,5 @@ return {
     config = function(opts)
       require("burm").setup(opts)
     end,
-    dependencies = {
-      "neovim/nvim-lspconfig"
-    }
   }
 }

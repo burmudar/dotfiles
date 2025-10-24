@@ -5,6 +5,7 @@ function M.setup(_opts)
   require("burm.autocmd").setup()
   require("burm.lsp").setup()
   require("burm.focus").setup()
+  require("burm.amp").setup()
   --require("burm.norg").setup()
 end
 

@@ -8,6 +8,7 @@ return {
     explorer = { enabled = false },
     indent = { enabled = true },
     input = { enabled = true },
+    dim = { enabled = true },
     notifier = { enabled = true, timeout = 3000 },
     picker = {
       enabled = true,

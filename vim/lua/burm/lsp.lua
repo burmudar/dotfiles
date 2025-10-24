@@ -1,7 +1,6 @@
 local M = {}
 local keymaps = require("burm.keymaps")
 local blink = require('blink.cmp')
-local lspconfig = require('lspconfig')
 local servers = { "pyright", "gopls", "clangd", "ts_ls", "zls", "lua_ls", "nil_ls", "rust_analyzer" }
 
 local function create_hightlight_autocmd(client, bufnr)
@@ -98,7 +97,8 @@ function M.setup(_opts)
       c.on_attach = configs.default.on_attach
       c.capabilities = blink.get_lsp_capabilities(configs['capabilities'])
     end
-    lspconfig[lsp].setup(c)
+    vim.lsp.config(lsp, c)
+    vim.lsp.enable(lsp)
   end
 end
 

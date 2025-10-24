@@ -11,7 +11,8 @@ local function registerAutoCmd()
 
   vim.cmd([[
     augroup BURM_FORMATTING
-        autocmd BufWritePre * :lua vim.lsp.buf.format()
+        autocmd!
+        autocmd BufWritePre * :lua if not vim.b.disable_autoformat then vim.lsp.buf.format() end
     augroup END
     ]])
 
@@ -40,6 +41,17 @@ end
 
 M.setup = function()
   registerAutoCmd()
+
+  -- register user command to disable/enable auto-formatting
+  vim.api.nvim_create_user_command("FormatDisable", function()
+    vim.b.disable_autoformat = true
+    print("Auto-format disabled for this buffer")
+  end, {})
+
+  vim.api.nvim_create_user_command("FormatEnable", function()
+    vim.b.disable_autoformat = false
+    print("Auto-format enabled for this buffer")
+  end, {})
 
   -- register a user command which can format json using jq
   vim.api.nvim_create_user_command("JSONF", "% !jq", {})

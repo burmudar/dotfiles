@@ -75,7 +75,6 @@ in
     kitty
     kubectl
     kubectx
-    luarocks
     lua-language-server
     nil
     nixpkgs-fmt
@@ -98,6 +97,9 @@ in
     hack
     fira-code
     noto
+  ]) ++ ( with pkgs.lua51Packages; [
+      luarocks
+      lua
   ]);
 
   services.emacs.enable = true;
