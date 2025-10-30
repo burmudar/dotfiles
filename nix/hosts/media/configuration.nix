@@ -147,6 +147,7 @@
     users.immich.extraGroups = [ "storage" ];
     users.syncthing.extraGroups = [ "storage" ];
     users.caddy.extraGroups = [ "storage" ];
+    users.jellyfin.extraGroups = [ "storage" ];
     users.william = {
       isNormalUser = true;
       description = "William Bezuidenhout";
@@ -163,6 +164,7 @@
     "d /mnt/storage/downloads/torrents    2775 root storage -"
     "d /mnt/storage/series                2775 root storage -"
     "d /mnt/storage/movies                2775 root storage -"
+    "d /mnt/storage/anime                 2775 root storage -"
     "d /mnt/photos                        2775 root storage -"
   ];
   hardware.xpadneo.enable = true;
