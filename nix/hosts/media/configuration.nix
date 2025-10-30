@@ -500,24 +500,54 @@
     }
   ];
 
-  # Backup photos to USB nightly at 12pm
-  systemd.services.backup-photos = {
-    description = "Backup photos to USB drive";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.zfs}/bin/zfs send -I tank/photos@daily | ${pkgs.zfs}/bin/zfs receive -F backup/photos";
-      User = "root";
-    };
-    preStart = ''
-      # Create snapshot
-      ${pkgs.zfs}/bin/zfs snapshot tank/photos@daily
+  # Backup photos to USB daily at noon
 
-      # Import backup pool if not imported
-      if ! ${pkgs.zfs}/bin/zpool list backup >/dev/null 2>&1; then
-        ${pkgs.zfs}/bin/zpool import backup
-      fi
-    '';
-  };
+  systemd.services.backup-photos =
+    let
+      backupScript = pkgs.writeShellScript "backup-photos.sh" ''
+        set -euo pipefail
+        
+        SRC=tank/photos
+        DST=backup/photos
+
+        ${pkgs.zfs}/bin/zpool list -H backup >/dev/null 2>&1 || ${pkgs.zfs}/bin/zpool import backup
+        ${pkgs.zfs}/bin/zfs list -H "$DST" >/dev/null 2>&1 || ${pkgs.zfs}/bin/zfs create -p "$DST"
+
+        # latest daily snapshot *by creation*
+        SNAP=$(${pkgs.zfs}/bin/zfs list -H -t snapshot -o name -s creation -d1 "$SRC" \
+          | grep "@autosnap_.*_daily$" \
+          | tail -n1)
+
+        [ -n "$SNAP" ] || { echo "no daily autosnap found"; exit 1; }
+        echo "snapshot: $SNAP"
+
+        # find latest common autosnap suffix for incremental
+        BASE=$(comm -12 \
+          <(${pkgs.zfs}/bin/zfs list -H -t snapshot -o name -s creation -d1 "$SRC" | sed "s|^$SRC@||" | grep "^autosnap_.*_daily$" | sort) \
+          <(${pkgs.zfs}/bin/zfs list -H -t snapshot -o name -s creation -d1 "$DST" | sed "s|^$DST@||" | grep "^autosnap_.*_daily$" | sort) \
+          | tail -n1)
+
+        if [ -n "$BASE" ]; then
+          echo "incremental from @$BASE"
+          ${pkgs.zfs}/bin/zfs send -I "$SRC@$BASE" "$SNAP" | ${pkgs.zfs}/bin/zfs receive -F "$DST"
+        else
+          echo "full send"
+          ${pkgs.zfs}/bin/zfs send "$SNAP" | ${pkgs.zfs}/bin/zfs receive -F "$DST"
+        fi
+
+        ${pkgs.zfs}/bin/zpool export backup
+      '';
+    in
+    {
+      description = "Backup photos to USB drive (daily autosnap only)";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${backupScript}";
+        User = "root";
+        TimeoutStartSec = "2h";
+      };
+    };
+
 
   systemd.timers.backup-photos = {
     description = "Timer for daily photo backup";
