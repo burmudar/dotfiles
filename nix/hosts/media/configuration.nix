@@ -90,9 +90,14 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    open = true;
+    open = false;
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    powerManagement.enable = true;
+  };
+
+  hardware.opengl= {
+    enable = true;
+    driSupport32Bit = true;
   };
 
   # Enable the X11 windowing system.
@@ -264,6 +269,7 @@
     mediaLocation = "/mnt/photos";
     openFirewall = true;
     settings.server.externalDomain = "https://photos.burmudar.dev";
+    accelerationDevices = null;
   };
 
   services.caddy =
