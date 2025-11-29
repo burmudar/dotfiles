@@ -18,6 +18,7 @@ in
   home-manager.backupFileExtension = "bak";
 
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = false;
@@ -291,6 +292,8 @@ in
   environment.shells = with pkgs; [ zsh ];
 
   fonts = {
+    enableDefaultFonts = true;
+    enableGhostscriptFonts = true;
     fontconfig = {
       enable = true;
       defaultFonts = {
