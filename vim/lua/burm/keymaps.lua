@@ -23,7 +23,6 @@ local function snippets()
 end
 
 local function misc()
-  km("n", "<leader>n", ":nohlsearch<CR>")
   km("n", "n", "nzzzv", { noremap = true, desc = "center on next result in search" })
   km("n", "N", "Nzzzv", { noremap = true, desc = "center on previous result in search" })
 
@@ -47,8 +46,6 @@ local function misc()
   km("v", "<leader>y", "\"+y")
   km("n", "<leader>p", "\"+p")
 
-  -- Oil
-  km("n", "<leader>f", require("oil").toggle_float)
   --- Debugging
   km('n', "<leader>b", require('dap').toggle_breakpoint)
   km('n', "<leader>B", function()
@@ -59,15 +56,12 @@ local function misc()
   km('n', "<F10>", require('dap').step_over)
   km('n', "<F11>", require('dap').step_into)
   km('n', "<F12>", require('dap').step_out)
-  --- Press CTRL-ESC to exit terminal mode
-  km("t", "<Esc><Esc>", '<C-\\><C-n>', { noremap = true })
-  --vim.cmd("tnoremap <Esc> <C-\\><C-n>")
   -- Markdown
   km("n", "<leader>tm", "<cmd>RenderMarkdown toggle<cr>")
   -- Execute lua
   km("n", "<space><space>x", "<cmd>source %<cr>")
-  km("n", "<space>x", ":.lua<cr>")
-  km("v", "<space>x", ":lua<cr>")
+  km("n", "<space>x", ":lua<cr>", { desc = "execute lua [N]" })
+  km("v", "<space>x", ":lua<cr>", { desc = "execute lua [V]" })
 end
 
 M.general = function()

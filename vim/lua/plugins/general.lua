@@ -20,16 +20,6 @@ return {
   },
   "rust-lang/rust.vim",
   "ziglang/zig.vim",
-  {
-    'stevearc/oil.nvim',
-    ---@module 'oil'
-    ---@type oil.SetupOpts
-    opts = {},
-    -- Optional dependencies
-    dependencies = {
-      { "echasnovski/mini.icons", opts = {} }
-    },
-  },
   "folke/which-key.nvim",
   {
     "folke/lazydev.nvim",
