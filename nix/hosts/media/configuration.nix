@@ -382,8 +382,8 @@
             }
           '';
         };
-        "*.media.internal" = {
-          extraConfig = cfgGen "media.internal" "internal";
+        "*.fortkickass.dev" = {
+          extraConfig = cfgGen "internal.fortkickass.dev" "tls { dns cloudflare ${token} }";
         };
       };
     };
@@ -506,7 +506,7 @@
     let
       backupScript = pkgs.writeShellScript "backup-photos.sh" ''
         set -euo pipefail
-        
+
         SRC=tank/photos
         DST=backup/photos
 
