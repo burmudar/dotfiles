@@ -213,12 +213,17 @@ in
 
   programs.ssh = {
     enable = true;
-    addKeysToAgent = "yes";
-    forwardAgent = true;
+    enableDefaultConfig = false;
     includes = [
       "~/.ssh/config.d/*"
     ];
     matchBlocks = {
+      "*" = {
+        extraOptions = {
+          AddKeysToAgent = "yes";
+          ForwardAgent = "yes";
+        };
+      };
       "media.tailscale" = mkSSHHost { hostname = "media.raptor-emperor.ts.net"; };
       "media.*" = mkSSHHost { hostname = "media.internal"; };
       "github.com" = mkSSHHost { hostname = "github.com"; user = "git"; };
@@ -237,47 +242,50 @@ in
     enableZshIntegration = true;
   };
 
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      side-by-side = true;
+      line-numbers = true;
+    };
+  };
+
   programs.git = {
     enable = true;
-    # Add 'william.bezuidenhout+github.com' to the gpg keys
-    userEmail = if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
-    userName = "William Bezuidenhout";
     signing = {
       signByDefault = true;
       key = "EDE8072F89D58CD9!";
     };
-    aliases = {
-      st = "status";
-      co = "checkout";
-      c = "commit";
-      cm = "commit -m";
-      ca = "commit --amend";
-      nb = "switch -c";
-      ps = "push";
-      psf = "push --force-with-lease";
-      psu = "push -u";
-      pl = "pull";
-      plr = "pull --rebase";
-      f = "fetch";
-      ap = "add -p";
-      log-me = "log --author=\"${config.programs.git.userName}\" --pretty=format:\"%ad %h %s\" --date=short";
-      pristine = "clean -dx -e .envrc -e .direnv -e server/env.local -e contrib/nix/";
-    };
-    extraConfig = {
+    settings = {
+      # Add 'william.bezuidenhout+github.com' to the gpg keys
+      user = {
+        email = if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
+        name = "William Bezuidenhout";
+      };
+      alias = {
+        st = "status";
+        co = "checkout";
+        c = "commit";
+        cm = "commit -m";
+        ca = "commit --amend";
+        nb = "switch -c";
+        ps = "push";
+        psf = "push --force-with-lease";
+        psu = "push -u";
+        pl = "pull";
+        plr = "pull --rebase";
+        f = "fetch";
+        ap = "add -p";
+        log-me = "log --author=\"William Bezuidenhout\" --pretty=format:\"%ad %h %s\" --date=short";
+        pristine = "clean -dx -e .envrc -e .direnv -e server/env.local -e contrib/nix/";
+      };
       push.autoSetupRemote = true;
       rerere.enabled = true;
       url = {
         "ssh://git@github.com/" = {
           insteadOf = "https://github.com/";
         };
-      };
-    };
-
-    delta = {
-      enable = true;
-      options = {
-        side-by-side = true;
-        line-numbers = true;
       };
     };
   };

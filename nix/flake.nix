@@ -3,11 +3,11 @@
 
   inputs = {
     unstable-nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
-    darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.05";
+    darwin.url = "github:lnl7/nix-darwin/nix-darwin-25.11";
     darwin.inputs.nixpkgs.follows = "nixpkgs"; # ...
     flake-utils.url = "github:numtide/flake-utils";
     # see: https://github.com/nix-community/neovim-nightly-overlay/issues/176
@@ -103,9 +103,9 @@
         ];
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
         specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; ghostty = ghostty.packages.x86_64-linux; hyprland = inputs.hyprland.packages.x86_64-linux; };
         modules = [
+          { nixpkgs.hostPlatform = "x86_64-linux"; }
           ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
           {
@@ -117,9 +117,9 @@
         ];
       };
       nixosConfigurations.media = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
         specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; };
         modules = [
+          { nixpkgs.hostPlatform = "x86_64-linux"; }
           ./hosts/media/configuration.nix
           inputs.cloudflare-dns-ip.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
@@ -132,9 +132,9 @@
         ];
       };
       darwinConfigurations.Machine-Spirit = darwin.lib.darwinSystem rec {
-        system = "aarch64-darwin";
         specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; hostname = "Machine-Spirit"; };
         modules = [
+          { nixpkgs.hostPlatform = "aarch64-darwin"; }
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           {
@@ -146,9 +146,9 @@
         ];
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
-        system = "aarch64-darwin";
         specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; hostname = "Williams-MacBook-Pro"; personal = true; };
         modules = [
+          { nixpkgs.hostPlatform = "aarch64-darwin"; }
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           {
@@ -157,14 +157,6 @@
             home-manager.users.william = import ./home.nix;
             home-manager.extraSpecialArgs = specialArgs;
           }
-        ];
-      };
-      nixosConfigurations.vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { pkgs = pkgs.x86_64-linux; };
-        modules = [
-          ./hosts/vm/configuration.nix
-          inputs.cloudflare-dns-ip.nixosModules.default
         ];
       };
       homeConfigurations = {

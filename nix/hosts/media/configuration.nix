@@ -8,7 +8,7 @@
 
   boot.supportedFilesystems = [ "ntfs" "zfs" ];
   boot.zfs.extraPools = [ "tank" ];
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GB ARC limit
   networking.hostId = "8425e349"; # Required for ZFS
 
@@ -95,37 +95,31 @@
     powerManagement.enable = true;
   };
 
-  hardware.opengl= {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-
     videoDrivers = [ "nvidia" ];
+    desktopManager.xterm.enable = false;
+    displayManager.lightdm.enable = true;
+  };
 
-    desktopManager = {
-      xterm.enable = false;
-      gnome = {
-        enable = true;
-      };
-    };
-    displayManager = {
-      defaultSession = "gnome";
-      lightdm = {
-        enable = true;
-      };
-      autoLogin = {
-        user = "william";
-        enable = true;
-      };
+  services.desktopManager.gnome.enable = true;
+
+  services.displayManager = {
+    defaultSession = "gnome";
+    autoLogin = {
+      user = "william";
+      enable = true;
     };
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -153,6 +147,7 @@
     users.syncthing.extraGroups = [ "storage" ];
     users.caddy.extraGroups = [ "storage" ];
     users.jellyfin.extraGroups = [ "storage" ];
+    users.paperless.extraGroups = [ "storage" ];
     users.william = {
       isNormalUser = true;
       description = "William Bezuidenhout";
@@ -254,10 +249,10 @@
 
   environment.shells = with pkgs; [ zsh ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     nerd-fonts.hack
     nerd-fonts.jetbrains-mono
   ];
@@ -270,6 +265,13 @@
     openFirewall = true;
     settings.server.externalDomain = "https://photos.burmudar.dev";
     accelerationDevices = null;
+  };
+
+  services.paperless = {
+    enable = true;
+    port = 28888;
+    dataDir = "/mnt/storage/paperless";
+    domain = "papers.internal.fortkickass.dev";
   };
 
   services.caddy =
@@ -331,6 +333,7 @@
         ${genHandleFragment { host = "sonar.${host}"; proxy = "http://localhost:8989"; }}
         ${genHandleFragment { host = "radar.${host}"; proxy = "http://localhost:7878"; }}
         ${genHandleFragment { host = "photos.${host}"; proxy = "http://localhost:33333"; }}
+        ${genHandleFragment { host = "papers.${host}"; proxy = "http://localhost:28888"; }}
         handle /ok {
           respond "Ok this works"
         }
@@ -342,7 +345,7 @@
       email = "william.bezuidenhout@gmail.com";
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
-        hash = "sha256-2D7dnG50CwtCho+U+iHmSj2w14zllQXPjmTHr6lJZ/A=";
+        hash = "sha256-Dvifm7rRwFfgXfcYvXcPDNlMaoxKd5h4mHEK6kJ+T4A=";
       };
       # instead of readFile we should read the token from age or something like that
       logFormat = ''
@@ -388,8 +391,8 @@
             }
           '';
         };
-        "*.fortkickass.dev" = {
-          extraConfig = cfgGen "internal.fortkickass.dev" "tls { dns cloudflare ${token} }";
+        "*.internal.fortkickass.dev" = {
+          extraConfig = cfgGen "internal.fortkickass.dev" "{ dns cloudflare ${token} }";
         };
       };
     };
@@ -402,7 +405,7 @@
 
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     publish = {
       addresses = true;
       domain = true;

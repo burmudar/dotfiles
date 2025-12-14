@@ -69,23 +69,18 @@ in
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
-      displayManager = {
-        autoLogin = {
-          user = username;
-          enable = true;
-        };
-        gdm = {
-          enable = true;
-          wayland = true;
-        };
-        # sessionCommands = ''
-        #   ${pkgs.xorg.xset}/bin/xset r rate 200 40
-        # '';
-      };
+    };
 
-      displayManager = {
-        defaultSession = "hyprland";
+    displayManager = {
+      autoLogin = {
+        user = username;
+        enable = true;
       };
+      gdm = {
+        enable = true;
+        wayland = true;
+      };
+      defaultSession = "hyprland";
     };
     gvfs.enable = true;
     tumbler.enable = true;
@@ -237,11 +232,10 @@ in
     luarocks
     spotify
     prusa-slicer
-    tdesktop # telegram
+    telegram-desktop
     tmux
     unzip
     vlc
-    warsow
     waybar
     wttrbar
     wget
@@ -292,7 +286,7 @@ in
   environment.shells = with pkgs; [ zsh ];
 
   fonts = {
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     enableGhostscriptFonts = true;
     fontconfig = {
       enable = true;
@@ -306,7 +300,7 @@ in
       font-awesome
       noto-fonts
       noto-fonts-cjk-sans
-      noto-fonts-emoji
+      noto-fonts-color-emoji
     ] ++ (with nerd-fonts; [ caskaydia-cove hack jetbrains-mono fira-code fira-code-symbols ]);
   };
 
