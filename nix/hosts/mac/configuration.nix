@@ -90,6 +90,7 @@ in
     go
     gopls
     jujutsu
+    jjui
     git-spice
     nodejs
   ]) ++ (with pkgs.nerd-fonts; [
