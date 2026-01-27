@@ -1,3 +1,30 @@
+local function definition_vsplit()
+  Snacks.picker.lsp_definitions({
+    confirm = function(picker, item)
+      picker:close()
+      if not item then return end
+      local cur_win = vim.api.nvim_get_current_win()
+      local cur_pos = vim.api.nvim_win_get_position(cur_win)
+      vim.cmd("wincmd l")
+      local new_win = vim.api.nvim_get_current_win()
+      local new_pos = vim.api.nvim_win_get_position(new_win)
+      if new_win == cur_win or new_pos[2] <= cur_pos[2] then
+        vim.cmd("vsplit")
+      end
+      local path = Snacks.picker.util.path(item)
+      if path then
+        vim.cmd("edit " .. vim.fn.fnameescape(path))
+      elseif item.buf then
+        vim.api.nvim_set_current_buf(item.buf)
+      end
+      if item.pos and item.pos[1] > 0 then
+        vim.api.nvim_win_set_cursor(0, { item.pos[1], item.pos[2] })
+        vim.cmd("normal! zzzv")
+      end
+    end,
+  })
+end
+
 return {
   "folke/snacks.nvim",
   priority = 1000,
@@ -75,6 +102,7 @@ return {
     { "<leader>uC",      function() Snacks.picker.colorschemes() end,                            desc = "Colorschemes" },
     -- LSP
     { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
+    { "<M-d>",           definition_vsplit,                                                   desc = "Definition in vsplit" },
     { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
     { "gr",              function() Snacks.picker.lsp_references() end,                          nowait = true,                     desc = "References" },
     { "gI",              function() Snacks.picker.lsp_implementations() end,                     desc = "Goto Implementation" },

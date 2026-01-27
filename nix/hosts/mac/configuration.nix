@@ -35,7 +35,7 @@ in
     package = pkgs.nixVersions.stable;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" "keegan" ];
+      trusted-users = [ "root" "keegan" "william" ];
       trusted-substituters = [ "https://sourcegraph-keegan.cachix.org" ];
     };
     gc = {
