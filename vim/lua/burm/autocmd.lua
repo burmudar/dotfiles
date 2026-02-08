@@ -17,12 +17,7 @@ local function registerAutoCmd()
     augroup END
     ]])
 
-  vim.cmd([[
-    augroup BURM_FORMATTING
-        autocmd!
-        autocmd BufWritePre * :lua if not vim.b.disable_autoformat then vim.lsp.buf.format() end
-    augroup END
-    ]])
+  -- Formatting is now handled by conform.nvim (see plugins/conform.lua)
 
   vim.cmd([[
     augroup BURM_GOLANG
