@@ -1,4 +1,10 @@
-{ config, pkgs, unstable, hostname, ... }@inputs:
+{
+  config,
+  pkgs,
+  unstable,
+  hostname,
+  ...
+}@inputs:
 let
   lib = pkgs.lib;
   personal = lib.attrByPath [ "personal" ] false inputs;
@@ -34,74 +40,98 @@ in
   nix = {
     package = pkgs.nixVersions.stable;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      trusted-users = [ "root" "keegan" "william" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "keegan"
+        "william"
+      ];
       trusted-substituters = [ "https://sourcegraph-keegan.cachix.org" ];
     };
     gc = {
       automatic = true;
-      interval = { Weekday = 0; Hour = 0; Minute = 0; };
+      interval = {
+        Weekday = 0;
+        Hour = 0;
+        Minute = 0;
+      };
       options = "--delete-older-than 60d";
     };
   };
 
-  networking.dns = [ "192.168.1.1" "1.1.1.1" "8.8.8.8" ];
+  networking.dns = [
+    "192.168.1.1"
+    "1.1.1.1"
+    "8.8.8.8"
+  ];
   networking.hostName = hostname;
-  networking.knownNetworkServices = [ "Wi-Fi" "Ethernet Adaptor (en2)" "Thunderbolt Bridge" ];
+  networking.knownNetworkServices = [
+    "Wi-Fi"
+    "Ethernet Adaptor (en2)"
+    "Thunderbolt Bridge"
+  ];
 
   # services.tailscale = {
   #   enable = true;
   #   package = unstable.tailscale;
   # };
 
-  environment.systemPackages = with pkgs; [
-    (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
-    age
-    comma
-    cachix
-    customNodePackages."@anthropic-ai/claude-code"
-    emacs
-    fd
-    home-manager
-    uv
-    fswatch
-    fzf
-    git
-    github-cli
-    gopass
-    hledger
-    jq
-    k9s
-    kitty
-    kubectl
-    kubectx
-    lua-language-server
-    nil
-    nixpkgs-fmt
-    # All the below seem to ignore the nodejs version and want v20
-    # nodePackages.typescript-language-server
-    # typescript-language-server
-    # nodejs_22.pkgs.typescript-language-server
-    nodePackages.pnpm # works ... pnpm node --verison = v22
-    passage
-    zig
-  ] ++ (with unstable; [
-    git-spice
-    go
-    gopls
-    jujutsu
-    jjui
-    git-spice
-    nodejs
-  ]) ++ (with pkgs.nerd-fonts; [
-    jetbrains-mono
-    hack
-    fira-code
-    noto
-  ]) ++ ( with pkgs.lua51Packages; [
+  environment.systemPackages =
+    with pkgs;
+    [
+      (google-cloud-sdk.withExtraComponents [ google-cloud-sdk.components.gke-gcloud-auth-plugin ])
+      age
+      comma
+      cachix
+      customNodePackages."@anthropic-ai/claude-code"
+      emacs
+      fd
+      home-manager
+      uv
+      fswatch
+      fzf
+      git
+      github-cli
+      gopass
+      hledger
+      jq
+      k9s
+      kitty
+      kubectl
+      kubectx
+      lua-language-server
+      nil
+      nixpkgs-fmt
+      # All the below seem to ignore the nodejs version and want v20
+      # nodePackages.typescript-language-server
+      # typescript-language-server
+      # nodejs_22.pkgs.typescript-language-server
+      nodePackages.pnpm # works ... pnpm node --verison = v22
+      passage
+      zig
+    ]
+    ++ (with unstable; [
+      git-spice
+      go
+      gopls
+      jujutsu
+      jjui
+      git-spice
+      nodejs
+    ])
+    ++ (with pkgs.nerd-fonts; [
+      jetbrains-mono
+      hack
+      fira-code
+      noto
+    ])
+    ++ (with pkgs.lua51Packages; [
       luarocks
       lua
-  ]);
+    ]);
 
   services.emacs.enable = true;
 
@@ -114,8 +144,14 @@ in
     brews = [
       "pinentry-mac"
       "podman"
+      "kind"
       "starship"
-    ] ++ lib.optionals isWork [ "bazelisk" "ibazel" "mise" ];
+    ]
+    ++ lib.optionals isWork [
+      "bazelisk"
+      "ibazel"
+      "mise"
+    ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
     casks = [
@@ -142,6 +178,17 @@ in
       "tuple"
       "visual-studio-code"
       "vlc"
-    ] ++ lib.optionals isWork [ "virtualbox" "1password" "1password-cli" "linear-linear" "loom" "notion" "notion-calendar" "p4v" "perforce" ];
+    ]
+    ++ lib.optionals isWork [
+      "virtualbox"
+      "1password"
+      "1password-cli"
+      "linear-linear"
+      "loom"
+      "notion"
+      "notion-calendar"
+      "p4v"
+      "perforce"
+    ];
   };
 }

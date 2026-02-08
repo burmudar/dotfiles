@@ -305,11 +305,15 @@
           handle_path ${vars.path}* {
             reverse_proxy ${proxy} {
               header_up Host {upstream_hostport}
+              header_up X-Forwarded-For 127.0.0.1
+              header_up X-Real-IP 127.0.0.1
             }
           }
           '' else ''
           reverse_proxy @${matcher} ${proxy} {
             header_up Host {upstream_hostport}
+            header_up X-Forwarded-For 127.0.0.1
+            header_up X-Real-IP 127.0.0.1
           }
           ''}
         '';

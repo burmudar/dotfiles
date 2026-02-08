@@ -1,4 +1,10 @@
-{ config, pkgs, unstable ? pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  unstable ? pkgs,
+  lib,
+  ...
+}:
 let
   # Platform detection
   isDarwin = pkgs.stdenv.isDarwin;
@@ -12,9 +18,15 @@ let
   theme = "catppuccin-frappe";
 
   # SSH host configuration helpers
-  mkSSHHost = { hostname, user ? defaultUser, identityFile ? defaultIdentityFile }: {
-    inherit hostname user identityFile;
-  };
+  mkSSHHost =
+    {
+      hostname,
+      user ? defaultUser,
+      identityFile ? defaultIdentityFile,
+    }:
+    {
+      inherit hostname user identityFile;
+    };
 in
 {
   services.gpg-agent =
@@ -224,16 +236,28 @@ in
           ForwardAgent = "yes";
         };
       };
-      "media.tailscale" = mkSSHHost { hostname = "media.raptor-emperor.ts.net"; };
-      "media.*" = mkSSHHost { hostname = "media.internal"; };
-      "github.com" = mkSSHHost { hostname = "github.com"; user = "git"; };
+      "media.tailscale" = lib.hm.dag.entryBefore [ "media.*" ] (mkSSHHost { hostname = "media.raptor-emperor.ts.net"; });
+      "media.*" = mkSSHHost { hostname = "media.internal.fortkickass.dev"; };
+      "github.com" = mkSSHHost {
+        hostname = "github.com";
+        user = "git";
+      };
       "mac.tailscale" = mkSSHHost { hostname = "Williams-MacBook-Pro.raptor-emperor.ts.net"; };
       "mac" = mkSSHHost { hostname = "Williams-MacBook-Pro.internal"; };
-      "router" = mkSSHHost { hostname = "192.168.1.1"; user = "root"; };
+      "router" = mkSSHHost {
+        hostname = "192.168.1.1";
+        user = "root";
+      };
       "desktop.tailscale" = mkSSHHost { hostname = "fort-kickass.raptor-emperor.ts.net"; };
-      "desktop" = mkSSHHost { hostname = "fort-kickass.internal"; };
-      "spotipi" = mkSSHHost { hostname = "spotipi.internal"; user = "pi"; };
-      "bezuidenhout" = mkSSHHost { hostname = "bezuidenhout-pc"; user = "bezuidenhout"; };
+      "desktop" = mkSSHHost { hostname = "fort-kickass.internal.fortkickass.dev"; };
+      "spotipi" = mkSSHHost {
+        hostname = "spotipi.internal";
+        user = "pi";
+      };
+      "bezuidenhout" = mkSSHHost {
+        hostname = "bezuidenhout-pc";
+        user = "bezuidenhout";
+      };
     };
   };
 
@@ -260,7 +284,8 @@ in
     settings = {
       # Add 'william.bezuidenhout+github.com' to the gpg keys
       user = {
-        email = if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
+        email =
+          if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
         name = "William Bezuidenhout";
       };
       alias = {
@@ -279,6 +304,10 @@ in
         ap = "add -p";
         log-me = "log --author=\"William Bezuidenhout\" --pretty=format:\"%ad %h %s\" --date=short";
         pristine = "clean -dx -e .envrc -e .direnv -e server/env.local -e contrib/nix/";
+        wta = "worktree add";
+        wtr = "worktree remove";
+        wtl = "worktree list";
+        wtp = "worktree prune";
       };
       push.autoSetupRemote = true;
       rerere.enabled = true;
