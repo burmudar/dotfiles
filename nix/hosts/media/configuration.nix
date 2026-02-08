@@ -1,12 +1,14 @@
 { pkgs, config, ... }@inputs:
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
-  boot.supportedFilesystems = [ "ntfs" "zfs" ];
+  boot.supportedFilesystems = [
+    "ntfs"
+    "zfs"
+  ];
   boot.zfs.extraPools = [ "tank" ];
   boot.kernelPackages = pkgs.linuxPackages;
   boot.kernelParams = [ "zfs.zfs_arc_max=17179869184" ]; # 16GB ARC limit
@@ -76,7 +78,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  networking.firewall.interfaces.enp42s0.allowedTCPPorts = [ 80 443 8080 8123 ];
+  networking.firewall.interfaces.enp42s0.allowedTCPPorts = [
+    80
+    443
+    8080
+    8123
+  ];
   networking.firewall.interfaces.enp42s0.allowedUDPPorts = [ 8080 ];
 
   # Set your time zone.
@@ -151,9 +158,16 @@
     users.william = {
       isNormalUser = true;
       description = "William Bezuidenhout";
-      extraGroups = [ "storage" "networkmanager" "wheel" "docker" ];
+      extraGroups = [
+        "storage"
+        "networkmanager"
+        "wheel"
+        "docker"
+      ];
       hashedPassword = "$6$Rz1GnmAfbEsmPZ52$Ze2ue2JtgVxwT5x1AA7k.KL0rY4.HTmHn8yn3IjjwAbflFqf3hUELMA/W/nADGoHZa0nxuFKBcIALl4kOCcEP/";
-      openssh.authorizedKeys.keys = [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com" ];
+      openssh.authorizedKeys.keys = [
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6iuO9BMUxIaDlnUbRjPAi4d44nvEL4mSbTqUWAw53xEC9tRKGi7HxXBGVZzT6riDBdaI5Kibxj4fWMt3SMnSbxSjFOleS7iNRjjKyEGUnnpekVCHtye2tNDaRvnKwK4/ZG8Kd/t/aKYyWmPZJEVfWUM3iiFgBHh/3ml0Zgb/Y0QCxP7FdIyCeMY3f8AW6wGVfNH3BBvRlpQt+rNwYmp/kmsrxalgUGpzHOlpKQbzh+0Ox5I73RF+nK7VBJA6OAan6n7zyfy40y/LwQieckqbi2Jogd438G8iqnQYkIXFCMV8IFCQ4wjAnDvdfOBysdKlxwS+1ZNHv0UGHT4jbRw0N william.bezuidenhout+ssh@gmail.com"
+      ];
     };
   };
 
@@ -180,54 +194,52 @@
       };
     };
   };
-  services.blueman.enable = true;
-
+  services.blueman.enable = false;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages =
-    with pkgs; [
-      aspell
-      aspellDicts.en
-      aspellDicts.en-computers
-      aspellDicts.en-science
-      autossh
-      bash
-      btrfs-progs
-      curl
-      fd
-      nil
-      firefox
-      chromium
-      flameshot
-      gcc
-      git
-      gnumake
-      go
-      htop
-      jq
-      kitty
-      lua
-      man-pages
-      man-pages-posix
-      mkpasswd
-      inputs.unstable.neovim
-      nodejs_20
-      nmap
-      nss
-      pavucontrol
-      pipewire
-      python3
-      inputs.unstable.proton-pass-cli
-      shairplay
-      spotify
-      tmux
-      unrar
-      unzip
-      vlc
-      wget
-      xclip
-    ];
+  environment.systemPackages = with pkgs; [
+    aspell
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
+    autossh
+    bash
+    btrfs-progs
+    curl
+    fd
+    nil
+    firefox
+    chromium
+    flameshot
+    gcc
+    git
+    gnumake
+    go
+    htop
+    jq
+    kitty
+    lua
+    man-pages
+    man-pages-posix
+    mkpasswd
+    inputs.unstable.neovim
+    nodejs_20
+    nmap
+    nss
+    pavucontrol
+    pipewire
+    python3
+    inputs.unstable.proton-pass-cli
+    shairplay
+    spotify
+    tmux
+    unrar
+    unzip
+    vlc
+    wget
+    xclip
+  ];
 
   programs.zsh.enable = true;
   programs.steam = {
@@ -239,8 +251,14 @@
   programs.mtr.enable = true;
 
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
-    settings.trusted-users = [ "root" "william" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    settings.trusted-users = [
+      "root"
+      "william"
+    ];
     gc = {
       dates = "weekly";
       options = "--delete-older-than 60d";
@@ -330,19 +348,16 @@
         "10.0.0.0/8"
         "127.0.0.1/8"
       ];
-      genHandleFragment = { host, proxy, ... }@vars:
+      genHandleFragment =
+        { host, proxy, ... }@vars:
         let
           hasPath = if builtins.hasAttr "path" vars then true else false;
-          suffix =
-            if hasPath then
-              "-${pkgs.lib.removePrefix "/" vars.path}"
-            else
-              "";
+          suffix = if hasPath then "-${pkgs.lib.removePrefix "/" vars.path}" else "";
           sub = (builtins.elemAt (builtins.split "\\." host) 0);
           matcher = "${sub}${suffix}";
         in
         ''
-          ${if hasPath then "redir ${vars.path} ${vars.path}/" else "" }
+          ${if hasPath then "redir ${vars.path} ${vars.path}/" else ""}
           @${matcher} {
             host ${host}
           }
@@ -373,17 +388,46 @@
 
       '';
       cfgGen = host: tls: ''
-        ${if tls == "" then "" else"tls ${tls}"}
+        ${if tls == "" then "" else "tls ${tls}"}
         ${preambleFragment host}
-        ${genHandleFragment { host = "sync.${host}"; proxy = "http://localhost:10200"; path = "/seedbox"; }}
-        ${genHandleFragment { host = "sync.${host}"; proxy = "http://localhost:10100"; path = "/local"; }}
-        ${genHandleFragment { host = "nzb.${host}"; proxy = "http://seedbox.raptor-emperor.ts.net:10100"; }}
-        ${genHandleFragment { host = "jellyfin.${host}"; proxy = "http://localhost:8096"; }}
-        ${genHandleFragment { host = "jacket.${host}"; proxy = "http://localhost:9117"; }}
-        ${genHandleFragment { host = "sonar.${host}"; proxy = "http://localhost:8989"; }}
-        ${genHandleFragment { host = "radar.${host}"; proxy = "http://localhost:7878"; }}
-        ${genHandleFragment { host = "photos.${host}"; proxy = "http://localhost:33333"; }}
-        ${genHandleFragment { host = "papers.${host}"; proxy = "http://localhost:28888"; }}
+        ${genHandleFragment {
+          host = "sync.${host}";
+          proxy = "http://localhost:10200";
+          path = "/seedbox";
+        }}
+        ${genHandleFragment {
+          host = "sync.${host}";
+          proxy = "http://localhost:10100";
+          path = "/local";
+        }}
+        ${genHandleFragment {
+          host = "nzb.${host}";
+          proxy = "http://seedbox.raptor-emperor.ts.net:10100";
+        }}
+        ${genHandleFragment {
+          host = "jellyfin.${host}";
+          proxy = "http://localhost:8096";
+        }}
+        ${genHandleFragment {
+          host = "jacket.${host}";
+          proxy = "http://localhost:9117";
+        }}
+        ${genHandleFragment {
+          host = "sonar.${host}";
+          proxy = "http://localhost:8989";
+        }}
+        ${genHandleFragment {
+          host = "radar.${host}";
+          proxy = "http://localhost:7878";
+        }}
+        ${genHandleFragment {
+          host = "photos.${host}";
+          proxy = "http://localhost:33333";
+        }}
+        ${genHandleFragment {
+          host = "papers.${host}";
+          proxy = "http://localhost:28888";
+        }}
         handle /ok {
           respond "Ok this works"
         }
@@ -412,7 +456,7 @@
         "photos.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${preambleFragment "photos.burmudar.dev" }
+            ${preambleFragment "photos.burmudar.dev"}
             reverse_proxy http://localhost:33333
           '';
         };
@@ -429,7 +473,7 @@
         "files.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${preambleFragment "files.burmudar.dev" }
+            ${preambleFragment "files.burmudar.dev"}
             basic_auth {
               christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
               sourcegraph $2a$14$K15WAUpbvDSN0L83Nxx/NOmj1HNGFBsOSwpjhQPBHxGtmKV287Bgm
@@ -608,7 +652,6 @@
       };
     };
 
-
   systemd.timers.backup-photos = {
     description = "Timer for daily photo backup";
     wantedBy = [ "timers.target" ];
@@ -618,11 +661,9 @@
     };
   };
 
-
   # Enable docker daemon to start
   virtualisation.docker.enable = true;
   #virtualisation.docker.storageDriver = "btrfs";
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
