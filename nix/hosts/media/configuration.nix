@@ -386,8 +386,9 @@
             ${preambleFragment "files.burmudar.dev" }
             basic_auth {
               christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
-              william $2a$14$MdrKAPy9E2Af7oVlt5Ehc.0lj.Wy6IiRUagHZz1q/HnOgx4BEAsQe
               sourcegraph $2a$14$K15WAUpbvDSN0L83Nxx/NOmj1HNGFBsOSwpjhQPBHxGtmKV287Bgm
+              vob $2a$14$vrpZmZPAn5ORIYx0nYkfHOC/JJfweO9WHWEeJF2ShrMMZveaPQZXC
+              william $2a$14$8J4pWA8XZqPOQMGBHp5g7e9arbU/GyQkV7rJpEfYRaejhUgFTc3lW
             }
             file_server {
             root /mnt/storage/
