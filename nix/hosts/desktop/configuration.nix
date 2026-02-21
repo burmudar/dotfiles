@@ -257,7 +257,7 @@ in
   ] ++ (with inputs.unstable; [
     git-spice
     freecad
-    inputs.ghostty.default
+    ghostty
     go
     gopls
     neovim

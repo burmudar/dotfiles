@@ -20,7 +20,7 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-    ghostty.url = "git+ssh://git@github.com/ghostty-org/ghostty";
+    ghostty.url = "github:ghostty-org/ghostty";
 
     hyprland.url = "github:hyprwm/hyprland";
   };
@@ -77,10 +77,12 @@
                   meta = old.meta or { } // { maintainers = [ ]; };
                 });
               });
+              ghostty-overlay = (final: prev: { ghostty = ghostty.packages.${system}.default; });
             in
             [
               neovim-unwrapped-overlay
               neovim-nightly-overlay.overlays.default
+              ghostty-overlay
             ];
           config = {
             allowUnfree = true;
@@ -103,7 +105,7 @@
         ];
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
-        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; ghostty = ghostty.packages.x86_64-linux; hyprland = inputs.hyprland.packages.x86_64-linux; };
+        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; hyprland = inputs.hyprland.packages.x86_64-linux; };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
           ./hosts/desktop/configuration.nix
