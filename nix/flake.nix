@@ -23,6 +23,10 @@
     ghostty.url = "github:ghostty-org/ghostty";
 
     hyprland.url = "github:hyprwm/hyprland";
+    hyprland.inputs.nixpkgs.follows = "nixpkgs";
+
+    disko.url = "github:nix-community/disko/latest";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -37,6 +41,7 @@
     , rust-overlay
     , ghostty
     , hyprland
+    , disko
     ,
     }@inputs:
     let
@@ -77,7 +82,9 @@
                   meta = old.meta or { } // { maintainers = [ ]; };
                 });
               });
-              ghostty-overlay = (final: prev: { ghostty = ghostty.packages.${system}.default; });
+              ghostty-overlay = (final: prev: { ghostty = ghostty.packages.${system}.default.overrideAttrs (old: {
+                ZIG_GLOBAL_CACHE_DIR = "/tmp/zig-cache";
+              });});
             in
             [
               neovim-unwrapped-overlay
@@ -108,8 +115,9 @@
         specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; hyprland = inputs.hyprland.packages.x86_64-linux; };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
-          ./hosts/desktop/configuration.nix
           inputs.home-manager.nixosModules.home-manager
+          disko.nixosModules.disko
+          ./hosts/desktop/configuration.nix
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = false;

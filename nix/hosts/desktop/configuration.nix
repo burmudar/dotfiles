@@ -10,24 +10,24 @@ in
   imports =
     [
       # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./disks.nix
       ./ergodox.nix
+      ./hardware-configuration.nix
       ./vm.nix
+
     ];
 
   home-manager.backupFileExtension = "bak";
 
-  boot.supportedFilesystems = [ "ntfs" ];
+
+  boot.supportedFilesystems = [ "ext4" "btrfs" "ntfs" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = false;
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "nodev";
+  boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.grub.efiSupport = true;
-  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "fort-kickass"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
