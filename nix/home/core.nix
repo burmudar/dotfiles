@@ -12,6 +12,7 @@ rec {
     dogdns
     fd
     gping
+    gopass
     jq
     lsd
     procs
@@ -67,6 +68,7 @@ rec {
         "${config.xdg.configHome}/hypr/autostart.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/autostart.conf";
         "${config.xdg.configHome}/hypr/hyprlock.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprlock.conf";
         "${config.xdg.configHome}/hypr/hypridle.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hypridle.conf";
+        "${config.xdg.configHome}/hypr/hyprpaper.conf".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprpaper.conf";
 
         # Ghostty configuration
         "${config.xdg.configHome}/ghostty/config".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/ghostty/config";

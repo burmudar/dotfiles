@@ -20,8 +20,6 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
 
-    ghostty.url = "github:ghostty-org/ghostty";
-
     hyprland.url = "github:hyprwm/hyprland";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -39,7 +37,6 @@
     , nixpkgs
     , unstable-nixpkgs
     , rust-overlay
-    , ghostty
     , hyprland
     , disko
     ,
@@ -82,14 +79,10 @@
                   meta = old.meta or { } // { maintainers = [ ]; };
                 });
               });
-              ghostty-overlay = (final: prev: { ghostty = ghostty.packages.${system}.default.overrideAttrs (old: {
-                ZIG_GLOBAL_CACHE_DIR = "/tmp/zig-cache";
-              });});
             in
             [
               neovim-unwrapped-overlay
               neovim-nightly-overlay.overlays.default
-              ghostty-overlay
             ];
           config = {
             allowUnfree = true;

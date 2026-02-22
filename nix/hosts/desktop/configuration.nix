@@ -20,6 +20,7 @@ in
   home-manager.backupFileExtension = "bak";
 
 
+  boot.initrd.systemd.enable = true;
   boot.supportedFilesystems = [ "ext4" "btrfs" "ntfs" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
