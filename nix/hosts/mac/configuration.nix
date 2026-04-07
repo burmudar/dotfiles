@@ -121,6 +121,7 @@ in
       jjui
       git-spice
       nodejs
+      proton-pass-cli
     ])
     ++ (with pkgs.nerd-fonts; [
       jetbrains-mono

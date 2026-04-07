@@ -218,6 +218,7 @@
       pavucontrol
       pipewire
       python3
+      inputs.unstable.proton-pass-cli
       shairplay
       spotify
       tmux

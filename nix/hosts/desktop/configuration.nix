@@ -164,6 +164,16 @@ in
 
   security.rtkit.enable = true;
 
+  # pre-create some directories
+  systemd.tmpfiles.rules = [
+  "d /mnt/tank/steam 0755 william users"
+  ];
+
+  fileSystems."/home/${username}/steam" = {
+    device = "/mnt/tank/steam";
+    options = [ "bind" ];
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # set in Home manager
   users.defaultUserShell = pkgs.zsh;
@@ -212,7 +222,7 @@ in
     hypridle
     man-pages
     man-pages-posix
-    nix-direnv
+    # nix-direnv
     networkmanagerapplet
     nmap
     nodePackages.typescript-language-server
@@ -224,6 +234,7 @@ in
     pipewire
     pkg-config
     podman-tui
+    proton-pass
     python3
     qmk
     racket
@@ -259,11 +270,13 @@ in
     git-spice
     freecad
     ghostty
-    go
+    go_1_26
     gopls
+    lutris
     neovim
     obsidian
     qutebrowser
+    proton-pass-cli
   ]);
 
 

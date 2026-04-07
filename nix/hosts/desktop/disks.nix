@@ -95,21 +95,21 @@
         };
       };
 
-      # Steam disk (unencrypted)
+      # Additional storage
       nvme1n1 = {
         type = "disk";
         device = "/dev/nvme1n1";
         content = {
           type = "gpt";
           partitions = {
-            steam = {
-              name = "steam";
+            tank = {
+              name = "tank";
               size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
-                mountpoint = "/games";
-                mountOptions = [ "noatime" ];
+                mountpoint = "/mnt/tank";
+                mountOptions = [ "noatime" "users" "nofail" "exec" ];
               };
             };
           };

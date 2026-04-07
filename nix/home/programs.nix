@@ -36,7 +36,7 @@ in
     {
       enable = true;
       enableExtraSocket = true;
-      enableSshSupport = true;
+      enableSshSupport = false;
       enableZshIntegration = true;
 
       defaultCacheTtl = one_day;
@@ -63,10 +63,14 @@ in
         "privacy.donottrackheader.enabled" = true;
         "privacy.fingerprintingProtection" = true;
         "privacy.resistFingerprinting" = true;
+        "privacy.clearOnShutdown.history" = false;
+        "privacy.clearOnShutdown.cookies" = false;
+        "network.cookie.lifetimePolicy" = 0;
         "privacy.trackingprotection.emailtracking.enabled" = true;
         "privacy.trackingprotection.enabled" = true;
         "privacy.trackingprotection.fingerprinting.enabled" = true;
         "privacy.trackingprotection.socialtracking.enabled" = true;
+        "webgl.disabled" = false;
       };
       ExtensionSettings = {
         "uBlock0@raymondhill.net" = {
@@ -79,6 +83,7 @@ in
 
   programs.direnv = {
     enable = true;
+    package = unstable.direnv;
     enableZshIntegration = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
