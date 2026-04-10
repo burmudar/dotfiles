@@ -110,6 +110,7 @@ in
       # typescript-language-server
       # nodejs_22.pkgs.typescript-language-server
       nodePackages.pnpm # works ... pnpm node --verison = v22
+      jj-starship
       passage
       zig
     ]
@@ -167,6 +168,7 @@ in
       "iina"
       "podman-desktop"
       "postico"
+      "proton-pass"
       "qutebrowser"
       "raycast"
       "slack"

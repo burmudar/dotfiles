@@ -103,6 +103,11 @@ in
       aws.disabled = true;
       gcloud.disabled = true;
       nodejs.disabled = true;
+      custom.jj = {
+        when = "jj-starship detect";
+        shell = "jj-starship";
+        format = "$output";
+      };
     };
   };
 
@@ -241,7 +246,9 @@ in
           ForwardAgent = "yes";
         };
       };
-      "media.tailscale" = lib.hm.dag.entryBefore [ "media.*" ] (mkSSHHost { hostname = "media.raptor-emperor.ts.net"; });
+      "media.tailscale" = lib.hm.dag.entryBefore [ "media.*" ] (mkSSHHost {
+        hostname = "media.raptor-emperor.ts.net";
+      });
       "media.*" = mkSSHHost { hostname = "media.internal.fortkickass.dev"; };
       "github.com" = mkSSHHost {
         hostname = "github.com";
@@ -309,6 +316,8 @@ in
         ap = "add -p";
         log-me = "log --author=\"William Bezuidenhout\" --pretty=format:\"%ad %h %s\" --date=short";
         pristine = "clean -dx -e .envrc -e .direnv -e server/env.local -e contrib/nix/";
+        clean-merged = "!git branch --merged | grep -v \"^\*\" | xargs -r git branch -d";
+        tidy = "fetch --prune";
         wta = "worktree add";
         wtr = "worktree remove";
         wtl = "worktree list";

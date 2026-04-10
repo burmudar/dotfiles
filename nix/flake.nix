@@ -25,75 +25,76 @@
 
     disko.url = "github:nix-community/disko/latest";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    jj-starship.url = "github:dmmulroy/jj-starship";
+
   };
 
   outputs =
-    { self
-    , cloudflare-dns-ip
-    , darwin
-    , flake-utils
-    , home-manager
-    , neovim-nightly-overlay
-    , nixpkgs
-    , unstable-nixpkgs
-    , rust-overlay
-    , hyprland
-    , disko
-    ,
+    {
+      self,
+      cloudflare-dns-ip,
+      darwin,
+      flake-utils,
+      home-manager,
+      neovim-nightly-overlay,
+      nixpkgs,
+      unstable-nixpkgs,
+      rust-overlay,
+      hyprland,
+      disko,
+      jj-starship,
     }@inputs:
     let
-      pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
-        pkgs = import inputs.nixpkgs {
-          inherit system;
-          overlays =
-            let
-              nodejs-overlay = (final: prev: {
-                # to get nodePackages.* to use a newer node version you have to overlay nodejs with the version you want
-                nodejs = prev.nodejs_22;
-              });
-            in
-            [
-              # TODO Move these overlays into lib/overlay.nix
-              nodejs-overlay
-              cloudflare-dns-ip.overlay
-              rust-overlay.overlays.default
-              (import lib/overlay.nix)
-            ];
-          config = {
-            allowUnfree = true;
-            permittedInsecurePackages = [
-              "aspnetcore-runtime-wrapped-6.0.36"
-              "aspnetcore-runtime-6.0.36"
-              "dotnet-sdk-6.0.428"
-            ];
+      pkgs =
+        (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
+          pkgs = import inputs.nixpkgs {
+            inherit system;
+            overlays = import lib/overlay.nix {
+              inherit cloudflare-dns-ip rust-overlay jj-starship;
+            };
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "aspnetcore-runtime-wrapped-6.0.36"
+                "aspnetcore-runtime-6.0.36"
+                "dotnet-sdk-6.0.428"
+              ];
+            };
           };
-        };
-      })).pkgs;
-      unstable-pkgs = (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
-        pkgs = import inputs.unstable-nixpkgs {
-          inherit system;
-          overlays =
-            let
-              neovim-unwrapped-overlay = (final: prev: {
-                neovim-unwrapped = inputs.unstable-nixpkgs.legacyPackages."${system}".neovim-unwrapped.overrideAttrs (old: {
-                  meta = old.meta or { } // { maintainers = [ ]; };
-                });
-              });
-            in
-            [
-              neovim-unwrapped-overlay
-              neovim-nightly-overlay.overlays.default
-            ];
-          config = {
-            allowUnfree = true;
-            permittedInsecurePackages = [
-              "aspnetcore-runtime-wrapped-6.0.36"
-              "electron-25.9.0"
-              "dotnet-sdk-6.0.428"
-            ];
+        })).pkgs;
+      unstable-pkgs =
+        (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
+          pkgs = import inputs.unstable-nixpkgs {
+            inherit system;
+            overlays =
+              let
+                neovim-unwrapped-overlay = (
+                  final: prev: {
+                    neovim-unwrapped =
+                      inputs.unstable-nixpkgs.legacyPackages."${system}".neovim-unwrapped.overrideAttrs
+                        (old: {
+                          meta = old.meta or { } // {
+                            maintainers = [ ];
+                          };
+                        });
+                  }
+                );
+              in
+              [
+                neovim-unwrapped-overlay
+                neovim-nightly-overlay.overlays.default
+              ];
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "aspnetcore-runtime-wrapped-6.0.36"
+                "electron-25.9.0"
+                "dotnet-sdk-6.0.428"
+              ];
+            };
           };
-        };
-      })).pkgs;
+        })).pkgs;
     in
     {
       nixConfig = {
@@ -105,7 +106,11 @@
         ];
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
-        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; hyprland = inputs.hyprland.packages.x86_64-linux; };
+        specialArgs = {
+          pkgs = pkgs.x86_64-linux;
+          unstable = unstable-pkgs.x86_64-linux;
+          hyprland = inputs.hyprland.packages.x86_64-linux;
+        };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
           inputs.home-manager.nixosModules.home-manager
@@ -120,7 +125,10 @@
         ];
       };
       nixosConfigurations.media = nixpkgs.lib.nixosSystem rec {
-        specialArgs = { pkgs = pkgs.x86_64-linux; unstable = unstable-pkgs.x86_64-linux; };
+        specialArgs = {
+          pkgs = pkgs.x86_64-linux;
+          unstable = unstable-pkgs.x86_64-linux;
+        };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
           ./hosts/media/configuration.nix
@@ -135,7 +143,11 @@
         ];
       };
       darwinConfigurations.Machine-Spirit = darwin.lib.darwinSystem rec {
-        specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; hostname = "Machine-Spirit"; };
+        specialArgs = {
+          pkgs = pkgs.aarch64-darwin;
+          unstable = unstable-pkgs.aarch64-darwin;
+          hostname = "Machine-Spirit";
+        };
         modules = [
           { nixpkgs.hostPlatform = "aarch64-darwin"; }
           ./hosts/mac/configuration.nix
@@ -149,7 +161,12 @@
         ];
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
-        specialArgs = { pkgs = pkgs.aarch64-darwin; unstable = unstable-pkgs.aarch64-darwin; hostname = "Williams-MacBook-Pro"; personal = true; };
+        specialArgs = {
+          pkgs = pkgs.aarch64-darwin;
+          unstable = unstable-pkgs.aarch64-darwin;
+          hostname = "Williams-MacBook-Pro";
+          personal = true;
+        };
         modules = [
           { nixpkgs.hostPlatform = "aarch64-darwin"; }
           ./hosts/mac/configuration.nix
@@ -165,13 +182,23 @@
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.x86_64-linux;
-          extraSpecialArgs = { unstable = unstable-pkgs.x86_64-linux; };
-          modules = [ ./home.nix { home.homeDirectory = "/home/william"; } ];
+          extraSpecialArgs = {
+            unstable = unstable-pkgs.x86_64-linux;
+          };
+          modules = [
+            ./home.nix
+            { home.homeDirectory = "/home/william"; }
+          ];
         };
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgs.aarch64-darwin;
-          extraSpecialArgs = { unstable = unstable-pkgs.aarch64-darwin; };
-          modules = [ ./home.nix { home.homeDirectory = "/Users/william"; } ];
+          extraSpecialArgs = {
+            unstable = unstable-pkgs.aarch64-darwin;
+          };
+          modules = [
+            ./home.nix
+            { home.homeDirectory = "/Users/william"; }
+          ];
         };
       };
       formatter.x86_64-linux = pkgs.x86_64-linux.nixpkgs-fmt;
