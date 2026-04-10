@@ -28,6 +28,8 @@
 
     jj-starship.url = "github:dmmulroy/jj-starship";
 
+    copyparty.url = "github:9001/copyparty";
+
   };
 
   outputs =
@@ -44,6 +46,7 @@
       hyprland,
       disko,
       jj-starship,
+      copyparty,
     }@inputs:
     let
       pkgs =
@@ -132,6 +135,7 @@
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
           ./hosts/media/configuration.nix
+          inputs.copyparty.nixosModules.default
           inputs.cloudflare-dns-ip.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
           {

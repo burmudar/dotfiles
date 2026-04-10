@@ -275,6 +275,51 @@
     domain = "papers.internal.fortkickass.dev";
   };
 
+  services.copyparty = {
+    enable = true;
+    user = "copyparty";
+    group = "copyparty";
+
+    settings = {
+      i = "0.0.0.0";
+      p = [ 444332 ];
+      z = true;
+      qr = true;
+      ed2dsa = true;
+      e2ts = true;
+    };
+
+    accounts = {
+      william = { passwordFile = "/run/keys/copyparty/william_password";};
+      christina = { passwordFile = "/run/keys/copyparty/christina_password";};
+      sourcegraph = { passwordFile = "/run/keys/copyparty/sourcegraph_password";};
+    };
+
+    volumes = {
+        "/f/series" = {
+          path = "/mnt/storage/series";
+          access = { r = "*"; rw = [ "william" ]; };
+          flags = { scan = 180; };
+        }
+        "/f/movies" = {
+          path = "/mnt/storage/movies";
+          access = { r = "*"; rw = [ "william" ]; };
+          flags = { scan = 300; };
+        }
+        "/f/anime" = {
+          path = "/mnt/storage/anime";
+          access = { rw = [ "william" ]; };
+          flags = { scan = 300; };
+        }
+        "/f/downloads" = {
+          path = "/mnt/storage/downloads";
+          access = { r = "*"; rw = [ "william" ]; };
+          flags = { scan = 300; };
+        }
+    };
+
+  }
+
   services.caddy =
     let
       allowRanges = [
