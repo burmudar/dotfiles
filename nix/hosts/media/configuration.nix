@@ -155,6 +155,7 @@
     users.caddy.extraGroups = [ "storage" ];
     users.jellyfin.extraGroups = [ "storage" ];
     users.paperless.extraGroups = [ "storage" ];
+    users.copyparty.extraGroups = [ "storage" ];
     users.william = {
       isNormalUser = true;
       description = "William Bezuidenhout";
@@ -179,6 +180,7 @@
     "d /mnt/storage/series                2775 root storage -"
     "d /mnt/storage/movies                2775 root storage -"
     "d /mnt/storage/anime                 2775 root storage -"
+    "d /mnt/storage/inbox                 2775 root storage -"
     "d /mnt/photos                        2775 root storage -"
   ];
   hardware.xpadneo.enable = true;
@@ -296,47 +298,57 @@
   services.copyparty = {
     enable = true;
     user = "copyparty";
-    group = "copyparty";
+    group = "storage";
 
     settings = {
-      i = "0.0.0.0";
-      p = [ 444332 ];
+      i = "127.0.0.1";
+      p = [ 44332 ];
       z = true;
       qr = true;
-      ed2dsa = true;
+      e2dsa = true;
       e2ts = true;
+      rproxy = 1;
+      xff-hdr = "X-Forwarded-For";
+      xf-proto = "X-Forwarded-Proto";
+      xf-host = "X-Forwarded-Host";
     };
 
     accounts = {
-      william = { passwordFile = "/run/keys/copyparty/william_password";};
-      christina = { passwordFile = "/run/keys/copyparty/christina_password";};
-      sourcegraph = { passwordFile = "/run/keys/copyparty/sourcegraph_password";};
+      william = { passwordFile = "/home/william/copyparty/william_password";};
+      christina = { passwordFile = "/home/william/copyparty/christina_password";};
+      sourcegraph = { passwordFile = "/home/william/copyparty/sourcegraph_password";};
+      vob = { passwordFile = "/home/william/copyparty/vob_password";};
     };
 
     volumes = {
-        "/f/series" = {
+        "/series" = {
           path = "/mnt/storage/series";
           access = { r = "*"; rw = [ "william" ]; };
           flags = { scan = 180; };
-        }
-        "/f/movies" = {
+        };
+        "/movies" = {
           path = "/mnt/storage/movies";
           access = { r = "*"; rw = [ "william" ]; };
           flags = { scan = 300; };
-        }
-        "/f/anime" = {
+        };
+        "/anime" = {
           path = "/mnt/storage/anime";
           access = { rw = [ "william" ]; };
           flags = { scan = 300; };
-        }
-        "/f/downloads" = {
+        };
+        "/downloads" = {
           path = "/mnt/storage/downloads";
           access = { r = "*"; rw = [ "william" ]; };
           flags = { scan = 300; };
-        }
+        };
+        "/inbox" = {
+          path = "/mnt/storage/inbox";
+          access = { r = "*"; rw = [ "william" ]; };
+          flags = { scan = 300; };
+        };
     };
 
-  }
+  };
 
   services.caddy =
     let
@@ -355,6 +367,14 @@
           suffix = if hasPath then "-${pkgs.lib.removePrefix "/" vars.path}" else "";
           sub = (builtins.elemAt (builtins.split "\\." host) 0);
           matcher = "${sub}${suffix}";
+          ip = if builtins.hasAttr "ip" vars then vars.ip else "{remote_host}";
+          headers = ''
+              header_up Host {upstream_hostport}
+              header_up X-Forwarded-Proto {scheme}
+              header_up X-Forwarded-Host {host}
+              header_up X-Forwarded-For ${ip}
+              header_up X-Real-IP ${ip}
+          '';
         in
         ''
           ${if hasPath then "redir ${vars.path} ${vars.path}/" else ""}
@@ -365,31 +385,26 @@
           ''
           handle_path ${vars.path}* {
             reverse_proxy ${proxy} {
-              header_up Host {upstream_hostport}
-              header_up X-Forwarded-For 127.0.0.1
-              header_up X-Real-IP 127.0.0.1
+            ${headers}
             }
           }
           '' else ''
           reverse_proxy @${matcher} ${proxy} {
-            header_up Host {upstream_hostport}
-            header_up X-Forwarded-For 127.0.0.1
-            header_up X-Real-IP 127.0.0.1
+            ${headers}
           }
           ''}
         '';
-      preambleFragment = host: ''
+      restrict = host: ''
         @denied {
-          not host ${host}
           not remote_ip ${toString allowRanges}
         }
 
-        abort @denied
+        respond @denied 403
 
       '';
       cfgGen = host: tls: ''
         ${if tls == "" then "" else "tls ${tls}"}
-        ${preambleFragment host}
+        ${restrict host}
         ${genHandleFragment {
           host = "sync.${host}";
           proxy = "http://localhost:10200";
@@ -403,6 +418,7 @@
         ${genHandleFragment {
           host = "nzb.${host}";
           proxy = "http://seedbox.raptor-emperor.ts.net:10100";
+          ip = "127.0.0.1";
         }}
         ${genHandleFragment {
           host = "jellyfin.${host}";
@@ -415,10 +431,12 @@
         ${genHandleFragment {
           host = "sonar.${host}";
           proxy = "http://localhost:8989";
+          ip = "127.0.0.1";
         }}
         ${genHandleFragment {
           host = "radar.${host}";
           proxy = "http://localhost:7878";
+          ip = "127.0.0.1";
         }}
         ${genHandleFragment {
           host = "photos.${host}";
@@ -428,9 +446,15 @@
           host = "papers.${host}";
           proxy = "http://localhost:28888";
         }}
+        ${genHandleFragment {
+          host = "storage.${host}";
+          proxy = "http://localhost:44332";
+        }}
         handle /ok {
           respond "Ok this works"
         }
+
+        response 404
       '';
       token = (import ./token.nix).value;
     in
@@ -449,14 +473,14 @@
         "media.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${preambleFragment "media.burmudar.dev"}
+            ${restrict "media.burmudar.dev"}
             reverse_proxy http://localhost:8096
           '';
         };
         "photos.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${preambleFragment "photos.burmudar.dev"}
+            ${restrict "photos.burmudar.dev"}
             reverse_proxy http://localhost:33333
           '';
         };
@@ -466,14 +490,14 @@
               dns cloudflare ${token}
               get_certificate tailscale
             }
-            ${preambleFragment "media.raptor-emperor.ts.net"}
+            ${restrict "media.raptor-emperor.ts.net"}
             reverse_proxy http://localhost:8096
           '';
         };
         "files.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${preambleFragment "files.burmudar.dev"}
+            ${restrict "files.burmudar.dev"}
             basic_auth {
               christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
               sourcegraph $2a$14$K15WAUpbvDSN0L83Nxx/NOmj1HNGFBsOSwpjhQPBHxGtmKV287Bgm

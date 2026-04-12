@@ -54,7 +54,7 @@
           pkgs = import inputs.nixpkgs {
             inherit system;
             overlays = import lib/overlay.nix {
-              inherit cloudflare-dns-ip rust-overlay jj-starship;
+              inherit cloudflare-dns-ip rust-overlay jj-starship copyparty;
             };
             config = {
               allowUnfree = true;
