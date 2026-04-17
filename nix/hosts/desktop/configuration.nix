@@ -245,6 +245,7 @@ in
     spotify
     prusa-slicer
     telegram-desktop
+    tree-sitter
     tmux
     unzip
     vlc
@@ -267,16 +268,16 @@ in
     playerctl # Media player control
     brightnessctl # Brightness control
   ] ++ (with inputs.unstable; [
-    git-spice
     freecad
     ghostty
+    git-spice
     go_1_26
     gopls
     lutris
     neovim
     obsidian
-    qutebrowser
     proton-pass-cli
+    qutebrowser
   ]);
 
 

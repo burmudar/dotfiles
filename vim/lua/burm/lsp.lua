@@ -41,7 +41,7 @@ local configs = {
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = { 'vim', 'hs' },
+          globals = { 'vim', 'hs', "LazyVim" },
         },
         workspace = {
           library = vim.api.nvim_get_runtime_file("", true),
