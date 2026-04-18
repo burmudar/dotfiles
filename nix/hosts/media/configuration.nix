@@ -496,7 +496,6 @@
           respond "Ok this works"
         }
 
-        response 404
       '';
       token = (import ./token.nix).value;
     in
