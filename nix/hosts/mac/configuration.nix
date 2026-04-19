@@ -176,6 +176,7 @@ in
       "steam"
       "sublime-merge"
       "prusaslicer"
+      "proton-pass"
       "tailscale"
       "telegram-desktop"
       "tuple"
