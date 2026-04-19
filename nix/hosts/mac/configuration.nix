@@ -110,6 +110,7 @@ in
       # typescript-language-server
       # nodejs_22.pkgs.typescript-language-server
       nodePackages.pnpm # works ... pnpm node --verison = v22
+      tree-sitter
       jj-starship
       passage
       zig
@@ -177,7 +178,7 @@ in
       "sublime-merge"
       "prusaslicer"
       "proton-pass"
-      "tailscale"
+      "tailscale-app"
       "telegram-desktop"
       "tuple"
       "visual-studio-code"
