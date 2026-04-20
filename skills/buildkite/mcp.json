@@ -1,0 +1,16 @@
+{
+  "buildkite": {
+    "url": "https://mcp.buildkite.com/mcp/readonly",
+    "includeTools": [
+      "list_builds",
+      "get_build",
+      "tail_logs",
+      "read_logs",
+      "search_logs",
+      "list_annotations",
+      "list_artifacts_for_build",
+      "list_artifacts_for_job",
+      "get_failed_executions"
+    ]
+  }
+}
