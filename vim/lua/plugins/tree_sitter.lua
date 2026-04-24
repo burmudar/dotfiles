@@ -21,7 +21,8 @@ return {
           vim.treesitter.start()
           vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
           vim.wo.foldmethod = 'expr'
-          vim.bo.indentexpr = "vLlua.require'nvim-treesitter'.indentexpr()"
+          vim.wo.foldlevel = 99
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
         end,
       })
     end

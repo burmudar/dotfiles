@@ -17,9 +17,9 @@
       pkgs = prev;
       nodejs = prev.nodejs_22;
     };
-    lutris = prev.lutris.override {
-      extraLibraries = pkgs: [];
-      extraPkgs = pkgs: [ pkgs.wine-mono ];
-    };
+    # lutris = prev.lutris.override {
+    #   extraLibraries = pkgs: [];
+    #   extraPkgs = pkgs: [ pkgs.wine-mono ];
+    # };
   })
 ]
