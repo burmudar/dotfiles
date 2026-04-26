@@ -49,7 +49,7 @@
       copyparty,
     }@inputs:
     let
-      pkgs =
+      pkgsBySystem =
         (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
           pkgs = import inputs.nixpkgs {
             inherit system;
@@ -66,7 +66,7 @@
             };
           };
         })).pkgs;
-      unstable-pkgs =
+      unstable-pkgsBySystem =
         (inputs.flake-utils.lib.eachSystem [ "aarch64-darwin" "x86_64-linux" ] (system: {
           pkgs = import inputs.unstable-nixpkgs {
             inherit system;
@@ -98,6 +98,12 @@
             };
           };
         })).pkgs;
+      homeManagerModuleConfig = specialArgs: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.william = import ./home.nix;
+            home-manager.extraSpecialArgs = specialArgs;
+          };
     in
     {
       nixConfig = {
@@ -109,9 +115,9 @@
         ];
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
+        pkgs = pkgsBySystem.x86_64-linux;
         specialArgs = {
-          pkgs = pkgs.x86_64-linux;
-          unstable = unstable-pkgs.x86_64-linux;
+          unstable = unstable-pkgsBySystem.x86_64-linux;
           hyprland = inputs.hyprland.packages.x86_64-linux;
         };
         modules = [
@@ -119,18 +125,13 @@
           inputs.home-manager.nixosModules.home-manager
           disko.nixosModules.disko
           ./hosts/desktop/configuration.nix
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = false;
-            home-manager.users.william = import ./home.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-          }
+          (homeManagerModuleConfig specialArgs)
         ];
       };
       nixosConfigurations.media = nixpkgs.lib.nixosSystem rec {
+        pkgs = pkgsBySystem.x86_64-linux;
         specialArgs = {
-          pkgs = pkgs.x86_64-linux;
-          unstable = unstable-pkgs.x86_64-linux;
+          unstable = unstable-pkgsBySystem.x86_64-linux;
         };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
@@ -138,36 +139,26 @@
           inputs.copyparty.nixosModules.default
           inputs.cloudflare-dns-ip.nixosModules.default
           inputs.home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = false;
-            home-manager.users.william = import ./home.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-          }
+          (homeManagerModuleConfig specialArgs)
         ];
       };
       darwinConfigurations.Machine-Spirit = darwin.lib.darwinSystem rec {
+        pkgs = pkgsBySystem.aarch64-darwin;
         specialArgs = {
-          pkgs = pkgs.aarch64-darwin;
-          unstable = unstable-pkgs.aarch64-darwin;
+          unstable = unstable-pkgsBySystem.aarch64-darwin;
           hostname = "Machine-Spirit";
         };
         modules = [
           { nixpkgs.hostPlatform = "aarch64-darwin"; }
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.william = import ./home.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-          }
+          (homeManagerModuleConfig specialArgs)
         ];
       };
       darwinConfigurations.Williams-MacBook-Pro = darwin.lib.darwinSystem rec {
+        pkgs = pkgsBySystem.aarch64-darwin;
         specialArgs = {
-          pkgs = pkgs.aarch64-darwin;
-          unstable = unstable-pkgs.aarch64-darwin;
+          unstable = unstable-pkgsBySystem.aarch64-darwin;
           hostname = "Williams-MacBook-Pro";
           personal = true;
         };
@@ -175,19 +166,14 @@
           { nixpkgs.hostPlatform = "aarch64-darwin"; }
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.william = import ./home.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-          }
+          (homeManagerModuleConfig specialArgs)
         ];
       };
       homeConfigurations = {
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs.x86_64-linux;
+          pkgs = pkgsBySystem.x86_64-linux;
           extraSpecialArgs = {
-            unstable = unstable-pkgs.x86_64-linux;
+            unstable = unstable-pkgsBySystem.x86_64-linux;
           };
           modules = [
             ./home.nix
@@ -195,9 +181,9 @@
           ];
         };
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = pkgs.aarch64-darwin;
+          pkgs = pkgsBySystem.aarch64-darwin;
           extraSpecialArgs = {
-            unstable = unstable-pkgs.aarch64-darwin;
+            unstable = unstable-pkgsBySystem.aarch64-darwin;
           };
           modules = [
             ./home.nix
@@ -205,7 +191,7 @@
           ];
         };
       };
-      formatter.x86_64-linux = pkgs.x86_64-linux.nixpkgs-fmt;
-      formatter.aarch64-darwin = pkgs.aarch64-darwin.nixpkgs-fmt;
+      formatter.x86_64-linux = pkgsBySystem.x86_64-linux.nixpkgs-fmt;
+      formatter.aarch64-darwin = pkgsBySystem.aarch64-darwin.nixpkgs-fmt;
     };
 }
