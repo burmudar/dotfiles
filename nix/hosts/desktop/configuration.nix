@@ -67,6 +67,9 @@ in
     blueman.enable = true;
     dbus.enable = true;
 
+    gnome.gnome-keyring.enable = true;
+    security.pam.services.gdm.enableGnomeKeyring = true;
+
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
@@ -242,6 +245,7 @@ in
     egl-wayland
     lua-language-server
     luarocks
+    libsecret
     spotify
     prusa-slicer
     telegram-desktop
@@ -296,7 +300,10 @@ in
   };
 
   # needed for hyprland and electron
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    PROTON_PASS_LINUX_KEYRING = "dbus";
+    NIXOS_OZONE_WL = "1";
+  };
   environment.pathsToLink = [ "/share/nix-direnv" ];
   environment.shells = with pkgs; [ zsh ];
 
