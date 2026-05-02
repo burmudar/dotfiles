@@ -1,0 +1,39 @@
+-- Input configuration
+
+hl.config({
+    input = {
+        kb_layout = "us",
+        kb_variant = "",
+        kb_model = "",
+        kb_options = "compose:caps",
+        kb_rules = "",
+        follow_mouse = 1,
+        sensitivity = 0,
+        repeat_rate = 40,
+        repeat_delay = 300,
+        numlock_by_default = true,
+        touchpad = {
+            natural_scroll = false,
+            scroll_factor = 0.4,
+        },
+    },
+})
+
+hl.window_rule({
+    name = "terminal-scroll",
+    match = { class = "(Alacritty|kitty)" },
+    scroll_touchpad = 1.5,
+})
+
+hl.window_rule({
+    name = "ghostty-scroll",
+    match = { class = "com.mitchellh.ghostty" },
+    scroll_touchpad = 0.2,
+})
+
+-- hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+
+hl.device({
+    name = "epic-mouse-v1",
+    sensitivity = -0.5,
+})

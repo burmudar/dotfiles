@@ -76,22 +76,22 @@ rec {
           ../../qutebrowser/userscripts;
 
         # Hyprland configuration
-        "${config.xdg.configHome}/hypr/hyprland.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprland.conf";
-        "${config.xdg.configHome}/hypr/monitors.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/monitors.conf";
-        "${config.xdg.configHome}/hypr/envs.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/envs.conf";
-        "${config.xdg.configHome}/hypr/looknfeel.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/looknfeel.conf";
-        "${config.xdg.configHome}/hypr/input.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/input.conf";
-        "${config.xdg.configHome}/hypr/bindings.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/bindings.conf";
-        "${config.xdg.configHome}/hypr/windows.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/windows.conf";
-        "${config.xdg.configHome}/hypr/autostart.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/autostart.conf";
+        "${config.xdg.configHome}/hypr/hyprland.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprland.lua";
+        "${config.xdg.configHome}/hypr/monitors.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/monitors.lua";
+        "${config.xdg.configHome}/hypr/envs.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/envs.lua";
+        "${config.xdg.configHome}/hypr/looknfeel.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/looknfeel.lua";
+        "${config.xdg.configHome}/hypr/input.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/input.lua";
+        "${config.xdg.configHome}/hypr/bindings.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/bindings.lua";
+        "${config.xdg.configHome}/hypr/windows.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/windows.lua";
+        "${config.xdg.configHome}/hypr/autostart.lua".source =
+          config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/autostart.lua";
         "${config.xdg.configHome}/hypr/hyprlock.conf".source =
           config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/code/dotfiles/hyprland/hyprlock.conf";
         "${config.xdg.configHome}/hypr/hypridle.conf".source =
