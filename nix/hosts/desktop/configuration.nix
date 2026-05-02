@@ -61,6 +61,9 @@ in
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  security.pam.services.gdm.enableGnomeKeyring = true;
+  security.rtkit.enable = true;
+
   services = {
     # Need so that qmk can see the keyboard
     udev.packages = [ pkgs.qmk-udev-rules ];
@@ -68,7 +71,6 @@ in
     dbus.enable = true;
 
     gnome.gnome-keyring.enable = true;
-    security.pam.services.gdm.enableGnomeKeyring = true;
 
     xserver = {
       enable = true;
@@ -165,7 +167,6 @@ in
 
   };
 
-  security.rtkit.enable = true;
 
   # pre-create some directories
   systemd.tmpfiles.rules = [
