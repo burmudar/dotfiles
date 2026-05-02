@@ -45,6 +45,10 @@ end
 M.setup = function()
 	registerAutoCmd()
 
+  vim.api.nvim_create_user_command("GoImports", function ()
+    require("conform").format( { formatters = { "goimports" }})
+  end, { desc = "Format with Go imports"})
+
 	-- register user command to disable/enable auto-formatting
 	vim.api.nvim_create_user_command("FormatDisable", function()
 		vim.b.disable_autoformat = true
