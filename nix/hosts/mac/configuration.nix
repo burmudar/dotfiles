@@ -86,7 +86,7 @@ in
       age
       comma
       cachix
-      customNodePackages."@anthropic-ai/claude-code"
+      customNodePackages.agent-browser
       emacs
       fd
       home-manager
@@ -116,8 +116,10 @@ in
       zig
     ]
     ++ (with unstable; [
+      claude-code
       git-spice
       go
+      gotools
       gopls
       jujutsu
       jjui
@@ -188,12 +190,12 @@ in
       "virtualbox"
       "1password"
       "1password-cli"
-      "linear-linear"
+      "linear"
       "loom"
       "notion"
       "notion-calendar"
-      "p4v"
-      "perforce"
+      # "p4v"
+      # "perforce"
     ];
   };
 }
