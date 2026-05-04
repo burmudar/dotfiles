@@ -341,7 +341,7 @@
           rw = [ "william" ];
         };
         flags = {
-          scan = 180;
+          scan = 600;
         };
       };
       "/movies" = {
@@ -351,7 +351,7 @@
           rw = [ "william" ];
         };
         flags = {
-          scan = 300;
+          scan = 600;
         };
       };
       "/anime" = {
@@ -360,7 +360,7 @@
           rw = [ "william" ];
         };
         flags = {
-          scan = 300;
+          scan = 600;
         };
       };
       "/downloads" = {
@@ -370,7 +370,7 @@
           rw = [ "william" ];
         };
         flags = {
-          scan = 300;
+          scan = 600;
         };
       };
       "/inbox" = {
@@ -380,7 +380,7 @@
           rw = [ "william" ];
         };
         flags = {
-          scan = 300;
+          scan = 180;
         };
       };
     };
@@ -504,7 +504,7 @@
       email = "william.bezuidenhout@gmail.com";
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
-        hash = "sha256-Dvifm7rRwFfgXfcYvXcPDNlMaoxKd5h4mHEK6kJ+T4A=";
+        hash = "sha256-Pzfdwq6GGUarf9jWpjuHEk3hjhftGZb0SJPqEOErZSg=";
       };
       # instead of readFile we should read the token from age or something like that
       logFormat = ''
