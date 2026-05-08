@@ -149,13 +149,14 @@ in
     brews = [
       "pinentry-mac"
       "podman"
-      "kind"
       "starship"
+      "colima"
     ]
     ++ lib.optionals isWork [
       "bazelisk"
       "ibazel"
       "mise"
+      "minikube"
     ];
     # updates homebrew packages on activation,
     # can make darwin-rebuild much slower (otherwise i'd forget to do it ever though)
@@ -172,14 +173,13 @@ in
       "podman-desktop"
       "postico"
       "proton-pass"
+      "prusaslicer"
       "qutebrowser"
       "raycast"
       "slack"
       "spotify"
       "steam"
       "sublime-merge"
-      "prusaslicer"
-      "proton-pass"
       "tailscale-app"
       "telegram-desktop"
       "tuple"
