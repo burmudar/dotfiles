@@ -1,4 +1,9 @@
-{ pkgs, config, ... }@inputs:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}@inputs:
 {
   imports = [
     # Include the results of the hardware scan.
@@ -314,52 +319,85 @@
     };
 
     accounts = {
-      william = { passwordFile = "/home/william/copyparty/william_password";};
-      christina = { passwordFile = "/home/william/copyparty/christina_password";};
-      sourcegraph = { passwordFile = "/home/william/copyparty/sourcegraph_password";};
-      vob = { passwordFile = "/home/william/copyparty/vob_password";};
+      william = {
+        passwordFile = "/home/william/copyparty/william_password";
+      };
+      christina = {
+        passwordFile = "/home/william/copyparty/christina_password";
+      };
+      sourcegraph = {
+        passwordFile = "/home/william/copyparty/sourcegraph_password";
+      };
+      vob = {
+        passwordFile = "/home/william/copyparty/vob_password";
+      };
     };
 
     volumes = {
-        "/series" = {
-          path = "/mnt/storage/series";
-          access = { r = "*"; rw = [ "william" ]; };
-          flags = { scan = 180; };
+      "/series" = {
+        path = "/mnt/storage/series";
+        access = {
+          r = "*";
+          rw = [ "william" ];
         };
-        "/movies" = {
-          path = "/mnt/storage/movies";
-          access = { r = "*"; rw = [ "william" ]; };
-          flags = { scan = 300; };
+        flags = {
+          scan = 180;
         };
-        "/anime" = {
-          path = "/mnt/storage/anime";
-          access = { rw = [ "william" ]; };
-          flags = { scan = 300; };
+      };
+      "/movies" = {
+        path = "/mnt/storage/movies";
+        access = {
+          r = "*";
+          rw = [ "william" ];
         };
-        "/downloads" = {
-          path = "/mnt/storage/downloads";
-          access = { r = "*"; rw = [ "william" ]; };
-          flags = { scan = 300; };
+        flags = {
+          scan = 300;
         };
-        "/inbox" = {
-          path = "/mnt/storage/inbox";
-          access = { r = "*"; rw = [ "william" ]; };
-          flags = { scan = 300; };
+      };
+      "/anime" = {
+        path = "/mnt/storage/anime";
+        access = {
+          rw = [ "william" ];
         };
+        flags = {
+          scan = 300;
+        };
+      };
+      "/downloads" = {
+        path = "/mnt/storage/downloads";
+        access = {
+          r = "*";
+          rw = [ "william" ];
+        };
+        flags = {
+          scan = 300;
+        };
+      };
+      "/inbox" = {
+        path = "/mnt/storage/inbox";
+        access = {
+          r = "*";
+          rw = [ "william" ];
+        };
+        flags = {
+          scan = 300;
+        };
+      };
     };
 
   };
 
   services.caddy =
     let
+      afrihost = lib.splitString "\n" (builtins.readFile "./afrihost_allow_ranges.txt");
       allowRanges = [
         "100.64.0.0/10" # tailscale
-        "169.0.0.0/15" # afrihost
         "192.168.0.0/16"
         "172.16.0.0/12"
         "10.0.0.0/8"
         "127.0.0.1/8"
-      ];
+      ]
+      + afrihost;
       genHandleFragment =
         { host, proxy, ... }@vars:
         let
@@ -369,11 +407,11 @@
           matcher = "${sub}${suffix}";
           ip = if builtins.hasAttr "ip" vars then vars.ip else "{remote_host}";
           headers = ''
-              header_up Host {upstream_hostport}
-              header_up X-Forwarded-Proto {scheme}
-              header_up X-Forwarded-Host {host}
-              header_up X-Forwarded-For ${ip}
-              header_up X-Real-IP ${ip}
+            header_up Host {upstream_hostport}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Forwarded-Host {host}
+            header_up X-Forwarded-For ${ip}
+            header_up X-Real-IP ${ip}
           '';
         in
         ''
@@ -381,18 +419,22 @@
           @${matcher} {
             host ${host}
           }
-          ${if hasPath then
-          ''
-          handle_path ${vars.path}* {
-            reverse_proxy ${proxy} {
-            ${headers}
-            }
+          ${
+            if hasPath then
+              ''
+                handle_path ${vars.path}* {
+                  reverse_proxy ${proxy} {
+                  ${headers}
+                  }
+                }
+              ''
+            else
+              ''
+                reverse_proxy @${matcher} ${proxy} {
+                  ${headers}
+                }
+              ''
           }
-          '' else ''
-          reverse_proxy @${matcher} ${proxy} {
-            ${headers}
-          }
-          ''}
         '';
       restrict = host: ''
         @denied {
@@ -576,48 +618,50 @@
     record = "media,files,photos";
   };
 
-  services.syncthing = let
-    address = "seedbox.media-emperor.ts.net";
-    in {
-    enable = true;
-    overrideFolders = true;
-    relay.enable = false;
-    guiAddress = "${address}:10100";
-    settings = {
-      options = {
-        listenAddresses = [
-          "${address}:22000"
-        ];
-        minHomeDiskFree = {
-          unit = "%";
-          value = 1;
-        };
-      };
-      devices = {
-        "seedbox" = {
-          addresses = [
-            "tcp://${address}:22001"
+  services.syncthing =
+    let
+      address = "seedbox.media-emperor.ts.net";
+    in
+    {
+      enable = true;
+      overrideFolders = true;
+      relay.enable = false;
+      guiAddress = "${address}:10100";
+      settings = {
+        options = {
+          listenAddresses = [
+            "${address}:22000"
           ];
-          id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
+          minHomeDiskFree = {
+            unit = "%";
+            value = 1;
+          };
+        };
+        devices = {
+          "seedbox" = {
+            addresses = [
+              "tcp://${address}:22001"
+            ];
+            id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
+          };
+        };
+        folders = {
+          "NZB" = {
+            path = "/mnt/storage/downloads/nzb";
+            id = "nzb";
+            devices = [ "seedbox" ];
+            type = "sendreceive";
+          };
+          "Torrents" = {
+            path = "/mnt/storage/downloads/torrents";
+            id = "torrents";
+            devices = [ "seedbox" ];
+            type = "sendreceive";
+          };
         };
       };
-      folders = {
-        "NZB" = {
-          path = "/mnt/storage/downloads/nzb";
-          id = "nzb";
-          devices = [ "seedbox" ];
-          type = "sendreceive";
-        };
-        "Torrents" = {
-          path = "/mnt/storage/downloads/torrents";
-          id = "torrents";
-          devices = [ "seedbox" ];
-          type = "sendreceive";
-        };
-      };
-    };
 
-  };
+    };
 
   # Backup photos to USB daily at noon
 
