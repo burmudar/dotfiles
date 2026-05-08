@@ -225,6 +225,8 @@
     go
     htop
     jq
+    tree-sitter
+    ollama
     kitty
     lua
     man-pages
