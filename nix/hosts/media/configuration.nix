@@ -618,50 +618,57 @@
     record = "media,files,photos";
   };
 
-  services.syncthing =
-    let
-      address = "seedbox.media-emperor.ts.net";
-    in
-    {
-      enable = true;
-      overrideFolders = true;
-      relay.enable = false;
-      guiAddress = "${address}:10100";
-      settings = {
-        options = {
-          listenAddresses = [
-            "${address}:22000"
-          ];
-          minHomeDiskFree = {
-            unit = "%";
-            value = 1;
-          };
-        };
-        devices = {
-          "seedbox" = {
-            addresses = [
-              "tcp://${address}:22001"
-            ];
-            id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
-          };
-        };
-        folders = {
-          "NZB" = {
-            path = "/mnt/storage/downloads/nzb";
-            id = "nzb";
-            devices = [ "seedbox" ];
-            type = "sendreceive";
-          };
-          "Torrents" = {
-            path = "/mnt/storage/downloads/torrents";
-            id = "torrents";
-            devices = [ "seedbox" ];
-            type = "sendreceive";
-          };
+  services.syncthing = {
+    enable = true;
+    overrideFolders = true;
+    guiAddress = "localhost:10100";
+    settings = {
+      options = {
+        listenAddresses = [
+          "localhost:22000"
+        ];
+        minHomeDiskFree = {
+          unit = "%";
+          value = 1;
         };
       };
-
+      devices = {
+        "seedbox" = {
+          addresses = [
+            "tcp://localhost:22001"
+          ];
+          id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
+        };
+      };
+      folders = {
+        "NZB" = {
+          path = "/mnt/storage/downloads/nzb";
+          id = "nzb";
+          devices = [ "seedbox" ];
+          type = "sendreceive";
+        };
+        "Torrents" = {
+          path = "/mnt/storage/downloads/torrents";
+          id = "torrents";
+          devices = [ "seedbox" ];
+          type = "sendreceive";
+        };
+      };
     };
+
+  };
+
+  # 22000: syncthing listen address on this machine
+  # 22001: listenAddress on the seedbox
+  # 10200: GUI of syncthing on the seedbox
+  services.autossh.sessions = [
+    {
+      extraArguments = "-N -R 22002:localhost:22000 -L 22001:localhost:22001 -L 10200:0.0.0.0:10200 seedbox";
+      monitoringPort = 23000;
+      name = "seedbox";
+      user = "william";
+    }
+  ];
 
   # Backup photos to USB daily at noon
 
