@@ -250,6 +250,7 @@
     xclip
   ];
 
+  programs.nix-ld.enable = true;
   programs.zsh.enable = true;
   programs.steam = {
     enable = true;
@@ -391,7 +392,7 @@
 
   services.caddy =
     let
-      afrihost = lib.splitString "\n" (builtins.readFile "./afrihost_allow_ranges.txt");
+      afrihost = lib.splitString "\n" (builtins.readFile ./afrihost_allow_ranges.txt);
       allowRanges = [
         "100.64.0.0/10" # tailscale
         "192.168.0.0/16"
@@ -399,7 +400,7 @@
         "10.0.0.0/8"
         "127.0.0.1/8"
       ]
-      + afrihost;
+      ++ afrihost;
       genHandleFragment =
         { host, proxy, ... }@vars:
         let
