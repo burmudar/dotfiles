@@ -1,6 +1,12 @@
 local M = {}
 
 local function registerAutoCmd()
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = function (opts)
+      require("conform").format({bufnr = opts.buf})
+    end
+  })
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = { "yaml", "yml" },
 		callback = function()
