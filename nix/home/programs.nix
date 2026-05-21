@@ -390,20 +390,28 @@ in
 
     settings = {
       notebook = { dir = "~/code/notes"; };
-    };
 
-    note = {
-      language = "en";
-      default-title = "Untitled";
-      filename = "{{slug title }}";
-      extension = ".md";
-      template = "default.md";
-    };
+      note = {
+        language = "en";
+        default-title = "Untitled";
+        filename = "{{slug title }}";
+        extension = ".md";
+        template = "default.md";
+      };
 
-    tool = { editor = "nvim"; };
+      tool = { editor = "nvim"; };
 
-    alias = {
-      daily = ''zk new --dir daily --template daily "$@"'';
+      group = {
+        daily = {
+          paths = [ "daily" ];
+          filename = "{{format-date now '%Y-%m-%d'}}";
+          template = ".zk/templates/daily.md";
+        };
+      };
+
+      alias = {
+        daily = ''zk new --no-input "$ZK_NOTEBOOK_DIR/daily"'';
+      };
     };
   };
 
