@@ -148,7 +148,6 @@ in
 
     brews = [
       "pinentry-mac"
-      "podman"
       "starship"
       "colima"
     ]
@@ -170,7 +169,6 @@ in
       "google-chrome"
       "hammerspoon"
       "iina"
-      "podman-desktop"
       "postico"
       "proton-pass"
       "prusaslicer"

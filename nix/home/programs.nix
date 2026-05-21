@@ -162,9 +162,6 @@ in
 
       export VISUAL="nvim"
       export EDITOR="nvim"
-      if command -v podman >/dev/null 2>&1 && podman machine list --format "{{.Name}}" | grep -q .; then
-        export DOCKER_HOST=unix://$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')
-      fi
     '';
 
     initContent =

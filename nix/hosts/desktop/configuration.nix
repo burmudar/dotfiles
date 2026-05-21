@@ -237,7 +237,6 @@ in
     pavucontrol
     pipewire
     pkg-config
-    podman-tui
     proton-pass
     python3
     qmk
@@ -332,11 +331,6 @@ in
     containers.enable = true;
     virtualbox.host.enable = true;
     libvirtd.enable = true;
-    podman = {
-      enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
-    };
   };
 
   # Open ports in the firewall.
