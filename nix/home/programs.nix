@@ -15,7 +15,6 @@ let
   defaultUser = "william";
   fontSize = 13.0;
   fontFamily = "Hack Nerd Font Mono";
-  theme = "catppuccin-frappe";
 
   # SSH host configuration helpers
   mkSSHHost =
@@ -384,6 +383,28 @@ in
     # publicKeys = [
     #   { text = "EDE8072F89D58CD9!"; trust = 5; }
     # ];
+  };
+
+  programs.zk = {
+    enable = true;
+
+    settings = {
+      notebook = { dir = "~/code/notes"; };
+    };
+
+    note = {
+      language = "en";
+      default-title = "Untitled";
+      filename = "{{slug title }}";
+      extension = ".md";
+      template = "default.md";
+    };
+
+    tool = { editor = "nvim"; };
+
+    alias = {
+      daily = ''zk new --dir daily --template daily "$@"'';
+    };
   };
 
 }

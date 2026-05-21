@@ -331,6 +331,7 @@ in
     containers.enable = true;
     virtualbox.host.enable = true;
     libvirtd.enable = true;
+    docker.enable = true;
   };
 
   # Open ports in the firewall.

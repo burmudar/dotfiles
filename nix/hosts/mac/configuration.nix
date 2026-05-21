@@ -86,6 +86,7 @@ in
       age
       comma
       cachix
+      docker
       customNodePackages.agent-browser
       emacs
       fd
@@ -162,6 +163,7 @@ in
     casks = [
       "chatgpt"
       "claude"
+      "docker-desktop"
       "discord"
       "element"
       "firefox"
