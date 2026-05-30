@@ -1,9 +1,8 @@
-{
-  config,
-  pkgs,
-  unstable ? pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, unstable ? pkgs
+, lib
+, ...
 }:
 let
   # Platform detection
@@ -18,10 +17,10 @@ let
 
   # SSH host configuration helpers
   mkSSHHost =
-    {
-      hostname,
-      user ? defaultUser,
-      identityFile ? defaultIdentityFile,
+    { hostname
+    , user ? defaultUser
+    , identityFile ? defaultIdentityFile
+    ,
     }:
     {
       inherit hostname user identityFile;

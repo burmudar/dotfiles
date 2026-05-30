@@ -1,9 +1,8 @@
-{
-  config,
-  pkgs,
-  unstable ? pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, unstable ? pkgs
+, lib
+, ...
 }:
 rec {
   # Core home-manager settings

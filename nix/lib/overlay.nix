@@ -1,8 +1,7 @@
-{
-  cloudflare-dns-ip,
-  rust-overlay,
-  jj-starship,
-  copyparty
+{ cloudflare-dns-ip
+, rust-overlay
+, jj-starship
+, copyparty
 }:
 [
   copyparty.overlays.default

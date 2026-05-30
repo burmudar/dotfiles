@@ -33,20 +33,20 @@
   };
 
   outputs =
-    {
-      self,
-      cloudflare-dns-ip,
-      darwin,
-      flake-utils,
-      home-manager,
-      neovim-nightly-overlay,
-      nixpkgs,
-      unstable-nixpkgs,
-      rust-overlay,
-      hyprland,
-      disko,
-      jj-starship,
-      copyparty,
+    { self
+    , cloudflare-dns-ip
+    , darwin
+    , flake-utils
+    , home-manager
+    , neovim-nightly-overlay
+    , nixpkgs
+    , unstable-nixpkgs
+    , rust-overlay
+    , hyprland
+    , disko
+    , jj-starship
+    , copyparty
+    ,
     }@inputs:
     let
       pkgsBySystem =
@@ -99,11 +99,11 @@
           };
         })).pkgs;
       homeManagerModuleConfig = specialArgs: {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.william = import ./home.nix;
-            home-manager.extraSpecialArgs = specialArgs;
-          };
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.users.william = import ./home.nix;
+        home-manager.extraSpecialArgs = specialArgs;
+      };
     in
     {
       nixConfig = {

@@ -170,7 +170,7 @@ in
 
   # pre-create some directories
   systemd.tmpfiles.rules = [
-  "d /mnt/tank/steam 0755 william users"
+    "d /mnt/tank/steam 0755 william users"
   ];
 
   fileSystems."/home/${username}/steam" = {

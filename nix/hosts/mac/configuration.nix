@@ -1,9 +1,8 @@
-{
-  config,
-  pkgs,
-  unstable,
-  hostname,
-  ...
+{ config
+, pkgs
+, unstable
+, hostname
+, ...
 }@inputs:
 let
   lib = pkgs.lib;
