@@ -143,6 +143,7 @@ in
   };
 
   programs = {
+    nix-ld.enable = true;
     hyprland = {
       enable = true;
       package = inputs.hyprland.hyprland;
