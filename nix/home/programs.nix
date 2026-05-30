@@ -393,9 +393,7 @@ in
 
       note = {
         language = "en";
-        default-title = "Untitled";
-        filename = "{{slug title }}";
-        extension = ".md";
+        filename = "{{slug title}}";
         template = "default.md";
       };
 
@@ -404,8 +402,10 @@ in
       group = {
         daily = {
           paths = [ "daily" ];
-          filename = "{{format-date now '%Y-%m-%d'}}";
-          template = ".zk/templates/daily.md";
+          note = {
+            filename = "{{format-date now '%Y-%m-%d'}}";
+            template = "daily.md";
+          };
         };
       };
 

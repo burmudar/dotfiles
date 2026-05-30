@@ -55,6 +55,7 @@ rec {
       configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
       userHome = config.home.homeDirectory;
       dotfilesDir = "${userHome}/code/dotfiles";
+      mkLink = config.lib.file.mkOutOfStoreSymlink;
       keepFile =
         name:
         pkgs.writeTextFile {
@@ -78,55 +79,34 @@ rec {
           ../../qutebrowser/userscripts;
 
         # Hyprland configuration
-        "${config.xdg.configHome}/hypr/hyprland.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/hyprland.lua";
-        "${config.xdg.configHome}/hypr/monitors.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/monitors.lua";
-        "${config.xdg.configHome}/hypr/envs.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/envs.lua";
-        "${config.xdg.configHome}/hypr/looknfeel.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/looknfeel.lua";
-        "${config.xdg.configHome}/hypr/input.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/input.lua";
-        "${config.xdg.configHome}/hypr/bindings.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/bindings.lua";
-        "${config.xdg.configHome}/hypr/windows.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/windows.lua";
-        "${config.xdg.configHome}/hypr/autostart.lua".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/autostart.lua";
-        "${config.xdg.configHome}/hypr/hyprlock.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/hyprlock.conf";
-        "${config.xdg.configHome}/hypr/hypridle.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/hypridle.conf";
-        "${config.xdg.configHome}/hypr/hyprpaper.conf".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/hyprland/hyprpaper.conf";
+        "${configHome}/hypr".source = mkLink "${dotfilesDir}/hyprland";
 
         # Ghostty configuration
-        "${config.xdg.configHome}/ghostty/config".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/ghostty/config";
+        "${configHome}/ghostty/config".source =
+          mkLink "${dotfilesDir}/ghostty/config";
 
         # Mako notification daemon configuration
-        "${config.xdg.configHome}/mako/config".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/mako/config";
+        "${configHome}/mako/config".source =
+          mkLink "${dotfilesDir}/mako/config";
 
         # Wofi launcher configuration
-        "${config.xdg.configHome}/wofi/config".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/wofi/config";
-        "${config.xdg.configHome}/wofi/style.css".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/wofi/style.css";
+        "${configHome}/wofi/config".source =
+          mkLink "${dotfilesDir}/wofi/config";
+        "${configHome}/wofi/style.css".source =
+          mkLink "${dotfilesDir}/wofi/style.css";
 
-        "${config.home.homeDirectory}/.agents/skills".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/skills";
+        "${configHome}/.agents/skills".source =
+          mkLink "${dotfilesDir}/skills";
 
-        # Disabled 16 Aug 2025 - moving to hyprland
-        # "${config.xdg.configHome}/i3/config".source = ../../i3/config;
-        # "${config.xdg.configHome}/polybar/launch.sh".source = ../../polybar/launch.sh;
-        # "${config.xdg.configHome}/polybar/config.ini".source = ../../polybar/config.ini;
-        "${config.xdg.configHome}/i3/i3lock.sh".source = ../../i3/i3lock.sh;
-        "${config.xdg.configHome}/nvim".source =
-          config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/vim";
+        "${configHome}/i3/i3lock.sh".source = ../../i3/i3lock.sh;
+        "${configHome}/nvim".source =
+          mkLink "${dotfilesDir}/vim";
 
-        "code/notes/.zk/templates".source = config.lib.file.mkOutOfStoreSymlink "${dotfilesDir}/zk/templates";
+        "code/notes/.zk/templates".source = mkLink "${dotfilesDir}/zk/templates";
+
+        # pi
+        "${userHome}/.pi/agents/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
+        "${userHome}/code/bin/pi".source = mkLink "${dotfilesDir}/agents/pi/pi";
       };
     in
     if pkgs.stdenv.isDarwin then

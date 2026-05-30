@@ -37,7 +37,7 @@ c.tabs.position = "right"
 # when the tab is selected make it more visible
 c.fonts.tabs.selected = '14pt default_family'
 c.fonts.tabs.unselected = '10pt default_family'
-
+c.content.local_content_can_access_remote_urls
 c.url.searchengines = {
             "DEFAULT": KAGI_SEARCH,
             "k": KAGI_SEARCH,

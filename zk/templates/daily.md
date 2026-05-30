@@ -10,8 +10,6 @@
 
   # {{format-date now "%Y-%m-%d"}}
 
-  ## Scratchpad
+  > Anything left over from yesterday? `zk list --tag todo`
 
-  ## Ideas
-
-  ## Followups
+  ## Unititled
