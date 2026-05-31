@@ -473,6 +473,12 @@
           proxy = "http://localhost:9117";
         }}
         ${genHandleFragment {
+          # seerr
+          host = "seerr.${host}";
+          proxy = "http://localhost:6767";
+          ip = "127.0.0.1";
+        }}
+        ${genHandleFragment {
           host = "sonar.${host}";
           proxy = "http://localhost:8989";
           ip = "127.0.0.1";
@@ -525,6 +531,13 @@
             tls { dns cloudflare ${token} }
             ${restrict "photos.burmudar.dev"}
             reverse_proxy http://localhost:33333
+          '';
+        };
+        "ask.burmudar.dev" = {
+          extraConfig = ''
+            tls { dns cloudflare ${token} }
+            ${restrict "ask.burmudar.dev"}
+            reverse_proxy http://localhost:6767
           '';
         };
         "media.raptor-emperor.ts.net" = {
@@ -595,6 +608,11 @@
     ];
   };
 
+  services.seerr = {
+    enable = true;
+    port = 6767;
+  };
+
   services.sonarr = {
     enable = true;
     package = inputs.unstable.sonarr;
@@ -616,7 +634,7 @@
   services.cloudflare-dns-ip = {
     enable = true;
     zone = "burmudar.dev";
-    record = "media,files,photos";
+    record = "media,files,photos,ask";
   };
 
   services.syncthing = {
