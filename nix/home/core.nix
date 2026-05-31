@@ -18,7 +18,7 @@ rec {
   home.packages = with pkgs; [
     cheat
     delta
-    dogdns
+    doggo
     fd
     gping
     gopass
@@ -81,30 +81,22 @@ rec {
         "${configHome}/hypr".source = mkLink "${dotfilesDir}/hyprland";
 
         # Ghostty configuration
-        "${configHome}/ghostty/config".source =
-          mkLink "${dotfilesDir}/ghostty/config";
+        "${configHome}/ghostty/config".source = mkLink "${dotfilesDir}/ghostty/config";
 
         # Mako notification daemon configuration
-        "${configHome}/mako/config".source =
-          mkLink "${dotfilesDir}/mako/config";
+        "${configHome}/mako/config".source = mkLink "${dotfilesDir}/mako/config";
 
         # Wofi launcher configuration
-        "${configHome}/wofi/config".source =
-          mkLink "${dotfilesDir}/wofi/config";
-        "${configHome}/wofi/style.css".source =
-          mkLink "${dotfilesDir}/wofi/style.css";
-
-        "${configHome}/.agents/skills".source =
-          mkLink "${dotfilesDir}/skills";
+        "${configHome}/wofi/config".source = mkLink "${dotfilesDir}/wofi/config";
+        "${configHome}/wofi/style.css".source = mkLink "${dotfilesDir}/wofi/style.css";
+        "${configHome}/.agents/skills".source = mkLink "${dotfilesDir}/skills";
 
         "${configHome}/i3/i3lock.sh".source = ../../i3/i3lock.sh;
-        "${configHome}/nvim".source =
-          mkLink "${dotfilesDir}/vim";
-
+        "${configHome}/nvim".source = mkLink "${dotfilesDir}/vim";
         "code/notes/.zk/templates".source = mkLink "${dotfilesDir}/zk/templates";
 
         # pi
-        "${userHome}/.pi/agents/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
+        "${userHome}/.pi/agent/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
         "${userHome}/code/bin/pi".source = mkLink "${dotfilesDir}/agents/pi/pi";
       };
     in

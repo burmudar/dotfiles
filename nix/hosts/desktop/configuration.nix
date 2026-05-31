@@ -84,7 +84,6 @@ in
       };
       gdm = {
         enable = true;
-        wayland = true;
       };
       defaultSession = "hyprland";
     };
@@ -177,6 +176,7 @@ in
   fileSystems."/home/${username}/steam" = {
     device = "/mnt/tank/steam";
     options = [ "bind" ];
+    fsType = "none";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -203,7 +203,6 @@ in
     btrfs-progs
     curl
     difftastic
-    customNodePackages."@anthropic-ai/claude-code"
     clipse
     feh
     scrot
@@ -230,8 +229,8 @@ in
     # nix-direnv
     networkmanagerapplet
     nmap
-    nodePackages.typescript-language-server
-    nodejs_20
+    typescript-language-server
+    nodejs_latest
     nautilus
     openssl.dev
     os-prober

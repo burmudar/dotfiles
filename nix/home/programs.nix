@@ -52,6 +52,7 @@ in
   programs.firefox = {
     enable = isLinux;
     package = unstable.librewolf;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = {
       DisableTelemetry = true;
       DisableFirefoxStudies = true;
@@ -126,6 +127,8 @@ in
     enable = true;
     viAlias = true;
     vimAlias = true;
+    withPython3 = true;
+    withRuby = true;
     package = unstable.neovim;
   };
 

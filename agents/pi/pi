@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Function to run with sandbox if available on macOS
 run_with_sandbox() {
