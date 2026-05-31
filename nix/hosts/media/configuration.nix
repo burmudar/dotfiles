@@ -185,6 +185,7 @@
     "d /mnt/storage/movies                2775 root storage -"
     "d /mnt/storage/anime                 2775 root storage -"
     "d /mnt/storage/inbox                 2775 root storage -"
+    "d /mnt/storage/books                 2775 root storage -"
     "d /mnt/photos                        2775 root storage -"
   ];
   hardware.xpadneo.enable = true;
@@ -232,7 +233,7 @@
     man-pages-posix
     mkpasswd
     inputs.unstable.neovim
-    nodejs_20
+    nodejs_latest
     nmap
     nss
     pavucontrol
@@ -383,6 +384,16 @@
         };
         flags = {
           scan = 180;
+        };
+      };
+      "/books" = {
+        path = "/mnt/storage/books";
+        access = {
+          r = "*";
+          rw = [ "william" ];
+        };
+        flags = {
+          scan = 600;
         };
       };
     };
