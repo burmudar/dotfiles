@@ -86,7 +86,7 @@ in
       comma
       cachix
       docker
-      customNodePackages.agent-browser
+      agent-browser
       emacs
       fd
       home-manager
@@ -109,7 +109,7 @@ in
       # nodePackages.typescript-language-server
       # typescript-language-server
       # nodejs_22.pkgs.typescript-language-server
-      nodePackages.pnpm # works ... pnpm node --verison = v22
+      pnpm # works ... pnpm node --verison = v22
       tree-sitter
       jj-starship
       passage

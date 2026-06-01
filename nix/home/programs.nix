@@ -129,6 +129,9 @@ in
     vimAlias = true;
     withPython3 = true;
     withRuby = true;
+    # needed because init.lua is generated and we symlink our config, so when this init.lua
+    # is generated it struggles because it's "outside" of $HOME
+    sideloadInitLua = true;
     package = unstable.neovim;
   };
 

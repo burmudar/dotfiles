@@ -49,6 +49,29 @@ rec {
       ssw = "${systemCmd}";
     };
 
+  xdg.configFile = let
+      userHome = config.home.homeDirectory;
+      dotfilesDir = "${userHome}/code/dotfiles";
+      mkLink = config.lib.file.mkOutOfStoreSymlink;
+    in {
+      # Hyprland configuration
+    "hypr".source = mkLink "${dotfilesDir}/hyprland";
+
+    # Ghostty configuration
+    "ghostty/config".source = mkLink "${dotfilesDir}/ghostty/config";
+
+    # Mako notification daemon configuration
+    "mako/config".source = mkLink "${dotfilesDir}/mako/config";
+
+    # Wofi launcher configuration
+    "wofi/config".source = mkLink "${dotfilesDir}/wofi/config";
+    "wofi/style.css".source = mkLink "${dotfilesDir}/wofi/style.css";
+    ".agents/skills".source = mkLink "${dotfilesDir}/skills";
+
+    "i3/i3lock.sh".source = ../../i3/i3lock.sh;
+    "nvim".source = mkLink "${dotfilesDir}/vim";
+    };
+
   home.file =
     let
       configHome = if pkgs.stdenv.isDarwin then config.home.homeDirectory else config.xdg.configHome;
@@ -77,27 +100,11 @@ rec {
         }/userscripts".source =
           ../../qutebrowser/userscripts;
 
-        # Hyprland configuration
-        "${configHome}/hypr".source = mkLink "${dotfilesDir}/hyprland";
-
-        # Ghostty configuration
-        "${configHome}/ghostty/config".source = mkLink "${dotfilesDir}/ghostty/config";
-
-        # Mako notification daemon configuration
-        "${configHome}/mako/config".source = mkLink "${dotfilesDir}/mako/config";
-
-        # Wofi launcher configuration
-        "${configHome}/wofi/config".source = mkLink "${dotfilesDir}/wofi/config";
-        "${configHome}/wofi/style.css".source = mkLink "${dotfilesDir}/wofi/style.css";
-        "${configHome}/.agents/skills".source = mkLink "${dotfilesDir}/skills";
-
-        "${configHome}/i3/i3lock.sh".source = ../../i3/i3lock.sh;
-        "${configHome}/nvim".source = mkLink "${dotfilesDir}/vim";
         "code/notes/.zk/templates".source = mkLink "${dotfilesDir}/zk/templates";
 
         # pi
-        "${userHome}/.pi/agent/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
-        "${userHome}/code/bin/pi".source = mkLink "${dotfilesDir}/agents/pi/pi";
+        ".pi/agent/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
+        "code/bin/pi".source = mkLink "${dotfilesDir}/agents/pi/pi";
       };
     in
     if pkgs.stdenv.isDarwin then
@@ -107,4 +114,7 @@ rec {
       }
     else
       files // { };
+
+
+
 }
