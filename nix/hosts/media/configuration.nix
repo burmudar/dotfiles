@@ -402,15 +402,6 @@
 
   services.caddy =
     let
-      afrihost = lib.splitString "\n" (builtins.readFile ./afrihost_allow_ranges.txt);
-      allowRanges = [
-        "100.64.0.0/10" # tailscale
-        "192.168.0.0/16"
-        "172.16.0.0/12"
-        "10.0.0.0/8"
-        "127.0.0.1/8"
-      ]
-      ++ afrihost;
       genHandleFragment =
         { host, proxy, ... }@vars:
         let
@@ -449,17 +440,8 @@
               ''
           }
         '';
-      restrict = host: ''
-        @denied {
-          not remote_ip ${toString allowRanges}
-        }
-
-        respond @denied 403
-
-      '';
       cfgGen = host: tls: ''
         ${if tls == "" then "" else "tls ${tls}"}
-        ${restrict host}
         ${genHandleFragment {
           host = "sync.${host}";
           proxy = "http://localhost:10200";
@@ -523,7 +505,7 @@
       email = "william.bezuidenhout@gmail.com";
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
-        hash = "sha256-Pzfdwq6GGUarf9jWpjuHEk3hjhftGZb0SJPqEOErZSg=";
+        hash = "sha256-xz43pXTsnYmXZDAAUT+vTapoq3O/8br7igGwqZbjFdk=";
       };
       # instead of readFile we should read the token from age or something like that
       logFormat = ''
@@ -533,21 +515,18 @@
         "media.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${restrict "media.burmudar.dev"}
             reverse_proxy http://localhost:8096
           '';
         };
         "photos.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${restrict "photos.burmudar.dev"}
             reverse_proxy http://localhost:33333
           '';
         };
         "ask.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${restrict "ask.burmudar.dev"}
             reverse_proxy http://localhost:6767
           '';
         };
@@ -557,14 +536,12 @@
               dns cloudflare ${token}
               get_certificate tailscale
             }
-            ${restrict "media.raptor-emperor.ts.net"}
             reverse_proxy http://localhost:8096
           '';
         };
         "files.burmudar.dev" = {
           extraConfig = ''
             tls { dns cloudflare ${token} }
-            ${restrict "files.burmudar.dev"}
             basic_auth {
               christina $2a$14$/3G/orCpr1ZGSxkZL.Snb.kngyDlg28sPvi8lU5g2Rb/HMdYFD8Ke
               sourcegraph $2a$14$K15WAUpbvDSN0L83Nxx/NOmj1HNGFBsOSwpjhQPBHxGtmKV287Bgm
