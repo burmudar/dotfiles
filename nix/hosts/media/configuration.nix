@@ -210,7 +210,6 @@
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
-    autossh
     bash
     btrfs-progs
     curl
@@ -410,8 +409,9 @@
           sub = (builtins.elemAt (builtins.split "\\." host) 0);
           matcher = "${sub}${suffix}";
           ip = if builtins.hasAttr "ip" vars then vars.ip else "{remote_host}";
+          hostHeader = if builtins.hasAttr "hostHeader" vars then vars.hostHeader else "{upstream_hostport}";
           headers = ''
-            header_up Host {upstream_hostport}
+            header_up Host ${hostHeader}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-Host {host}
             header_up X-Forwarded-For ${ip}
@@ -444,7 +444,8 @@
         ${if tls == "" then "" else "tls ${tls}"}
         ${genHandleFragment {
           host = "sync.${host}";
-          proxy = "http://localhost:10200";
+          proxy = "http://100.106.150.115:10200";
+          hostHeader = "127.0.0.1:10200";
           path = "/seedbox";
         }}
         ${genHandleFragment {
@@ -642,7 +643,7 @@
       devices = {
         "seedbox" = {
           addresses = [
-            "tcp://localhost:22001"
+            "tcp://100.106.150.115:22001"
           ];
           id = "SEK5G5M-PY7VIIS-QE25HGK-Y3ELPKP-CENVTWN-52KDYKK-PCI7X3B-UN5KHAO";
         };
@@ -665,17 +666,9 @@
 
   };
 
-  # 22000: syncthing listen address on this machine
-  # 22001: listenAddress on the seedbox
-  # 10200: GUI of syncthing on the seedbox
-  services.autossh.sessions = [
-    {
-      extraArguments = "-N -R 22002:localhost:22000 -L 22001:localhost:22001 -L 10200:0.0.0.0:10200 seedbox";
-      monitoringPort = 23000;
-      name = "seedbox";
-      user = "william";
-    }
-  ];
+  # Seedbox Syncthing is published through Tailscale Serve on the seedbox:
+  # - tcp/22001 forwards to the seedbox Syncthing listener
+  # - tcp/10200 forwards to the seedbox Syncthing GUI
 
   # Backup photos to USB daily at noon
 
