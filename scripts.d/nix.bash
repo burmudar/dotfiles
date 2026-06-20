@@ -13,7 +13,7 @@ function nix-sw() {
 }
 
 function nix-darwin-sw() {
-  cd $SRC/dotfiles/nix
+  cd "$SRC/dotfiles/nix" || return
 
   hostname="$(hostname)"
 
@@ -21,5 +21,5 @@ function nix-darwin-sw() {
   sudo nix run 'nix-darwin/master#darwin-rebuild' -- switch --flake ".#${hostname}"
   echo "--- done ---"
 
-  cd -
+  cd - >/dev/null || return
 }
