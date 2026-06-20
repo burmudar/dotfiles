@@ -19,6 +19,7 @@ def kagi_search():
     return f"https://kagi.com/search?{'&'.join(params)}"
 
 KAGI_SEARCH = kagi_search()
+SEARCH = "https://www.perplexity.ai/search/?q={}"
 
 config.load_autoconfig()
 
@@ -34,13 +35,14 @@ c.tabs.favicons.scale = 1.0
 c.tabs.width = 250
 c.tabs.padding = {"bottom": 5, "left": 5, "right": 5, "top": 5}
 c.tabs.position = "right"
+c.tabs.title.format = "{index}.{current_title}"
 # when the tab is selected make it more visible
 c.fonts.tabs.selected = '14pt default_family'
 c.fonts.tabs.unselected = '10pt default_family'
 c.content.local_content_can_access_remote_urls
 c.url.searchengines = {
-            "DEFAULT": KAGI_SEARCH,
-            "k": KAGI_SEARCH,
+            "DEFAULT": SEARCH,
+            "p": SEARCH,
             "s": "https://sourcegraph.sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "ss": "https://sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "g": "https://google.com/search?q={}",
@@ -48,6 +50,7 @@ c.url.searchengines = {
             "n": "https://search.nixos.org/packages?query={}",
          }
 
+c.aliases["okta"] = "config-cycle content.local_content_can_access_remote_urls false true"
 
 config.bind(',1', "open https://mail.google.com")
 config.bind(',2', "open https://calendar.google.com")
