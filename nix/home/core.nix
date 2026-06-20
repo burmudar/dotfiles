@@ -66,7 +66,6 @@ rec {
     # Wofi launcher configuration
     "wofi/config".source = mkLink "${dotfilesDir}/wofi/config";
     "wofi/style.css".source = mkLink "${dotfilesDir}/wofi/style.css";
-    ".agents/skills".source = mkLink "${dotfilesDir}/skills";
 
     "i3/i3lock.sh".source = ../../i3/i3lock.sh;
     "nvim".source = mkLink "${dotfilesDir}/vim";
@@ -102,6 +101,7 @@ rec {
 
         "code/notes/.zk/templates".source = mkLink "${dotfilesDir}/zk/templates";
 
+        ".agents/skills".source = mkLink "${dotfilesDir}/skills";
         # pi
         ".pi/agent/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
         "code/bin/pi".source = mkLink "${dotfilesDir}/agents/pi/pi";

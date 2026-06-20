@@ -116,7 +116,6 @@ in
       zig
     ]
     ++ (with unstable; [
-      claude-code
       git-spice
       go
       gotools
@@ -145,6 +144,9 @@ in
     onActivation.autoUpdate = true;
     onActivation.upgrade = true;
     onActivation.cleanup = "zap";
+    # Homebrew 4.7+ requires an explicit force flag when `brew bundle install`
+    # is run with `--cleanup` during non-interactive nix-darwin activation.
+    onActivation.extraFlags = [ "--force-cleanup" ];
 
     brews = [
       "pinentry-mac"

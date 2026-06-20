@@ -240,12 +240,15 @@ in
     includes = [
       "~/.ssh/config.d/*"
     ];
+    extraConfig = ''
+      AddKeysToAgent yes
+      IgnoreUnknown UseKeychain
+      UseKeychain yes
+      ForwardAgent yes
+      '';
     matchBlocks = {
       "*" = {
-        extraOptions = {
-          AddKeysToAgent = "yes";
-          ForwardAgent = "yes";
-        };
+          identityFile = "~/.ssh/keys/burm.ed25519.key";
       };
       "media.tailscale" = lib.hm.dag.entryBefore [ "media.*" ] (mkSSHHost {
         hostname = "media.raptor-emperor.ts.net";
@@ -288,14 +291,29 @@ in
     };
   };
 
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "William Bezuidenhout";
+        email = if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
+      };
+      signing = {
+        behaviour = "own";
+        backend = "ssh";
+        key = "~/.ssh/keys/burm.ed25519.key";
+      };
+    };
+  };
+
   programs.git = {
     enable = true;
     signing = {
-      signByDefault = true;
-      key = "EDE8072F89D58CD9!";
+        key = "~/.ssh/keys/burm.ed25519.key.pub";
+        signByDefault = true;
+        format = "ssh";
     };
     settings = {
-      # Add 'william.bezuidenhout+github.com' to the gpg keys
       user = {
         email =
           if isDarwin then "william.bezuidenhout@sourcegraph.com" else "william.bezuidenhout@gmail.com";
