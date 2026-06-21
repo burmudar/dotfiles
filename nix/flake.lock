@@ -706,6 +706,7 @@
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs_3",
         "rust-overlay": "rust-overlay",
+        "sops-nix": "sops-nix",
         "unstable-nixpkgs": "unstable-nixpkgs"
       }
     },
@@ -726,6 +727,26 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781943681,
+        "narHash": "sha256-NFHmA7H47adqiyp+0iEOyZOQhmigDqA/NBAlf4imB6U=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "420f8d2e9882911f65cfac15cc706f639ba96cca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
         "type": "github"
       }
     },

@@ -1,0 +1,12 @@
+keys:
+ - &age_primary age1tx0jmqewpwlf4la3shep2w9tgk4qp9dc23ed0qptkex7svcagaaqagueej
+ - &william_ssh age13rjq8hfdqt6jj2dfc9atjx5s5g4qud2wfc4dmdkypxp39z467emsa3xpdt
+ - &host_media age1wyhwweqa5682cplvppm8n537cxxh4l2y0uuzghvqcu4qsau04upqswr7kz
+
+creation_rules:
+  - path_regex: secrets\.yaml
+    key_groups:
+      - age:
+        - *age_primary
+        - *william_ssh
+        - *host_media

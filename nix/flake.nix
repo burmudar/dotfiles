@@ -30,6 +30,9 @@
 
     copyparty.url = "github:9001/copyparty";
 
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs =
@@ -46,6 +49,7 @@
     , disko
     , jj-starship
     , copyparty
+    , sops-nix
     ,
     }@inputs:
     let
@@ -122,8 +126,9 @@
         };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
+          inputs.sops-nix.nixosModules.sops
           inputs.home-manager.nixosModules.home-manager
-          disko.nixosModules.disko
+          inputs.disko.nixosModules.disko
           ./hosts/desktop/configuration.nix
           (homeManagerModuleConfig specialArgs)
         ];
@@ -135,6 +140,7 @@
         };
         modules = [
           { nixpkgs.hostPlatform = "x86_64-linux"; }
+          inputs.sops-nix.nixosModules.sops
           ./hosts/media/configuration.nix
           inputs.copyparty.nixosModules.default
           inputs.cloudflare-dns-ip.nixosModules.default
@@ -150,6 +156,7 @@
         };
         modules = [
           { nixpkgs.hostPlatform = "aarch64-darwin"; }
+          sops-nix.darwinModules.sops
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           (homeManagerModuleConfig specialArgs)
@@ -164,6 +171,7 @@
         };
         modules = [
           { nixpkgs.hostPlatform = "aarch64-darwin"; }
+          sops-nix.darwinModules.sops
           ./hosts/mac/configuration.nix
           inputs.home-manager.darwinModules.home-manager
           (homeManagerModuleConfig specialArgs)

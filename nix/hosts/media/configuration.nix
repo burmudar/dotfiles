@@ -9,6 +9,14 @@
     ./hardware-configuration.nix
   ];
 
+  sops = {
+    defaultsSopsFile = ../../secrets.yaml;
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    secrets = {
+      "cloudflare/token" = {};
+    };
+  };
+
   boot.supportedFilesystems = [
     "ntfs"
     "zfs"
@@ -500,7 +508,7 @@
         }
 
       '';
-      token = (import ./token.nix).value;
+      token = config.sops.secrets.cloudflare.token;
     in
     {
       enable = true;
