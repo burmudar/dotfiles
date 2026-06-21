@@ -51,7 +51,6 @@ in
 
   programs.firefox = {
     enable = isLinux;
-    package = unstable.librewolf;
     configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = {
       DisableTelemetry = true;

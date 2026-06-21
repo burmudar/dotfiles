@@ -7,17 +7,17 @@
       enable = true;
       defaultApplications = if pkgs.stdenv.isDarwin then { } else {
         # Web + Protocol handlers → LibreWolf
-        "text/html" = "librewolf.desktop";
-        "x-scheme-handler/http" = "librewolf.desktop";
-        "x-scheme-handler/https" = "librewolf.desktop";
-        "x-scheme-handler/about" = "librewolf.desktop";
-        "x-scheme-handler/unknown" = "librewolf.desktop";
+        "text/html" = "qutebrowser.desktop";
+        "x-scheme-handler/http" = "qutebrowser.desktop";
+        "x-scheme-handler/https" = "qutebrowser.desktop";
+        "x-scheme-handler/about" = "qutebrowser.desktop";
+        "x-scheme-handler/unknown" = "qutebrowser.desktop";
 
         # Telegram links
         "x-scheme-handler/tg" = "org.telegram.desktop.desktop";
 
         # Open PDFs in LibreWolf
-        "application/pdf" = "librewolf.desktop";
+        "application/pdf" = "qutebrowser.desktop";
 
         # ZIP files → Nautilus (instead of XFCE file manager)
         "application/zip" = "org.gnome.Nautilus.desktop";

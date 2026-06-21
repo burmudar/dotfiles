@@ -10,10 +10,12 @@
   ];
 
   sops = {
-    defaultsSopsFile = ../../secrets.yaml;
+    defaultSopsFile = ../../secrets.yaml;
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    secrets = {
-      "cloudflare/token" = {};
+    secrets.cloudflare = {
+      owner = "caddy";
+      group = "caddy";
+      mode = "0400";
     };
   };
 
@@ -508,14 +510,14 @@
         }
 
       '';
-      token = config.sops.secrets.cloudflare.token;
+      token = "{env.CLOUDFLARE_API_TOKEN}";
     in
     {
       enable = true;
       email = "william.bezuidenhout@gmail.com";
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
-        hash = "sha256-xz43pXTsnYmXZDAAUT+vTapoq3O/8br7igGwqZbjFdk=";
+        hash = "sha256-I0FjQOfFaGlOEJlQECmYNBKjIY4CIg5aCCQ/ORmnrSU=";
       };
       # instead of readFile we should read the token from age or something like that
       logFormat = ''
@@ -571,7 +573,12 @@
     };
 
   # because we're using a custom caddy package
-  systemd.services.caddy.serviceConfig.AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+  systemd.services.caddy = {
+    serviceConfig = {
+      AmbientCapabilities = "CAP_NET_BIND_SERVICE";
+      EnvironmentFile = config.sops.secrets.cloudflare.path;
+    };
+  };
   # there is a bug where wailt online service always times out
   # see https://github.com/NixOS/nixpkgs/issues/180175
   systemd.services.NetworkManager-wait-online.enable = false;
