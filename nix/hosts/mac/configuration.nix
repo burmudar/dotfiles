@@ -143,8 +143,6 @@ in
     defaultSopsFile = ../../secrets.yaml;
     age.sshKeyPaths = [ "/Users/william/.ssh/keys/burm.ed25519.key" ];
     age.keyFile = "/Users/william/.config/sops/age/keys.txt";
-
-    secrets."cloudflare/token" = {};
   };
 
   homebrew = {
