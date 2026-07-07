@@ -118,11 +118,11 @@ in
     ++ (with unstable; [
       git-spice
       go
-      gotools
       gopls
-      jujutsu
+      gotools
       jjui
-      git-spice
+      jujutsu
+      kind
       nodejs
       proton-pass-cli
     ])
