@@ -107,6 +107,8 @@ in
       wireplumber.enable = true;
     };
     pulseaudio.enable = false;
+    tuned.enable = true;
+    upower.enable = true;
 
 
     avahi = {

@@ -61,13 +61,13 @@ rec {
     "ghostty/config".source = mkLink "${dotfilesDir}/ghostty/config";
 
     # Mako notification daemon configuration
-    "mako/config".source = mkLink "${dotfilesDir}/mako/config";
+    # "mako/config".source = mkLink "${dotfilesDir}/mako/config";
 
     # Wofi launcher configuration
-    "wofi/config".source = mkLink "${dotfilesDir}/wofi/config";
-    "wofi/style.css".source = mkLink "${dotfilesDir}/wofi/style.css";
+    # "wofi/config".source = mkLink "${dotfilesDir}/wofi/config";
+    # "wofi/style.css".source = mkLink "${dotfilesDir}/wofi/style.css";
 
-    "i3/i3lock.sh".source = ../../i3/i3lock.sh;
+    # "i3/i3lock.sh".source = ../../i3/i3lock.sh;
     "nvim".source = mkLink "${dotfilesDir}/vim";
     };
 

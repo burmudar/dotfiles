@@ -33,6 +33,9 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    noctalia.url = "github:noctalia-dev/noctalia/cachix";
+    #    noctalia.inputs.nixpkgs.follows = "nixpkgs"; # omitted to use binary cache
+
   };
 
   outputs =
@@ -50,6 +53,7 @@
     , jj-starship
     , copyparty
     , sops-nix
+    , noctalia
     ,
     }@inputs:
     let
@@ -106,16 +110,21 @@
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.users.william = import ./home.nix;
-        home-manager.extraSpecialArgs = specialArgs;
+        home-manager.extraSpecialArgs = specialArgs // {
+          # add noctalia for all systems
+          inherit noctalia;
+        };
       };
     in
     {
       nixConfig = {
         extra-substituters = [
           "https://colmena.cachix.org"
+          "https://noctalia.cachix.org"
         ];
         extra-trusted-public-keys = [
           "colmena.cachix.org-1:7BzpDnjjH8ki2CT3f6GdOk7QAzPOl+1t3LvTLXqYcSg="
+          "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
         ];
       };
       nixosConfigurations.fort-kickass = nixpkgs.lib.nixosSystem rec {
@@ -181,6 +190,7 @@
         "desktop" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsBySystem.x86_64-linux;
           extraSpecialArgs = {
+            inherit noctalia;
             unstable = unstable-pkgsBySystem.x86_64-linux;
           };
           modules = [
@@ -191,6 +201,7 @@
         "mac" = inputs.home-manager.lib.homeManagerConfiguration {
           pkgs = pkgsBySystem.aarch64-darwin;
           extraSpecialArgs = {
+            inherit noctalia;
             unstable = unstable-pkgsBySystem.aarch64-darwin;
           };
           modules = [
