@@ -10,22 +10,9 @@ hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { description = "Term
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(fileManager), { description = "File manager" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(browser), { description = "Browser" })
 
-hl.bind(mainMod .. " + BACKSPACE", hl.dsp.exec_cmd("wofi --show drun"), { description = "Launch apps" })
-hl.bind(mainMod .. " + ESCAPE", hl.dsp.exec_cmd("wlogout"), { description = "Power menu" })
-
 hl.bind(mainMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "Insert" }), { description = "Copy" })
 hl.bind(mainMod .. " + V", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { description = "Paste" })
 hl.bind(mainMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X" }), { description = "Cut" })
-hl.bind(mainMod .. " + CTRL + V", hl.dsp.exec_cmd("ghostty --class=com.custom.clipse -e 'clipse'"),
-  { description = "Clipboard manager" })
-
-hl.bind(mainMod .. " + COMMA", hl.dsp.exec_cmd("makoctl dismiss"), { description = "Dismiss last notification" })
-hl.bind(mainMod .. " + SHIFT + COMMA", hl.dsp.exec_cmd("makoctl dismiss --all"),
-  { description = "Dismiss all notifications" })
-
-hl.bind("SHIFT + ALT + M", hl.dsp.exec_cmd([=[hyprctl dispatch 'hl.dsp.dpms({ action = "off" })']=]))
-hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd([=[hyprctl dispatch 'hl.dsp.dpms({ action = "on" })']=]))
-hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd("hyprlock"))
 
 hl.bind(mainMod .. " + F1",
   hl.dsp.exec_cmd(

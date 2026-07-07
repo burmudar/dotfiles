@@ -89,7 +89,6 @@ in
     };
     gvfs.enable = true;
     tumbler.enable = true;
-    hypridle.enable = true;
 
     printing.enable = true;
 
@@ -151,7 +150,6 @@ in
       portalPackage = inputs.hyprland.xdg-desktop-portal-hyprland;
       xwayland.enable = true;
     };
-    hyprlock.enable = true;
 
     zsh.enable = true;
     mtr.enable = true;
@@ -226,9 +224,6 @@ in
     lua
     mako
     hyprpolkitagent
-    hyprpaper
-    hyprlock
-    hypridle
     man-pages
     man-pages-posix
     # nix-direnv
@@ -272,8 +267,6 @@ in
     # Hyprland tools
     grim # Screenshot utility
     slurp # Screen area selection
-    hyprpicker # Color picker
-    wlogout # Logout menu
     playerctl # Media player control
     brightnessctl # Brightness control
   ] ++ (with inputs.unstable; [
