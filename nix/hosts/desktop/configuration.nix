@@ -280,7 +280,7 @@ in
     git-spice
     go_1_26
     gopls
-    # lutris - building openldap fails
+    lutris # building openldap fails
     neovim
     obsidian
     proton-pass-cli

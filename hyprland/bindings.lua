@@ -29,7 +29,7 @@ hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd("hyprlock"))
 
 hl.bind(mainMod .. " + SPACE",
   hl.dsp.exec_cmd(
-    [=[FILE="$HOME/Pictures/screenshot-$(date '+%Y-%m-%d_%H-%M-%S')"; grim -g "$(slurp)" "$FILE" && hyprctl notify 1 5000 "rgb(33cc99)" "Screenshot saved: $(basename $FILE)"]=]),
+    [=[FILE="$HOME/Pictures/screenshot-$(date '+%Y-%m-%d_%H-%M-%S').png"; grim -g "$(slurp)" "$FILE" && hyprctl notify 1 5000 "rgb(33cc99)" "Screenshot saved: $(basename $FILE)"]=]),
   { description = "Screenshot to file" })
 hl.bind(mainMod .. " + SHIFT+SPACE",
   hl.dsp.exec_cmd(
