@@ -2,91 +2,93 @@
 -- https://wiki.hypr.land/Configuring/Basics/Variables/
 
 local activeBorderColor = {
-    colors = { "rgba(33ccffee)", "rgba(00ff99ee)" },
-    angle = 45,
+  colors = { "rgba(33ccffee)", "rgba(00ff99ee)" },
+  angle = 45,
 }
 
 local inactiveBorderColor = "rgba(595959aa)"
 
 hl.config({
-    general = {
-        gaps_in = 5,
-        gaps_out = 10,
-        border_size = 2,
-        col = {
-            active_border = activeBorderColor,
-            inactive_border = inactiveBorderColor,
-        },
-        resize_on_border = false,
-        allow_tearing = false,
-        layout = "dwindle",
+  general = {
+    gaps_in = 5,
+    gaps_out = 10,
+    border_size = 2,
+    col = {
+      active_border = activeBorderColor,
+      inactive_border = inactiveBorderColor,
     },
+    resize_on_border = false,
+    allow_tearing = false,
+    layout = "dwindle",
+  },
 
-    decoration = {
-        rounding = 0,
-        shadow = {
-            enabled = true,
-            range = 2,
-            render_power = 3,
-            color = "rgba(1a1a1aee)",
-        },
-        blur = {
-            enabled = true,
-            size = 3,
-            passes = 3,
-        },
+  decoration = {
+    rounding = 10,
+    rounding_power = 2,
+    shadow = {
+      enabled = true,
+      range = 4,
+      render_power = 3,
+      color = 0xee1a1a1a,
     },
+    blur = {
+      enabled = true,
+      size = 3,
+      passes = 3,
+      vibrancy = 0.1696,
+    },
+  },
 
-    group = {
-        col = {
-            border_active = activeBorderColor,
-            border_inactive = inactiveBorderColor,
-        },
-        groupbar = {
-            font_size = 12,
-            font_family = "monospace",
-            font_weight_active = "ultraheavy",
-            font_weight_inactive = "normal",
-            indicator_height = 0,
-            indicator_gap = 5,
-            height = 22,
-            gaps_in = 5,
-            gaps_out = 0,
-            text_color = "rgb(ffffff)",
-            text_color_inactive = "rgba(ffffff90)",
-            col = {
-                active = "rgba(00000040)",
-                inactive = "rgba(00000020)",
-            },
-            gradients = true,
-            gradient_rounding = 0,
-            gradient_round_only_edges = false,
-        },
+  group = {
+    col = {
+      border_active = activeBorderColor,
+      border_inactive = inactiveBorderColor,
     },
+    groupbar = {
+      font_size = 12,
+      font_family = "monospace",
+      font_weight_active = "ultraheavy",
+      font_weight_inactive = "normal",
+      indicator_height = 0,
+      indicator_gap = 5,
+      height = 22,
+      gaps_in = 5,
+      gaps_out = 0,
+      text_color = "rgb(ffffff)",
+      text_color_inactive = "rgba(ffffff90)",
+      col = {
+        active = "rgba(00000040)",
+        inactive = "rgba(00000020)",
+      },
+      gradients = true,
+      gradient_rounding = 0,
+      gradient_round_only_edges = false,
+    },
+  },
 
-    animations = {
-        enabled = true,
-    },
+  animations = {
+    enabled = true,
+  },
 
-    dwindle = {
-        preserve_split = true,
-        force_split = 2,
-    },
+  dwindle = {
+    preserve_split = true,
+    force_split = 2,
+  },
 
-    master = {
-        new_status = "master",
-    },
+  master = {
+    new_status = "master",
+  },
 
-    misc = {
-        disable_hyprland_logo = true,
-        disable_splash_rendering = true,
-        focus_on_activate = true,
-        anr_missed_pings = 3,
-    },
+  misc = {
+    disable_hyprland_logo = true,
+    disable_splash_rendering = true,
+    focus_on_activate = true,
+    anr_missed_pings = 3,
+  },
 
-    cursor = {
-        hide_on_key_press = true,
-    },
+  cursor = {
+    hide_on_key_press = true,
+  },
 })
 
 hl.curve("easeOutQuint", { type = "bezier", points = { { 0.23, 1 }, { 0.32, 1 } } })
@@ -109,3 +111,14 @@ hl.animation({ leaf = "layersOut", enabled = true, speed = 1.5, bezier = "linear
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 1.79, bezier = "almostLinear" })
 hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 1.39, bezier = "almostLinear" })
 hl.animation({ leaf = "workspaces", enabled = false, speed = 0, bezier = "default" })
+
+hl.layer_rule({
+  name = "noctalia",
+  match = {
+    namespace = "^noctalia-(bar-.+|notification|dock|panel|attached-panel|osd)$",
+  },
+  no_anim = true,
+  ignore_alpha = 0.5,
+  blur = true,
+  blur_popups = true,
+})

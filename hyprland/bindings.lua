@@ -27,7 +27,7 @@ hl.bind("SHIFT + ALT + M", hl.dsp.exec_cmd([=[hyprctl dispatch 'hl.dsp.dpms({ ac
 hl.bind("CTRL + ALT + M", hl.dsp.exec_cmd([=[hyprctl dispatch 'hl.dsp.dpms({ action = "on" })']=]))
 hl.bind("CTRL + ALT + L", hl.dsp.exec_cmd("hyprlock"))
 
-hl.bind(mainMod .. " + SPACE",
+hl.bind(mainMod .. " + F1",
   hl.dsp.exec_cmd(
     [=[FILE="$HOME/Pictures/screenshot-$(date '+%Y-%m-%d_%H-%M-%S').png"; grim -g "$(slurp)" "$FILE" && hyprctl notify 1 5000 "rgb(33cc99)" "Screenshot saved: $(basename $FILE)"]=]),
   { description = "Screenshot to file" })
@@ -143,17 +143,22 @@ hl.bind(mainMod .. " + ALT + 3", hl.dsp.group.active({ index = 3 }), { descripti
 hl.bind(mainMod .. " + ALT + 4", hl.dsp.group.active({ index = 4 }), { description = "Switch to group window 4" })
 hl.bind(mainMod .. " + ALT + 5", hl.dsp.group.active({ index = 5 }), { description = "Switch to group window 5" })
 
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), {
+noctalia_ipc = "noctalia msg"
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(noctalia_ipc .. " panel-toggle launcher"))
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd(noctalia_ipc .. " panel-toggle control-center"))
+hl.bind(mainMod .. " + comma", hl.dsp.exec_cmd(noctalia_ipc .. " settings-toggle"))
+
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(noctalia_ipc .. " volume-up"), {
   locked = true,
   repeating = true,
   description = "Volume up",
 })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), {
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(noctalia_ipc .. " volume-down"), {
   locked = true,
   repeating = true,
   description = "Volume down",
 })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), {
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd(noctalia_ipc .. " volume-mute"), {
   locked = true,
   repeating = true,
   description = "Mute",
@@ -163,12 +168,12 @@ hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURC
   repeating = true,
   description = "Mute microphone",
 })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), {
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd(noctalia_ipc .. "brightness-up"), {
   locked = true,
   repeating = true,
   description = "Brightness up",
 })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), {
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd(noctalia_ipc .. "brightness-down"), {
   locked = true,
   repeating = true,
   description = "Brightness down",
