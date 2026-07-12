@@ -14,16 +14,11 @@ hl.bind(mainMod .. " + C", hl.dsp.send_shortcut({ mods = "CTRL", key = "Insert" 
 hl.bind(mainMod .. " + V", hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { description = "Paste" })
 hl.bind(mainMod .. " + X", hl.dsp.send_shortcut({ mods = "CTRL", key = "X" }), { description = "Cut" })
 
-hl.bind(mainMod .. " + F1",
-  hl.dsp.exec_cmd(
-    [=[FILE="$HOME/Pictures/screenshot-$(date '+%Y-%m-%d_%H-%M-%S').png"; grim -g "$(slurp)" "$FILE" && hyprctl notify 1 5000 "rgb(33cc99)" "Screenshot saved: $(basename $FILE)"]=]),
-  { description = "Screenshot to file" })
-hl.bind(mainMod .. " + SHIFT+SPACE",
-  hl.dsp.exec_cmd(
-    [=[grim -g "$(slurp)" - | wl-copy && hyprctl notify 1 5000 "rgb(33cc99)" "Screenshot saved to clipboard"]=]),
-  { description = "Screenshot" })
-hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker -a"), { description = "Color picking" })
+hl.bind(mainMod .. " + S", hl.dsp.exec_cmd("noctalia msg screenshot-region"), { description = "Screenshot to file" })
+hl.bind(mainMod .. " + ALT + P", hl.dsp.exec_cmd("pkill hyprpicker || hyprpicker -a"), { description = "Color picking" })
 
+hl.bind(mainMod .. " + SHIFT + X", hl.dsp.exec_cmd("noctalia msg panel-toggle session"),
+  { description = "Shutdown menu" })
 hl.bind(mainMod .. " + W", hl.dsp.window.kill(), { description = "Close active window" })
 hl.bind(
   "CTRL + ALT + DELETE",

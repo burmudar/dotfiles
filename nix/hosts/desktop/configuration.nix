@@ -70,6 +70,8 @@ in
     blueman.enable = true;
     dbus.enable = true;
 
+    hypridle.enable = true;
+
     gnome.gnome-keyring.enable = true;
 
     xserver = {
@@ -150,6 +152,7 @@ in
       portalPackage = inputs.hyprland.xdg-desktop-portal-hyprland;
       xwayland.enable = true;
     };
+    hyprlock.enable = true;
 
     zsh.enable = true;
     mtr.enable = true;
