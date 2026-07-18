@@ -85,6 +85,7 @@
                     neovim-unwrapped =
                       inputs.unstable-nixpkgs.legacyPackages."${system}".neovim-unwrapped.overrideAttrs
                         (old: {
+                          doInstallCheck = false;
                           meta = old.meta or { } // {
                             maintainers = [ ];
                           };

@@ -199,90 +199,90 @@ in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    # nix-direnv
     alacritty
-    xorg.xrandr
     aspell
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
     bash
+    brightnessctl # Brightness control
     btrfs-progs
+    clipse
     curl
     difftastic
-    clipse
-    feh
-    scrot
+    egl-wayland
     fd
+    feh
     flameshot
     gcc
     git
     gnumake
+    grim # Screenshot utility
     grub2
     htop
+    hyprpolkitagent
     i3lock
     imagemagick
     jq
     kitty
     krita
+    libsecret
     lua
+    lua-language-server
+    luarocks
     mako
-    hyprpolkitagent
     man-pages
     man-pages-posix
-    # nix-direnv
+    nautilus
     networkmanagerapplet
     nmap
-    typescript-language-server
     nodejs_latest
-    nautilus
     openssl.dev
     os-prober
     pavucontrol
     pipewire
     pkg-config
+    playerctl # Media player control
     proton-pass
+    prusa-slicer
     python3
     qmk
     racket
     rust-bin.stable.latest.default
-    egl-wayland
-    lua-language-server
-    luarocks
-    libsecret
+    scrot
+    slurp # Screen area selection
     spotify
-    prusa-slicer
     telegram-desktop
-    tree-sitter
     tmux
+    tree-sitter
+    typescript-language-server
     unzip
     vlc
     waybar
-    wttrbar
     wget
     where-is-my-sddm-theme
     whitesur-cursors
     whitesur-gtk-theme
     whitesur-icon-theme
-    wofi
     wl-clipboard
+    wofi
+    wttrbar
     xclip
+    xorg.xrandr
     zk
-    # Hyprland tools
-    grim # Screenshot utility
-    slurp # Screen area selection
-    playerctl # Media player control
-    brightnessctl # Brightness control
   ] ++ (with inputs.unstable; [
-    freecad
+      # freecad
     ghostty
     git-spice
     go_1_26
     gopls
-    lutris # building openldap fails
+    lutris
     neovim
     obsidian
     proton-pass-cli
     qutebrowser
+    vivaldi
   ]);
 
 
