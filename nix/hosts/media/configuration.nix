@@ -505,6 +505,14 @@
           host = "storage.${host}";
           proxy = "http://localhost:44332";
         }}
+        ${genHandleFragment {
+          host = "notify.${host}";
+          proxy = "http://localhost:40718";
+        }}
+        ${genHandleFragment {
+          host = "uptime.${host}";
+          proxy = "http://localhost:20202";
+        }}
         handle /ok {
           respond "Ok this works"
         }
@@ -540,6 +548,12 @@
           extraConfig = ''
             tls { dns cloudflare ${token} }
             reverse_proxy http://localhost:6767
+          '';
+        };
+        "notify.burmudar.dev" = {
+          extraConfig = ''
+            tls { dns cloudflare ${token} }
+            reverse_proxy http://localhost:40718
           '';
         };
         "media.raptor-emperor.ts.net" = {
@@ -639,7 +653,35 @@
   services.cloudflare-dns-ip = {
     enable = true;
     zone = "burmudar.dev";
-    record = "media,files,photos,ask";
+    record = "media,files,photos,ask,notify";
+  };
+
+  services.update-kuma = {
+    enable = true;
+    settings = {
+      PORT = 20202;
+    };
+  };
+  services.ntfy-sh = {
+    enable = true;
+    settings = {
+      # Server
+      listen-http = ":40718";
+      base-url= "https://notify.burmudar.dev";
+
+      # Access control
+      auth-file= "/var/lib/ntfy/auth.db";
+      auth-default-access= "deny-all";
+      auth-users= [
+        "ntfyadmin:$2b$10$wJ875/pGQ9z/3j/ZRCRM6.F9knygD8xgDxpTHd0a9I5wb1MTeCflu:admin"
+        "ntfyuser:$2b$10$JVlW0ikLhJfxRjEfKp7jAeVMDZlL.xetxWhgxPzXVjuLRhe0d2z96:user"
+      ];
+      enable-login= true;
+      require-login= true;
+
+      # Upstream
+      upstream-base-url= "https://ntfy.sh";
+    };
   };
 
   services.syncthing = {
