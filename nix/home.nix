@@ -9,6 +9,5 @@
     ./home/programs.nix # All programs.* configurations (git, zsh, tmux, etc.)
     ./home/platform.nix # OS-specific settings (XDG on Linux, etc.)
     ./home/noctalia.nix
-    #./home/waybar.nix # OS-specific settings (XDG on Linux, etc.)
   ];
 }

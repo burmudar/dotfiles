@@ -173,7 +173,6 @@ in
       "docker-desktop"
       "discord"
       "element"
-      "firefox"
       "ghostty"
       "google-chrome"
       "hammerspoon"
@@ -192,6 +191,7 @@ in
       "tuple"
       "visual-studio-code"
       "vlc"
+      "vivaldi"
     ]
     ++ lib.optionals isWork [
       "virtualbox"

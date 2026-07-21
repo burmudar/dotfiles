@@ -19,7 +19,7 @@ def kagi_search():
     return f"https://kagi.com/search?{'&'.join(params)}"
 
 KAGI_SEARCH = kagi_search()
-SEARCH = "https://www.perplexity.ai/search/?q={}"
+SEARCH = "https://www.duckduckgo.com/?q={}"
 
 config.load_autoconfig()
 
@@ -29,7 +29,7 @@ config.bind(',d', 'tab-close')
 c.input.insert_mode.auto_load = True
 c.input.insert_mode.auto_leave = True
 
-c.url.default_page = KAGI_SEARCH
+c.url.default_page = SEARCH
 c.url.start_pages = ["https://github.com"]
 c.tabs.favicons.scale = 1.0
 c.tabs.width = 250
@@ -42,7 +42,7 @@ c.fonts.tabs.unselected = '10pt default_family'
 c.content.local_content_can_access_remote_urls
 c.url.searchengines = {
             "DEFAULT": SEARCH,
-            "p": SEARCH,
+            "d": SEARCH,
             "s": "https://sourcegraph.sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "ss": "https://sourcegraph.com/search?q=context:global+{}&patternType=regexp",
             "g": "https://google.com/search?q={}",

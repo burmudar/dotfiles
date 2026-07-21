@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 {
   programs.noctalia = {
-    enable = true;
+    enable = pkgs.stdenv.isLinux;
 
     settings = {
       theme = {
