@@ -1,12 +1,12 @@
 local M = {}
 
 local function registerAutoCmd()
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = "*",
-    callback = function (opts)
-      require("conform").format({bufnr = opts.buf})
-    end
-  })
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		pattern = "*",
+		callback = function(opts)
+			require("conform").format({ bufnr = opts.buf })
+		end,
+	})
 	vim.api.nvim_create_autocmd("FileType", {
 		pattern = { "yaml", "yml" },
 		callback = function()
@@ -51,9 +51,9 @@ end
 M.setup = function()
 	registerAutoCmd()
 
-  vim.api.nvim_create_user_command("GoImports", function ()
-    require("conform").format( { formatters = { "goimports" }})
-  end, { desc = "Format with Go imports"})
+	vim.api.nvim_create_user_command("GoImports", function()
+		require("conform").format({ formatters = { "goimports" } })
+	end, { desc = "Format with Go imports" })
 
 	-- register user command to disable/enable auto-formatting
 	vim.api.nvim_create_user_command("FormatDisable", function()
@@ -86,16 +86,19 @@ M.setup = function()
 
 	-- register a user command to insert co-author lines
 	vim.api.nvim_create_user_command("Coauth", function(opts)
-		local keegan = "Co-authored-by Keegan Carruthers-Smith <keegan.csmith@gmail.com>"
-		local bolaji = "Co-authored-by Bolaji Olajide <25608335+BolajiOlajide@users.noreply.github.com>"
+		local coauthed = function(author)
+			return "Co-Authored-By: " .. author
+		end
+		local keegan = "Keegan Carruthers-Smith <keegan.csmith@gmail.com>"
+		local petri = "Petri Last <petri.last@sourcegraph.com>"
 
 		local text = ""
 		if opts.args == "keegan" then
-			text = keegan
-		elseif opts.args == "bolaji" then
-			text = bolaji
+			text = coauthed(keegan)
+		elseif opts.args == "petri" then
+			text = coauthed(petri)
 		else
-			text = keegan .. "\n" .. bolaji
+			text = coauthed(keegan) .. "\n" .. coauthed(petri)
 		end
 
 		-- Insert the text at the current cursor position
