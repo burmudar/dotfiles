@@ -29,6 +29,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.grub.efiSupport = true;
+  boot.loader.systemd-boot.configurationLimit = 3;
 
   networking.hostName = "fort-kickass"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

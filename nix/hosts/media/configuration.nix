@@ -31,6 +31,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.configurationLimit = 3;
 
   # the following needs to be executed manually on the system
   # zfs set mountpoint=/mnt/storage tank
@@ -419,14 +420,15 @@
           suffix = if hasPath then "-${pkgs.lib.removePrefix "/" vars.path}" else "";
           sub = (builtins.elemAt (builtins.split "\\." host) 0);
           matcher = "${sub}${suffix}";
-          ip = if builtins.hasAttr "ip" vars then vars.ip else "{remote_host}";
-          hostHeader = if builtins.hasAttr "hostHeader" vars then vars.hostHeader else "{upstream_hostport}";
-          headers = ''
+          ip = vars.ip or "{remote_host}";
+          hostHeader = vars.hostHeader or "{upstream_hostport}";
+          headers = if vars.no_headers or false then "" else ''{
             header_up Host ${hostHeader}
             header_up X-Forwarded-Proto {scheme}
             header_up X-Forwarded-Host {host}
             header_up X-Forwarded-For ${ip}
             header_up X-Real-IP ${ip}
+          }
           '';
         in
         ''
@@ -438,16 +440,12 @@
             if hasPath then
               ''
                 handle_path ${vars.path}* {
-                  reverse_proxy ${proxy} {
-                  ${headers}
-                  }
+                  reverse_proxy ${proxy} ${headers}
                 }
               ''
             else
               ''
-                reverse_proxy @${matcher} ${proxy} {
-                  ${headers}
-                }
+                reverse_proxy @${matcher} ${proxy} ${headers}
               ''
           }
         '';
@@ -468,6 +466,11 @@
           host = "nzb.${host}";
           proxy = "http://seedbox.raptor-emperor.ts.net:10100";
           ip = "127.0.0.1";
+        }}
+        ${genHandleFragment {
+          host = "torrents.${host}";
+          proxy = "http://seedbox.raptor-emperor.ts.net:30303";
+          no_headers = true;
         }}
         ${genHandleFragment {
           host = "jellyfin.${host}";
@@ -656,31 +659,34 @@
     record = "media,files,photos,ask,notify";
   };
 
-  services.update-kuma = {
+  services.uptime-kuma = {
     enable = true;
     settings = {
-      PORT = 20202;
+      PORT = "20202";
     };
   };
+
   services.ntfy-sh = {
     enable = true;
     settings = {
       # Server
-      listen-http = ":40718";
+      listen-http = "127.0.0.1:40718";
+      behind-proxy = true;
       base-url= "https://notify.burmudar.dev";
+      upstream-base-url= "https://ntfy.sh";
+      log-level = "debug";
 
       # Access control
-      auth-file= "/var/lib/ntfy/auth.db";
+      auth-file= "/var/lib/ntfy-sh/auth.db";
       auth-default-access= "deny-all";
       auth-users= [
-        "ntfyadmin:$2b$10$wJ875/pGQ9z/3j/ZRCRM6.F9knygD8xgDxpTHd0a9I5wb1MTeCflu:admin"
+        "ntfyadmin:$2b$10$sPVazOzZwRmiWbq617hzsuzy.QF3WhiPb4hwHQLkdZ4KuCPx0ZMwi:admin"
         "ntfyuser:$2b$10$JVlW0ikLhJfxRjEfKp7jAeVMDZlL.xetxWhgxPzXVjuLRhe0d2z96:user"
       ];
       enable-login= true;
       require-login= true;
 
       # Upstream
-      upstream-base-url= "https://ntfy.sh";
     };
   };
 
