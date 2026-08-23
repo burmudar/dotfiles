@@ -419,8 +419,16 @@
           hasPath = if builtins.hasAttr "path" vars then true else false;
           suffix = if hasPath then "-${pkgs.lib.removePrefix "/" vars.path}" else "";
           sub = (builtins.elemAt (builtins.split "\\." host) 0);
-          matcher = "${sub}${suffix}";
           ip = vars.ip or "{remote_host}";
+          matcher = rec {
+            name = "@${sub}${suffix}";
+            config = ''
+            ${name} {
+              host ${host}
+              ${if hasPath then "path ${vars.path}/*" else ""}
+            }
+            '';
+          };
           hostHeader = vars.hostHeader or "{upstream_hostport}";
           headers = if vars.no_headers or false then "" else ''{
             header_up Host ${hostHeader}
@@ -428,24 +436,24 @@
             header_up X-Forwarded-Host {host}
             header_up X-Forwarded-For ${ip}
             header_up X-Real-IP ${ip}
+            ${if builtins.hasAttr "extra" vars then vars.extra else ""}
           }
           '';
         in
         ''
-          ${if hasPath then "redir ${vars.path} ${vars.path}/" else ""}
-          @${matcher} {
-            host ${host}
-          }
+          ${matcher.config}
           ${
             if hasPath then
               ''
-                handle_path ${vars.path}* {
+                ${if lib.hasSuffix "/" vars.path then "" else "redir ${vars.path} ${vars.path}/"}
+                handle ${matcher.name} {
+                  uri strip_prefix ${vars.path}
                   reverse_proxy ${proxy} ${headers}
                 }
               ''
             else
               ''
-                reverse_proxy @${matcher} ${proxy} ${headers}
+                reverse_proxy ${matcher.name} ${proxy} ${headers}
               ''
           }
         '';
@@ -455,7 +463,7 @@
           host = "sync.${host}";
           proxy = "http://100.106.150.115:10200";
           hostHeader = "127.0.0.1:10200";
-          path = "/seedbox";
+          path = "/remote";
         }}
         ${genHandleFragment {
           host = "sync.${host}";
@@ -469,8 +477,12 @@
         }}
         ${genHandleFragment {
           host = "torrents.${host}";
-          proxy = "http://seedbox.raptor-emperor.ts.net:30303";
-          no_headers = true;
+          proxy = "https://seedbox.raptor-emperor.ts.net:30303";
+          extra = ''
+            transport http {
+                versions 1.1
+            }
+          '';
         }}
         ${genHandleFragment {
           host = "jellyfin.${host}";
