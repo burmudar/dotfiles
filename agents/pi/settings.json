@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.80.10",
+  "lastChangelogVersion": "0.85.1",
   "defaultProvider": "openai",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "medium",
@@ -14,9 +14,7 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-web-access",
     "npm:pi-mcp-adapter",
-    "npm:@plannotator/pi-extension",
-    "npm:pi-slopchop",
-    "git:github.com/EveryInc/compound-engineering-plugin"
+    "npm:pi-slopchop"
   ],
   "theme": "dark"
 }

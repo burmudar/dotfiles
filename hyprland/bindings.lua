@@ -6,6 +6,16 @@ local terminal = "ghostty"
 local fileManager = "nautilus"
 local browser = "qutebrowser"
 
+local keyCodes = {
+  ["-"] = "code:20",
+  ["="] = "code:21",
+  ["+"] = "code:21",
+}
+
+local function key(key)
+  return assert(keyCodes[key], "Unknown Hyprland key code: " .. key)
+end
+
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { description = "Terminal" })
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.exec_cmd(fileManager), { description = "File manager" })
 hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd(browser), { description = "Browser" })
@@ -86,13 +96,13 @@ hl.bind("ALT + SHIFT + TAB", function()
   hl.dispatch(hl.dsp.window.alter_zorder({ mode = "top" }))
 end, { description = "Cycle to prev window" })
 
-hl.bind(mainMod .. " + minus", hl.dsp.window.resize({ x = -100, y = 0, relative = true }),
+hl.bind(mainMod .. " + " .. key("-"), hl.dsp.window.resize({ x = -100, y = 0, relative = true }),
   { description = "Expand window left" })
-hl.bind(mainMod .. " + +", hl.dsp.window.resize({ x = 100, y = 0, relative = true }),
+hl.bind(mainMod .. " + " .. key("+"), hl.dsp.window.resize({ x = 100, y = 0, relative = true }),
   { description = "Shrink window left" })
-hl.bind(mainMod .. " + SHIFT + minus", hl.dsp.window.resize({ x = 0, y = -100, relative = true }),
+hl.bind(mainMod .. " + SHIFT + " .. key("-"), hl.dsp.window.resize({ x = 0, y = -100, relative = true }),
   { description = "Shrink window up" })
-hl.bind(mainMod .. " + SHIFT + +", hl.dsp.window.resize({ x = 0, y = 100, relative = true }),
+hl.bind(mainMod .. " + SHIFT + " .. key("+"), hl.dsp.window.resize({ x = 0, y = 100, relative = true }),
   { description = "Expand window down" })
 
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }),

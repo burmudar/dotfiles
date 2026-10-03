@@ -104,7 +104,6 @@ rec {
         ".agents/skills".source = mkLink "${dotfilesDir}/skills";
         # pi
         ".pi/agent/settings.json".source = mkLink "${dotfilesDir}/agents/pi/settings.json";
-        "code/bin/pi".source = mkLink "${dotfilesDir}/agents/pi/pi";
       };
     in
     if pkgs.stdenv.isDarwin then
