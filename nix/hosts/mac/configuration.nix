@@ -157,7 +157,7 @@ in
     brews = [
       "pinentry-mac"
       "starship"
-      "colima"
+      "herdr"
     ]
     ++ lib.optionals isWork [
       "bazelisk"
@@ -184,6 +184,7 @@ in
       "raycast"
       "slack"
       "spotify"
+      "crmne/tap/fastpotify"
       "steam"
       "sublime-merge"
       "tailscale-app"

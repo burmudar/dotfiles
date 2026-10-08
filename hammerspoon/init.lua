@@ -27,12 +27,12 @@ require("burm.windows").setup({
 		{
 			meta = { "cmd" },
 			key = "3",
-			apps = "slack",
+			apps = "Slack",
 		},
 		{
 			meta = { "cmd" },
 			key = "4",
-			apps = { "Vivaldi", "qutebrowser" },
+			apps = { "Vivaldi" },
 		},
 	},
 	move = {

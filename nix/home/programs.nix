@@ -271,6 +271,11 @@ in
         behaviour = "own";
         backend = "ssh";
         key = "~/.ssh/keys/burm.ed25519.key";
+        backends.ssh.allowed-signers = "${config.home.homeDirectory}/.ssh/allowed_signers";
+      };
+      revset-aliases = {
+        "is_ancestor(a, b)" = "a & ::b";
+        "mine()" = "ancestors(@) & author(\"william.bezuidenhout@sourcegraph.com\")";
       };
     };
   };
@@ -313,6 +318,7 @@ in
       };
       push.autoSetupRemote = true;
       rerere.enabled = true;
+      gpg.ssh.allowedSignersFile = "${config.home.homeDirectory}/.ssh/allowed_signers";
       url = {
         "ssh://git@github.com/" = {
           insteadOf = "https://github.com/";

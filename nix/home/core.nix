@@ -90,6 +90,9 @@ rec {
         "code/bin/.keep".source = keepFile ".keep";
         ".ssh/config.d/.keep".source = keepFile ".keep";
         ".ssh/keys/.keep".source = keepFile ".keep";
+        ".ssh/allowed_signers".text = ''
+          william.bezuidenhout@sourcegraph.com,william.bezuidenhout@gmail.com namespaces="git" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICRLE4oQD09o1A8q+kqs/iJGVxEVo6Mf7zHTODbP4cVb
+        '';
         "${configHome}/${
           (if pkgs.stdenv.isDarwin then ".qutebrowser" else "qutebrowser")
         }/config.py".source =
