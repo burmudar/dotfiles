@@ -1,9 +1,11 @@
 {
-  "lastChangelogVersion": "1.0.3",
+  "lastChangelogVersion": "1.1.0",
   "defaultProvider": "openai",
   "defaultModel": "gpt-6-astra",
   "defaultThinkingLevel": "medium",
-  "defaultTools": ["+codemode"],
+  "defaultTools": [
+    "+codemode"
+  ],
   "enabledModels": [
     "openai/gpt-5.5",
     "openai/gpt-5.6-sol",
@@ -17,9 +19,38 @@
     "npm:pi-web-access",
     "npm:pi-mcp-adapter",
     "npm:pi-slopchop",
-    "git:github.com/obra/superpowers",
-    "git:github.com/nicobailon/pi-subagents@10694a673cb077b4d3ec6a6cfe68acb6c28b83a5"
+    {
+      "source": "git:github.com/obra/superpowers",
+      "extensions": [
+        "-.pi/extensions/superpowers.ts"
+      ],
+      "skills": [
+        "-skills/brainstorming/SKILL.md",
+        "-skills/diagnosing-superpowers/SKILL.md",
+        "-skills/dispatching-parallel-agents/SKILL.md",
+        "-skills/executing-plans/SKILL.md",
+        "-skills/finishing-a-development-branch/SKILL.md",
+        "-skills/receiving-code-review/SKILL.md",
+        "-skills/requesting-code-review/SKILL.md",
+        "-skills/subagent-driven-development/SKILL.md",
+        "-skills/systematic-debugging/SKILL.md",
+        "-skills/test-driven-development/SKILL.md",
+        "-skills/using-superpowers/SKILL.md",
+        "-skills/using-git-worktrees/SKILL.md",
+        "-skills/verification-before-completion/SKILL.md",
+        "-skills/writing-plans/SKILL.md",
+        "-skills/writing-skills/SKILL.md"
+      ]
+    },
+    {
+      "source": "git:github.com/nicobailon/pi-subagents@10694a673cb077b4d3ec6a6cfe68acb6c28b83a5",
+      "extensions": [
+        "+index.ts"
+      ]
+    }
   ],
   "theme": "dark",
-  "extensions": ["-builtin:mcp"]
+  "extensions": [
+    "-builtin:mcp"
+  ]
 }

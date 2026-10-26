@@ -1,3 +1,4 @@
 nix/result
 .luarc.json
 .nvimlog
+nix/age.key
