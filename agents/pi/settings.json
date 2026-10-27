@@ -49,7 +49,7 @@
       ]
     }
   ],
-  "theme": "dark",
+  "theme": "light/dark",
   "extensions": [
     "-builtin:mcp"
   ]
